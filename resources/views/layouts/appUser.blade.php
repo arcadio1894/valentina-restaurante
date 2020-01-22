@@ -71,7 +71,7 @@
                     <div class="col-xl-5 col-lg-5 d-none d-lg-block">
                         <div class="book_room">
                             <div class="main-menu">
-                                <ul>
+                                <ul >
                                     <!-- Authentication Links -->
                                     @guest
                                         <li><a class="@yield('activeLogin')" href="{{ route('login') }}">Login</a></li>
@@ -82,7 +82,7 @@
                                                 {{ Auth::user()->name }} <span class="caret"></span>
                                             </a>
 
-                                            <ul class="dropdown-menu">
+                                            <ul class=" submenu">
                                                 <li>
                                                     <a href="{{ route('logout') }}"
                                                        onclick="event.preventDefault();
