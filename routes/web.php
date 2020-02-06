@@ -22,7 +22,18 @@ Route::group(['middleware' => 'auth'], function() {
 		Route::name('admins.')->group(function() {
     		Route::get('/', function () {
     			return view('homeAdmin');
-			});
+			})->name('dashboard');
+
+    		Route::prefix('zone')->group(function() {
+    			Route::name('zone.')->group(function() {
+		    		Route::get('/','Admin\ZoneController@index')->name('index');
+                    Route::get('/create','Admin\ZoneController@create')->name('create');
+                    Route::post('/store','Admin\ZoneController@store')->name('store');
+                    Route::get('/update/{id}','Admin\ZoneController@update')->name('update');
+                    Route::post('/edit','Admin\ZoneController@edit')->name('edit');
+                    Route::get('/delete/{id}','Admin\ZoneController@delete')->name('delete');
+		    	});
+    		});
     	});
     });
 });
