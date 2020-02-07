@@ -34,6 +34,17 @@ Route::group(['middleware' => 'auth'], function() {
                     Route::get('/delete/{id}','Admin\ZoneController@delete')->name('delete');
 		    	});
     		});
+
+			Route::prefix('store')->group(function() {
+				Route::name('store.')->group(function() {
+					Route::get('/','Admin\StoreController@index')->name('index');
+					Route::get('/create','Admin\StoreController@create')->name('create');
+					Route::post('/store','Admin\StoreController@store')->name('store');
+					Route::get('/edit/{id}','Admin\StoreController@edit')->name('edit');
+					Route::post('/update','Admin\StoreController@update')->name('update');
+					Route::post('/delete','Admin\StoreController@delete')->name('delete');
+				});
+			});
     	});
     });
 });

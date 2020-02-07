@@ -12,6 +12,20 @@
     </style>
 @endsection
 
+@section('breadcrumb')
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="#">Inicio</a>
+        </li>
+
+        <li>
+            <a href="#">Zonas</a>
+        </li>
+        <li class="active">Listado</li>
+    </ul><!-- /.breadcrumb -->
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-md-10 col-md-offset-1">
