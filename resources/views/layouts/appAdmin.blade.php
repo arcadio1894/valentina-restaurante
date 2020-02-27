@@ -352,10 +352,10 @@
                 <b class="arrow"></b>
             </li>
 
-            <li class="">
-                <a href="widgets.html">
+            <li class="{{route::is('admins.store.index') || route::is('admins.store.create') || route::is('admins.store.update') ? 'active open' : '' }}">
+                <a href="{{ route('admins.store.index')}}">
                     <i class="menu-icon fa fa-area-chart"></i>
-                    <span class="menu-text"> Reportes </span>
+                    <span class="menu-text"> Tiendas </span>
                 </a>
 
                 <b class="arrow"></b>
@@ -370,17 +370,8 @@
     <div class="main-content">
         <div class="main-content-inner">
             <div class="breadcrumbs ace-save-state" id="breadcrumbs">
-                <ul class="breadcrumb">
-                    <li>
-                        <i class="ace-icon fa fa-home home-icon"></i>
-                        <a href="#">Home</a>
-                    </li>
+                @yield('breadcrumb')
 
-                    <li>
-                        <a href="#">Other Pages</a>
-                    </li>
-                    <li class="active">Blank Page</li>
-                </ul><!-- /.breadcrumb -->
 
                 <div class="nav-search" id="nav-search">
                     <form class="form-search">
