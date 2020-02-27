@@ -1,8 +1,14 @@
+$(document).on('ready', main());
+
 var map;
 var latitude =  $('#center_latitude').val();
 var longitude =  $('#center_longitude').val();
 var $polygonObject = $('#polygon');
 var $centerObject  = $('#center');
+
+function main(){
+    google.maps.event.addDomListener(window, 'load', initMap);
+}
 
 function initMap() {
     var mapOptions = {
@@ -34,4 +40,5 @@ function initMap() {
         $polygonObject.val(event.overlay.getPath().getArray());
         $centerObject.val(map.getCenter());
     });
+
 }

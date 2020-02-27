@@ -57,8 +57,7 @@
 @endsection
 
 @section('scripts')
-	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{ env('G_MAPS_API_KEY') }}&libraries=drawing&callback=initMap"
-         async defer></script>
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{ env('G_MAPS_API_KEY') }}&libraries=drawing"></script>
 
 	<script src="{{asset('js/admin/zone/update.js')}}"></script>
 @endsection

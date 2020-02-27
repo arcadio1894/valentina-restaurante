@@ -45,19 +45,22 @@ class ZoneController extends Controller
 
     function edit(Request $request){
     	$data = $request->all();
+    	$zone = Zone::findOrFail($data['id']);
+
     	$polygon = $data['polygon'];
     	$center  = $data['center'];
 
-    	$polygon = str_replace('(', '[', $polygon);
-    	$polygon = str_replace(')', ']', $polygon);
-    	$polygon = '['.$polygon.']';
-		$center  = str_replace('(', '[', $center);
-    	$center  = str_replace(')', ']', $center);
+        if($zone->polygon !== $polygon){
+        	$polygon = str_replace('(', '[', $polygon);
+        	$polygon = str_replace(')', ']', $polygon);
+        	$polygon = '['.$polygon.']';
+    		$center  = str_replace('(', '[', $center);
+        	$center  = str_replace(')', ']', $center);
+        }
 
     	$data['polygon'] = $polygon;
     	$data['center']  = $center;
     	
-    	$zone = Zone::findOrFail($data['id']);
     	$zone->update($data);
 
     	return redirect()->route('admins.zone.index')->with('success','Actualización satisfactoria');
