@@ -39,9 +39,9 @@
 		<div class="col-md-12">
 			<div class="form-group">
 				<div id="map"></div>
-		        <input type="hidden" name="center_latitude" id="center_latitude" value="{{ json_decode($zone->center)[0] }}">
-		        <input type="hidden" name="center_latitude" id="center_longitude" value="{{ json_decode($zone->center)[1] }}">
 
+		        <input type="hidden" name="center_latitude" id="center_latitude" value="{{ json_decode($zone->center)[0] }}">
+		        <input type="hidden" name="center_longitude" id="center_longitude" value="{{ json_decode($zone->center)[1] }}">
 		        <input type="hidden" name="polygon" id="polygon" value="{{ $zone->polygon }}">
 		        <input type="hidden" name="center" id="center" value="{{ $zone->center }}">
 			</div>
@@ -58,6 +58,5 @@
 
 @section('scripts')
 	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{ env('G_MAPS_API_KEY') }}&libraries=drawing"></script>
-
 	<script src="{{asset('js/admin/zone/update.js')}}"></script>
 @endsection

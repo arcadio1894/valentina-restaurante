@@ -26,12 +26,15 @@ Route::group(['middleware' => 'auth'], function() {
 
     		Route::prefix('zone')->group(function() {
     			Route::name('zone.')->group(function() {
-		    		Route::get('/','Admin\ZoneController@index')->name('index');
-                    Route::get('/create','Admin\ZoneController@create')->name('create');
-                    Route::post('/store','Admin\ZoneController@store')->name('store');
-                    Route::get('/update/{id}','Admin\ZoneController@update')->name('update');
-                    Route::post('/edit','Admin\ZoneController@edit')->name('edit');
-                    Route::get('/delete/{id}','Admin\ZoneController@delete')->name('delete');
+                    Route::namespace('Admin')->group(function() {
+		    		    Route::get('/','ZoneController@index')->name('index');
+                        Route::get('/create','ZoneController@create')->name('create');
+                        Route::post('/store','ZoneController@store')->name('store');
+                        Route::get('/update/{id}','ZoneController@update')->name('update');
+                        Route::post('/edit','ZoneController@edit')->name('edit');
+                        Route::get('/delete/{id}','ZoneController@delete')->name('delete');
+                        Route::get('/maps','ZoneController@maps')->name('maps');
+                    });
 		    	});
     		});
     	});

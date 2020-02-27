@@ -73,4 +73,13 @@ class ZoneController extends Controller
     	return redirect()->route('admins.zone.index')->with('success','Eliminación satisfactoria');
     }
 
+    function maps(){
+        $polygons = Zone::select('polygon','name')->where('status','enabled')->get()->toArray();
+
+        if($polygons){
+            $polygons = json_encode($polygons);
+        }
+
+        return view('admin.zone.maps')->with(compact('polygons'));
+    }
 }

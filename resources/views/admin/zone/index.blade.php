@@ -17,7 +17,11 @@
     <div class="col-md-10 col-md-offset-1">
         <div class="row new">
             <div class="col-md-12">
-                <a href="{{route('admins.zone.create')}}" class="btn btn-success">Nueva zona</a>
+                <a href="{{route('admins.zone.create')}}" class="btn btn-success"><i class="fa fa-plus-circle"></i> Nueva zona</a>
+
+                @if(count($zones) !== 0)
+                    <a href="{{route('admins.zone.maps')}}" class="btn btn-primary"><i class="fa fa-map"></i> Mapa general</a>
+                @endif
             </div>
         </div>
         <div class="row">

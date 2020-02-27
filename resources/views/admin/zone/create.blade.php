@@ -38,9 +38,9 @@
 		<div class="col-md-12">
 			<div class="form-group">
 				<div id="map"></div>
-		        <input type="hidden" name="center_latitude" id="center_latitude" value="{{env('MAP_LATITUDE_CENTER')}}">
-		        <input type="hidden" name="center_latitude" id="center_longitude" value="{{env('MAP_LONGITUDE_CENTER')}}">
 
+		        <input type="hidden" name="center_latitude" id="center_latitude" value="{{env('MAP_LATITUDE_CENTER')}}">
+		        <input type="hidden" name="center_longitude" id="center_longitude" value="{{env('MAP_LONGITUDE_CENTER')}}">
 		        <input type="hidden" name="polygon" id="polygon">
 		        <input type="hidden" name="center" id="center">
 			</div>
@@ -57,6 +57,5 @@
 
 @section('scripts')
 	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{ env('G_MAPS_API_KEY') }}&libraries=drawing"></script>
-
 	<script src="{{asset('js/admin/zone/create.js')}}"></script>
 @endsection

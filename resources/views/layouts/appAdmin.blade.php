@@ -214,7 +214,7 @@
                 <b class="arrow"></b>
             </li>
 
-            <li class="{{route::is('admins.zone.index') || route::is('admins.zone.create') || route::is('admins.zone.update') ? 'active open' : '' }}">
+            <li class="{{route::is('admins.zone.index') || route::is('admins.zone.create') || route::is('admins.zone.update') || route::is('admins.zone.maps') ? 'active open' : '' }}">
                 <a href="#" class="dropdown-toggle">
                     <i class="menu-icon fa fa-gear"></i>
 							<span class="menu-text">
@@ -244,7 +244,7 @@
                             Blog
                         </a>
                     </li>
-                    <li class="{{route::is('admins.zone.index') || route::is('admins.zone.create') || route::is('admins.zone.update') ? 'active open' : '' }}">
+                    <li class="{{route::is('admins.zone.index') || route::is('admins.zone.create') || route::is('admins.zone.update') || route::is('admins.zone.maps') ? 'active open' : '' }}">
                         <a href="{{ route('admins.zone.index')}}">
                             <i class="menu-icon fa fa-caret-right"></i>
                             Zonas

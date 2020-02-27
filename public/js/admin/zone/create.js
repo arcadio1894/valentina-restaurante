@@ -40,5 +40,4 @@ function initMap() {
         $polygonObject.val(event.overlay.getPath().getArray());
         $centerObject.val(map.getCenter());
     });
-
 }
