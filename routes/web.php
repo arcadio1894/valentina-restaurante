@@ -51,3 +51,6 @@ Route::group(['middleware' => 'auth'], function() {
     	});
     });
 });
+
+Route::get('/locals','Admin\StoreController@locals')->name('locals');
+Route::get('/address_locals','Admin\StoreController@addressLocals');

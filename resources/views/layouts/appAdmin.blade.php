@@ -214,7 +214,7 @@
                 <b class="arrow"></b>
             </li>
 
-            <li class="{{route::is('admins.zone.index') || route::is('admins.zone.create') || route::is('admins.zone.update') || route::is('admins.zone.maps') ? 'active open' : '' }}">
+            <li class="{{route::is('admins.zone.index') || route::is('admins.zone.create') || route::is('admins.zone.update') || route::is('admins.zone.maps') || route::is('admins.store.create') || route::is('admins.store.edit') || route::is('admins.store.index') ? 'active open' : '' }}">
                 <a href="#" class="dropdown-toggle">
                     <i class="menu-icon fa fa-gear"></i>
 							<span class="menu-text">
@@ -248,6 +248,13 @@
                         <a href="{{ route('admins.zone.index')}}">
                             <i class="menu-icon fa fa-caret-right"></i>
                             Zonas
+                        </a>
+                    </li>
+
+                    <li class="{{route::is('admins.store.index') || route::is('admins.store.create') || route::is('admins.store.update') ? 'active open' : '' }}">
+                        <a href="{{ route('admins.store.index')}}">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Tiendas
                         </a>
                     </li>
                 </ul>

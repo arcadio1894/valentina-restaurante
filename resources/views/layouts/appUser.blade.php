@@ -44,7 +44,7 @@
                                 <ul id="navigation">
                                     <li><a  href="{{ url('/') }}">home</a></li>
                                     <li><a href="Menu.html">Menu</a></li>
-                                    <li><a href="about.html">About</a></li>
+                                    <li><a class="@yield('activeLocals')" href="{{ route('locals') }}">Locales</a></li>
                                     <li><a href="#">blog <i class="ti-angle-down"></i></a>
                                         <ul class="submenu">
                                             <li><a href="blog.html">blog</a></li>

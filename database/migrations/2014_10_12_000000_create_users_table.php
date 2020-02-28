@@ -21,6 +21,15 @@ class CreateUsersTable extends Migration
             $table->integer('role_id')->unsigned();
             $table->foreign('role_id')->references('id')->on('roles');
             $table->softDeletes();
+
+            $table->enum('type_doc', ['dni', 'passport']);
+            $table->date('birthday')->nullable();
+            $table->enum('genre', ['male', 'female']);
+            $table->string('phone')->nullable();
+            $table->string('address')->nullable();
+            $table->enum('type_place', ['home', 'business', 'department', 'hotel', 'condominium']);
+            $table->text('reference')->nullable();
+
             $table->rememberToken();
             $table->timestamps();
         });

@@ -18,7 +18,7 @@
 		</li>
 
 		<li>
-			<a href="#">Tiendas</a>
+			<a href="{{ route('admins.store.index') }}">Tiendas</a>
 		</li>
 		<li class="active">Modificar</li>
 	</ul><!-- /.breadcrumb -->
@@ -100,21 +100,21 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        {{--<div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right" for="longitude_view"> Longitud: </label>
 
-                            <div class="col-sm-9">
-                                <input type="text" id="longitude_view" placeholder="Longitud" name="longitude" value="{{ $store->longitude }}" class="col-xs-10 col-sm-8" />
-                            </div>
-                        </div>
+                            <div class="col-sm-9">--}}
+                                <input type="hidden" id="longitude_view" placeholder="Longitud" name="longitude" value="{{ $store->longitude }}" class="col-xs-10 col-sm-8" />
+                            {{--</div>
+                        </div>--}}
 
-                        <div class="form-group">
+                        {{--<div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right" for="latitude_view"> Latitud: </label>
 
-                            <div class="col-sm-9">
-                                <input type="text" id="latitude_view" placeholder="Latitud" name="latitude" value="{{ $store->latitude }}" class="col-xs-10 col-sm-8" />
-                            </div>
-                        </div>
+                            <div class="col-sm-9">--}}
+                                <input type="hidden" id="latitude_view" placeholder="Latitud" name="latitude" value="{{ $store->latitude }}" class="col-xs-10 col-sm-8" />
+                            {{--</div>
+                        </div>--}}
 
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right" for="longitude"> Orden: </label>

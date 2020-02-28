@@ -21,7 +21,7 @@
         </li>
 
         <li>
-            <a href="#">Tiendas</a>
+            <a href="{{ route('admins.store.index') }}">Tiendas</a>
         </li>
         <li class="active">Listado</li>
     </ul><!-- /.breadcrumb -->

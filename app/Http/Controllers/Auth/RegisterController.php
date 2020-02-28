@@ -50,7 +50,15 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:6|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!_@$%^&*-]).{6,}$/|confirmed',
+            'type_doc' => 'required|in:dni,passport',
+            'document' => 'required|string|digits_between:8,12',
+            'birthday' => 'required|date',
+            'genre' => 'required|in:male,female',
+            'phone' => 'required|regex:/[0-9]{9}/',
+            'address' => 'required|string|max:255',
+            'type_place' => 'required|in:home,business,department,hotel,condominium',
+            'reference' => 'string',
         ]);
     }
 
@@ -66,6 +74,15 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'role_id' => $data['role_id'],
+            'type_doc' => $data['type_doc'],
+            'document' => $data['document'],
+            'birthday' => $data['birthday'],
+            'genre' => $data['genre'],
+            'phone' => $data['phone'],
+            'address' => $data['address'],
+            'type_place' => $data['type_place'],
+            'reference' => $data['reference'],
         ]);
     }
 }

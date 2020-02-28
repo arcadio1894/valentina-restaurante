@@ -238,4 +238,18 @@ class StoreController extends Controller
 
         return response()->json($validator->messages(),200);
     }
+    
+    public function locals()
+    {
+        $stores = Store::orderby('order')->get();
+        return view('admin.store.locals')->with(compact('stores'));
+    }
+
+    public function addressLocals()
+    {
+        $stores = Store::get(['name', 'phone', 'address', 'latitude', 'longitude', 'attention_schedule']);
+        $array = $stores->toArray();
+
+        return json_encode($array);
+    }
 }

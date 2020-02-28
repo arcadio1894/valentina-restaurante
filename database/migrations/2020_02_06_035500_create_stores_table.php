@@ -22,8 +22,8 @@ class CreateStoresTable extends Migration
             $table->text('address');
             $table->string('phone');
             $table->string('attention_schedule');
-            $table->decimal('latitude',12,10);
-            $table->decimal('longitude',12,10);
+            $table->string('latitude');
+            $table->string('longitude');
             $table->integer('order')->default(0);
             $table->enum('status',['enabled','disabled'])->default('enabled');
             $table->softDeletes();

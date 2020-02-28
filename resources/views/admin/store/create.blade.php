@@ -18,9 +18,9 @@
 		</li>
 
 		<li>
-			<a href="#">Tiendas</a>
+			<a href="{{ route('admins.store.index') }}">Tiendas</a>
 		</li>
-		<li class="active">Listado</li>
+		<li class="active">Crear</li>
 	</ul><!-- /.breadcrumb -->
 @endsection
 
@@ -77,6 +77,7 @@
 								<input type="text" class="col-xs-10 col-sm-8" name="address" id="search_input" placeholder="Ingrese dirección..." />
 								<input type="hidden" id="loc_lat" />
 								<input type="hidden" id="loc_long" />
+								<br><br>
 								<div class="" style="width: 400px;height: 400px" id="map"></div>
 							</div>
 						</div>
@@ -97,21 +98,21 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        {{--<div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right" for="longitude_view"> Longitud: </label>
 
-                            <div class="col-sm-9">
-                                <input type="text" id="longitude_view" placeholder="Longitud" name="longitude" class="col-xs-10 col-sm-8" />
-                            </div>
-                        </div>
+                            <div class="col-sm-9">--}}
+                                <input type="hidden" id="longitude_view" placeholder="Longitud" name="longitude" class="col-xs-10 col-sm-8" />
+                            {{--</div>
+                        </div>--}}
 
-                        <div class="form-group">
+                        {{--<div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right" for="latitude_view"> Latitud: </label>
 
-                            <div class="col-sm-9">
-                                <input type="text" id="latitude_view" placeholder="Latitud" name="latitude" class="col-xs-10 col-sm-8" />
-                            </div>
-                        </div>
+                            <div class="col-sm-9">--}}
+                                <input type="hidden" id="latitude_view" placeholder="Latitud" name="latitude" class="col-xs-10 col-sm-8" />
+                            {{--</div>
+                        </div>--}}
 
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right" for="longitude"> Orden: </label>
