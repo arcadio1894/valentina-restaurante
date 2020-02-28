@@ -358,15 +358,6 @@
 
                 <b class="arrow"></b>
             </li>
-
-            <li class="{{route::is('admins.store.index') || route::is('admins.store.create') || route::is('admins.store.update') ? 'active open' : '' }}">
-                <a href="{{ route('admins.store.index')}}">
-                    <i class="menu-icon fa fa-area-chart"></i>
-                    <span class="menu-text"> Tiendas </span>
-                </a>
-
-                <b class="arrow"></b>
-            </li>
         </ul><!-- /.nav-list -->
 
         <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
