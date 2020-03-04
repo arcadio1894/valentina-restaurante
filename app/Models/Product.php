@@ -6,19 +6,26 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 
-class Zone extends Model{
-    use SoftDeletes;
+class Product extends Model
+{
+	use SoftDeletes;
 
-    protected $fillable = [
-    	'name',
-    	'code',
-        'center',
-    	'polygon',
-    	'status',
-        'store_id'
-    ];
+	$fillable = [
+		'store_id',
+		'code',
+		'name',
+		'description',
+		'type',
+		'small_image',
+		'image',
+		'price',
+		'initial_stock',
+		'stock',
+		'position',
+		'status'
+	];
 
-    public function getCreatedAtAttribute($date){
+	public function getCreatedAtAttribute($date){
     	$date = Carbon::createFromFormat('Y-m-d H:i:s', $date);
     	$date->tz ='America/Lima' ;
 
