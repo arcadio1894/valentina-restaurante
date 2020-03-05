@@ -6,16 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 
-class Zone extends Model{
-    use SoftDeletes;
+class Category extends Model
+{
+	use SoftDeletes;
 
     protected $fillable = [
-    	'name',
-    	'code',
-        'center',
-    	'polygon',
-    	'status',
-        'store_id'
+		'store_id',
+		'parent_id',
+		'name',
+		'description',
+		'image',
+		'position'
     ];
 
     public function getCreatedAtAttribute($date){

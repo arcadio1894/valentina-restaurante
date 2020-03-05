@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Store;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\BaseController as BaseController;
 
-class StoreController extends Controller
+class StoreController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -251,5 +251,15 @@ class StoreController extends Controller
         $array = $stores->toArray();
 
         return json_encode($array);
+    }
+
+    public function change_session(Request $request){
+        $data = $request->all();
+        $store_id = $data['store'];
+        $before = session('store');
+        session(['store'=>$store_id]);
+        $after = session('store');
+
+        return ['before'=>$before,'after'=>$after];
     }
 }

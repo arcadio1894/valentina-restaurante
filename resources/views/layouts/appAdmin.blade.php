@@ -205,6 +205,24 @@
         </script>
 
         <ul class="nav nav-list">
+            <li class="nav-item-caption"></li>
+            <li class="nav-item-caption"></li>
+            <input type="hidden" name="url_session" id="url_session" value="{{ route('admins.store.session') }}" >
+            <li>
+                @php($selected = session('store'))
+                <select name="stores" id="stores" class="form-control">
+                    @if(count($stores) === 0)
+                    <option value=""> -- Crear tiendas -- </option>
+                    @else
+                        @foreach($stores as $store)
+                            <option value="{{ $store->id }}" {{ $selected==$store->id?'selected':'' }} >{{ $store->name }}</option>   
+                        @endforeach
+                    @endif
+                </select>
+            </li>
+            <li class="nav-item-caption"></li>
+            <li class="nav-item-caption"></li>
+            <li class="nav-item-caption"></li>
             <li class="">
                 <a href="{{ route('admins.dashboard') }}">
                     <i class="menu-icon fa fa-tachometer"></i>
@@ -324,7 +342,7 @@
             <li class="">
                 <a href="#" class="dropdown-toggle">
                     <i class="menu-icon fa fa-coffee"></i>
-                    <span class="menu-text"> Productos </span>
+                    <span class="menu-text"> Catálogo </span>
 
                     <b class="arrow fa fa-angle-down"></b>
                 </a>
@@ -333,16 +351,15 @@
 
                 <ul class="submenu">
                     <li class="">
-                        <a href="tables.html">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            Productos
-                        </a>
-                    </li>
-
-                    <li class="">
                         <a href="jqgrid.html">
                             <i class="menu-icon fa fa-caret-right"></i>
                             Categorías
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="tables.html">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Productos
                         </a>
                     </li>
                 </ul>
@@ -444,7 +461,13 @@
 <script src="{{ asset('admin/assets/js/jquery-2.1.4.min.js')}}"></script>
 
 <!-- <![endif]-->
-
+<script type="text/javascript">
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+</script>
 <!--[if IE]>
 <script src="{{ asset('admin/assets/js/jquery-1.11.3.min.js')}}"></script>
 <![endif]-->
@@ -458,6 +481,7 @@
 <!-- ace scripts -->
 <script src="{{ asset('admin/assets/js/ace-elements.min.js')}}"></script>
 <script src="{{ asset('admin/assets/js/ace.min.js')}}"></script>
+<script src="{{ asset('js/admin/home.js') }}"></script>
 <!-- inline scripts related to this page -->
 @yield('scripts')
 </body>

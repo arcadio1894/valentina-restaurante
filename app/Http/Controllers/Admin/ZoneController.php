@@ -3,13 +3,18 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController as BaseController;
 use App\Models\Zone;
 
-class ZoneController extends Controller
+class ZoneController extends BaseController
 {
     function index(){
+        $store = session('store');
     	$zones = Zone::all();
+
+        if($store){
+            $zones = Zone::where('store_id', $store)->get();
+        }
 
     	return view('admin.zone.index')->with(compact('zones'));
     }
@@ -20,6 +25,7 @@ class ZoneController extends Controller
 
     function store(Request $request){
     	$data = $request->all();
+        $store   = session('store');
     	$polygon = $data['polygon'];
     	$center  = $data['center'];
 
@@ -31,6 +37,7 @@ class ZoneController extends Controller
 
     	$data['polygon'] = $polygon;
     	$data['center']  = $center;
+        $data['store_id']  = $store;
     	
     	$zone = Zone::create($data);
 
@@ -74,10 +81,13 @@ class ZoneController extends Controller
     }
 
     function maps(){
-        $polygons = Zone::select('polygon','name')->where('status','enabled')->get()->toArray();
+        $store = session('store');
+        $polygons = Zone::select('polygon','name')->where('store_id',$store)->where('status','enabled')->get()->toArray();
 
         if($polygons){
             $polygons = json_encode($polygons);
+        }else{
+            return redirect()->route('admins.zone.index');
         }
 
         return view('admin.zone.maps')->with(compact('polygons'));

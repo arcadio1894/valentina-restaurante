@@ -23,7 +23,8 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::prefix('admins')->group(function() {
 		Route::name('admins.')->group(function() {
     		Route::get('/', function () {
-    			return view('homeAdmin');
+    			$stores = \App\Models\Store::where('status','enabled')->orderBy('id','desc')->select(['id','name'])->get();
+    			return view('homeAdmin')->with(compact('stores'));
 			})->name('dashboard');
 
     		Route::prefix('zone')->group(function() {
@@ -48,6 +49,7 @@ Route::group(['middleware' => 'auth'], function() {
 					Route::get('/edit/{id}','Admin\StoreController@edit')->name('edit');
 					Route::post('/update','Admin\StoreController@update')->name('update');
 					Route::post('/delete','Admin\StoreController@delete')->name('delete');
+					Route::post('/session','Admin\StoreController@change_session')->name('session');
 				});
 			});
     	});
