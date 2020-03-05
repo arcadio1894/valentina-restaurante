@@ -7,6 +7,7 @@
 @endsection
 
 @section('styles')
+    <link href="{{ asset('css/jquery.toast.css') }}" rel="stylesheet">
     <style>
         input, textarea {
             border-style: solid !important;
@@ -38,13 +39,14 @@
             <div class="row justify-content-center">
                 <div class="col-lg-10 col-md-10 offset-1">
                 <form method="POST" class="form-horizontal" action="">
+                    <input type="hidden" name="polygons" id="polygons" value="{{ $polygons }}">
                     <div class="row">
                         {{ csrf_field() }}
                         <input type="hidden" name="role_id" value="2">
                         <div class="col-md-12">
                             <div class="mt-10 form-group {{ $errors->has('name') ? ' has-error' : '' }}">
                                 <label for="name" class="control-label">Nombre completo (*)</label>
-                                <input id="name" type="text" class="col-md-6 single-input-primary" name="name" value="{{ old('name') }}" required autofocus>
+                                <input id="name" type="text" class="col-md-6 single-input-primary" name="name" required autofocus>
                                 @if ($errors->has('name'))
                                     <span class="help-block">
                                     <strong>{{ $errors->first('name') }}</strong>
@@ -53,7 +55,7 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="mt-10 form-group {{ $errors->has('type_doc') ? ' has-error' : '' }}"">
+                            <div class="mt-10 form-group {{ $errors->has('type_doc') ? ' has-error' : '' }}">
                                 <label for="type_doc" class="control-label">Tipo de Documento (*)</label>
                                 <div class="form-select" id="default-select">
                                     <select name="type_doc" id="type_doc" class="">
@@ -69,7 +71,7 @@
                             </div>
                             <div class="mt-10 form-group {{ $errors->has('birthday') ? ' has-error' : '' }}">
                                 <label for="birthday" class="control-label">Cumpleaños (*)</label>
-                                <input id="birthday" type="date" class="single-input-primary" name="birthday" value="{{ old('birthday') }}" required>
+                                <input id="birthday" type="date" class="single-input-primary" name="birthday" required>
 
                                 @if ($errors->has('birthday'))
                                     <span class="help-block">
@@ -79,7 +81,7 @@
                             </div>
                             <div class="mt-10 form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
                                 <label for="phone" class="control-label">Teléfono (*)</label>
-                                <input id="phone" type="text" class="single-input-primary" name="phone" value="" required>
+                                <input id="phone" type="text" class="single-input-primary" name="phone" required>
 
                                 @if ($errors->has('phone'))
                                     <span class="help-block">
@@ -102,7 +104,7 @@
                         <div class="col-md-6">
                             <div class="mt-10 form-group">
                                 <label for="document" class="control-label">Número de documento (*)</label>
-                                <input id="document" type="text" class="single-input-primary" name="document" value="{{ old('document') }}" required autofocus>
+                                <input id="document" type="text" class="single-input-primary" name="document" required autofocus>
                                 @if ($errors->has('document'))
                                     <span class="help-block">
                                     <strong>{{ $errors->first('document') }}</strong>
@@ -125,7 +127,7 @@
                             </div>
                             <div class="mt-10 form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                                 <label for="email" class="control-label">Correo electrónico (*)</label>
-                                <input id="email" type="email" class="single-input-primary" name="email" value="{{ old('email') }}" required>
+                                <input id="email" type="email" class="single-input-primary" name="email" required>
 
                                 @if ($errors->has('email'))
                                     <span class="help-block">
@@ -142,7 +144,7 @@
                         <div class="col-md-12">
                             <div class="form-group {{ $errors->has('address') ? ' has-error' : '' }}">
                                 <label for="address" class="control-label">Dirección (*)</label>
-                                <input id="address" type="text" class=" col-md-12 single-input-primary" name="address" value="{{ old('address') }}" required autofocus>
+                                <input id="address" type="text" class=" col-md-12 single-input-primary" name="address" required autofocus>
                                 @if ($errors->has('address'))
                                     <span class="help-block">
                                     <strong>{{ $errors->first('address') }}</strong>
@@ -200,88 +202,10 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-{{--<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Register</div>
-
-                <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('register') }}">
-                        {{ csrf_field() }}
-
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Name</label>
-
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
-
-                                @if ($errors->has('name'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Register
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>--}}
 @endsection
 
-<@section('scripts')
-    <script type="text/javascript" src="{{ asset('js/jquery.toast.js') }}"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?&libraries=places&key={{ env('G_MAPS_API_KEY') }}"></script>
+@section('scripts')
+    <script src="https://maps.googleapis.com/maps/api/js?&libraries=places,drawing,geometry&key={{ env('G_MAPS_API_KEY') }}"></script>
+    <script src="{{ asset('js/jquery.toast.js') }}"></script>
     <script src="{{asset('js/user/auth/register.js')}}"></script>
 @endsection
