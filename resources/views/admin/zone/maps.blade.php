@@ -9,6 +9,19 @@
 	</style>
 @endsection
 
+@section('breadcrumb')
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            Inicio
+        </li>
+        <li>
+            <a href="{{ route('admins.zone.index') }}">Zonas</a>
+        </li>
+        <li class="active">Mapa general</li>
+    </ul>
+@endsection
+
 @section('content')
 <div class="col-md-10 col-md-offset-1">
 	<div class="col-md-12">

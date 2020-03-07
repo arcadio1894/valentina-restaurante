@@ -44,13 +44,13 @@ class ZoneController extends BaseController
     	return redirect()->route('admins.zone.index')->with('success','Registro satisfactorio');
     }
 
-    function update($id){
+    function edit($id){
     	$zone = Zone::findOrFail($id);
 
     	return view('admin.zone.update')->with(compact('zone'));
     }
 
-    function edit(Request $request){
+    function update(Request $request){
     	$data = $request->all();
     	$zone = Zone::findOrFail($data['id']);
 

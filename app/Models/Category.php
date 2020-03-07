@@ -16,7 +16,8 @@ class Category extends Model
 		'name',
 		'description',
 		'image',
-		'position'
+		'position',
+		'status'
     ];
 
     public function getCreatedAtAttribute($date){
@@ -24,5 +25,9 @@ class Category extends Model
     	$date->tz ='America/Lima' ;
 
 	    return $date->format('d-m-Y h:i:s A');
+	}
+
+	public function parent_category(){
+		return $this->belongsTo(Category::class,'parent_id');
 	}
 }

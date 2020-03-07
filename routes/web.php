@@ -33,8 +33,8 @@ Route::group(['middleware' => 'auth'], function() {
 		    		    Route::get('/','ZoneController@index')->name('index');
                         Route::get('/create','ZoneController@create')->name('create');
                         Route::post('/store','ZoneController@store')->name('store');
-                        Route::get('/update/{id}','ZoneController@update')->name('update');
-                        Route::post('/edit','ZoneController@edit')->name('edit');
+                        Route::get('/edit/{id}','ZoneController@edit')->name('edit');
+                        Route::post('/update','ZoneController@update')->name('update');
                         Route::get('/delete/{id}','ZoneController@delete')->name('delete');
                         Route::get('/maps','ZoneController@maps')->name('maps');
                     });
@@ -50,6 +50,17 @@ Route::group(['middleware' => 'auth'], function() {
 					Route::post('/update','Admin\StoreController@update')->name('update');
 					Route::post('/delete','Admin\StoreController@delete')->name('delete');
 					Route::post('/session','Admin\StoreController@change_session')->name('session');
+				});
+			});
+
+			Route::prefix('category')->group(function() {
+				Route::name('category.')->group(function() {
+					Route::get('/','Admin\CategoryController@index')->name('index');
+					Route::get('/create','Admin\CategoryController@create')->name('create');
+					Route::post('/store','Admin\CategoryController@store')->name('store');
+					Route::get('/edit/{id}','Admin\CategoryController@edit')->name('edit');
+					Route::post('/update','Admin\CategoryController@update')->name('update');
+					Route::get('/delete/{id}','Admin\CategoryController@delete')->name('delete');
 				});
 			});
     	});

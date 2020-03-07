@@ -9,9 +9,31 @@
 	</style>
 @endsection
 
+@section('breadcrumb')
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            Inicio
+        </li>
+        <li>
+            <a href="{{ route('admins.zone.index') }}">Zonas</a>
+        </li>
+        <li class="active">Modificar</li>
+    </ul>
+@endsection
+
 @section('content')
 <div class="col-md-10 col-md-offset-1">
-	<form action="{{ route('admins.zone.edit') }}" method="post">
+	<div class="page-header">
+	    <h1 class="page-title text-primary-d2">
+	        Zonas
+	         <small class="page-info text-secondary-d2">
+	            <i class="fa fa-angle-double-right text-80"></i>
+	            Modificar
+	        </small>
+	    </h1>
+	</div>
+	<form action="{{ route('admins.zone.update') }}" method="post">
 		{{ csrf_field() }}
 		<input type="hidden" name="id" value="{{ $zone->id }}">
 		<div class="col-md-6">

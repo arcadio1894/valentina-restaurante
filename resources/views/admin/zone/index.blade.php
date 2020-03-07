@@ -16,14 +16,13 @@
     <ul class="breadcrumb">
         <li>
             <i class="ace-icon fa fa-home home-icon"></i>
-            <a href="#">Inicio</a>
+            Inicio
         </li>
-
         <li>
-            <a href="#">Zonas</a>
+            <a href="{{ route('admins.zone.index') }}">Zonas</a>
         </li>
         <li class="active">Listado</li>
-    </ul><!-- /.breadcrumb -->
+    </ul>
 @endsection
 
 @section('content')
@@ -63,7 +62,7 @@
                                     <td>{{ $zone->status }}</td>
                                     <td>{{ $zone->created_at }}</td>
                                     <td>
-                                        <a href="{{ route('admins.zone.update', $zone->id) }}" class="btn btn-info"><i class="fa fa-pencil"></i> Editar</a>
+                                        <a href="{{ route('admins.zone.edit', $zone->id) }}" class="btn btn-info"><i class="fa fa-pencil"></i> Editar</a>
 
                                         <a href="{{ route('admins.zone.delete', $zone->id) }}" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar</a>
                                     </td>
