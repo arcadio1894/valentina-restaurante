@@ -339,7 +339,7 @@
                 </a>
             </li>
 
-            <li class="">
+            <li class="{{route::is('admins.category.index') || route::is('admins.category.create') || route::is('admins.category.update') ? 'active open' : '' }}">
                 <a href="#" class="dropdown-toggle">
                     <i class="menu-icon fa fa-coffee"></i>
                     <span class="menu-text"> Catálogo </span>
@@ -350,8 +350,8 @@
                 <b class="arrow"></b>
 
                 <ul class="submenu">
-                    <li class="">
-                        <a href="jqgrid.html">
+                    <li class="{{route::is('admins.category.index') || route::is('admins.category.create') || route::is('admins.category.update') ? 'active open' : '' }}">
+                        <a href="{{ route('admins.category.index') }}">
                             <i class="menu-icon fa fa-caret-right"></i>
                             Categorías
                         </a>
