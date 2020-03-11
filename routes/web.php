@@ -11,21 +11,20 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/locals','Admin\StoreController@locals')->name('locals');
+Route::get('/address_locals','Admin\StoreController@addressLocals');
+
 
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function() {
-	Route::get('/home', 'HomeController@index')->name('home');
-
 	Route::prefix('admins')->group(function() {
 		Route::name('admins.')->group(function() {
-    		Route::get('/', function () {
-    			$stores = \App\Models\Store::where('status','enabled')->orderBy('id','desc')->select(['id','name'])->get();
-    			return view('homeAdmin')->with(compact('stores'));
-			})->name('dashboard');
+			Route::post('/logout', 'Auth\LoginController@logoutAdmin')->name('logout');
+
+			Route::namespace('Admin')->group(function() {
+    			Route::get('/','HomeController@index')->name('dashboard');
+    		});
 
     		Route::prefix('zone')->group(function() {
     			Route::name('zone.')->group(function() {
@@ -67,5 +66,15 @@ Route::group(['middleware' => 'auth'], function() {
     });
 });
 
-Route::get('/locals','Admin\StoreController@locals')->name('locals');
-Route::get('/address_locals','Admin\StoreController@addressLocals');
+Route::group(['middleware' => 'web'], function() {
+	Route::namespace('Web')->group(function(){
+		Route::get('/', 'HomeController@index')->name('web.home');
+		Route::prefix('web')->group(function(){
+			Route::name('web.')->group(function(){
+				Route::get('/login','LoginController@showLoginForm')->name('login.form');
+				Route::post('/login','LoginController@login')->name('login');
+				Route::post('/logout','LoginController@logout')->name('logout');
+			});
+		});
+	});
+});

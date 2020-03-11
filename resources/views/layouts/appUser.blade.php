@@ -73,30 +73,31 @@
                             <div class="main-menu">
                                 <ul >
                                     <!-- Authentication Links -->
-                                    @guest
-                                        <li><a class="@yield('activeLogin')" href="{{ route('login') }}">Login</a></li>
+                                    @guest('customer')
+                                        <li><a class="@yield('activeLogin')" href="{{ route('web.login.form') }}">Login</a></li>
                                         <li><a class="@yield('activeRegister')" href="{{ route('register') }}">Register</a></li>
-                                    @else
+                                    @endguest
+                                    @auth('customer')
                                         <li class="dropdown">
                                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
-                                                {{ Auth::user()->name }} <span class="caret"></span>
+                                                {{ Auth::guard('customer')->user()->name }} <span class="caret"></span>
                                             </a>
 
                                             <ul class=" submenu">
                                                 <li>
-                                                    <a href="{{ route('logout') }}"
+                                                    <a href="{{ route('web.logout') }}"
                                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                                         Logout
                                                     </a>
 
-                                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                                    <form id="logout-form" action="{{ route('web.logout') }}" method="POST" style="display: none;">
                                                         {{ csrf_field() }}
                                                     </form>
                                                 </li>
                                             </ul>
                                         </li>
-                                    @endguest
+                                    @endauth
                                     <li>
                                         <a href="#">
                                             <i class="fa fa-instagram"></i>
