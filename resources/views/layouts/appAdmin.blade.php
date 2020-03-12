@@ -211,7 +211,8 @@
             <li>
                 @php($selected = session('store'))
                 <select name="stores" id="stores" class="form-control">
-                    @if(count($stores) === 0)
+                    {{--@if(count($stores) === 0)--}}
+                    @if($stores = null or count($stores) === 0 )
                     <option value=""> -- Crear tiendas -- </option>
                     @else
                         @foreach($stores as $store)

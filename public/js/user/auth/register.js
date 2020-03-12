@@ -32,6 +32,8 @@ function initialAll() {
 
         position = {lat: near_place.geometry.location.lat(), lng: near_place.geometry.location.lng()};
         var curPosition = new google.maps.LatLng(near_place.geometry.location.lat(),near_place.geometry.location.lng());
+        document.getElementById('loc_lat').value = near_place.geometry.location.lat();
+        document.getElementById('loc_long').value = near_place.geometry.location.lng();
         for (var polygon of polygons) {
             polygon  = JSON.parse(polygon.polygon);
             console.log(polygon);

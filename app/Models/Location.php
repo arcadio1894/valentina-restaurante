@@ -5,30 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Customer extends Model
+class Location extends Model
 {
     use SoftDeletes;
-    
+
     protected $fillable = [
-        'name',
-        'email',
-        'role_id',
-        'user_id',
+        'customer_id',
         'type_doc',
-        'birthday',
-        'genre',
-        'phone',
+        'document',
         'address',
+        'latitude',
+        'longitude',
         'type_place',
         'reference',
     ];
 
-    public function role() {
-        return $this->belongsTo('App\Role');
-    }
-
-    public function user() {
-        return $this->belongsTo('App\User');
+    public function customer() {
+        return $this->belongsTo('App\Models\Customer');
     }
 
     protected $dates = [

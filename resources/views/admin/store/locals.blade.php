@@ -35,12 +35,12 @@
             <div class="row">
                 <div class="col-xl-6 col-md-6 col-lg-6">
                     @foreach( $stores as $key=>$store )
-                        <div class="single_delicious d-flex align-items-center">
+                        <div class="single_delicious d-flex align-items-center" data-latitude="{{ $store->latitude }}" data-longitude="{{$store->longitude}}" data-schedule="{{ $store->attention_schedule }}" data-phone="{{ $store->phone }}" data-name="{{ $store->name }}" data-marker style="cursor:pointer;" >
                             <div class="thumb">
                                 <img src="{{ asset('admin/assets/images/stores/'. $store->image) }}" alt="" width="166px" height="166px">
                             </div>
                             <div class="info">
-                                <h3 class="">{{ $store->name }}</h3>
+                                <h3 >{{ $store->name }}</h3>
                                 <p>{{ $store->address }}</p>
                                 <h4 class="number">{{ $store->phone }}</h4>
                                 <h4>{{ $store->attention_schedule }}</h4>

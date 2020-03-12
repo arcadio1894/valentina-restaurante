@@ -17,18 +17,17 @@ class CreateCustomersTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('email')->unique();
-            $table->integer('role_id')->unsigned();
-            $table->foreign('role_id')->references('id')->on('roles');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
 
             $table->enum('type_doc', ['dni', 'passport']);
+            $table->string('document');
             $table->date('birthday')->nullable();
             $table->enum('genre', ['male', 'female']);
             $table->string('phone')->nullable();
-            $table->string('address')->nullable();
-            $table->enum('type_place', ['home', 'business', 'department', 'hotel', 'condominium']);
-            $table->text('reference')->nullable();
+            //$table->string('address')->nullable();
+            //$table->enum('type_place', ['home', 'business', 'department', 'hotel', 'condominium']);
+            //$table->text('reference')->nullable();
 
             $table->softDeletes();
             $table->timestamps();
