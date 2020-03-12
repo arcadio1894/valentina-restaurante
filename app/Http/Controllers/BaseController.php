@@ -7,8 +7,8 @@ class BaseController extends Controller{
     public function __construct(){
     	$stores = \App\Models\Store::where('status','enabled')->orderBy('id','desc')->select(['id','name'])->get();
 
-    	if(count($stores) > 0 && ! \Session::has('store')){
-    		session(['store'=>$stores[0]]);
+    	if(count($stores) > 0 && !\Session::has('store')){
+    		session(['store'=>$stores[0]->id]);
     	}
 
     	View::share('stores', $stores);
