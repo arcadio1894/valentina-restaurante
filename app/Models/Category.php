@@ -17,7 +17,8 @@ class Category extends Model
 		'description',
 		'image',
 		'position',
-		'status'
+		'status',
+		'level'
     ];
 
     public function getCreatedAtAttribute($date){

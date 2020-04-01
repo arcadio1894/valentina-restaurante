@@ -11,6 +11,9 @@
         .img-category{
             width: 100px;
         }
+        .ml-5{
+            margin-left: 5px;
+        }
     </style>
 @endsection
 
@@ -32,59 +35,53 @@
     <div class="col-md-10 col-md-offset-1">
         <div class="row new">
             <div class="col-md-12">
-                <a href="{{route('admins.category.create')}}" class="btn btn-success"><i class="fa fa-plus-circle"></i> Nueva categoría</a>
+                <a href="{{route('admins.category.create','')}}" class="btn btn-success"><i class="fa fa-plus-circle"></i> Nueva categoría raíz</a>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12 table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Nombre</th>
-                            <th>Categoría padre</th>
-                            <th>Imagen</th>
-                            <th>Estado</th>
-                            <th>Posicion</th>
-                            <th>Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if(count($categories) == 0)
-                            <tr>
-                                <td colspan="4" class="no-data">No existen datos</td>
-                            </tr>
-                        @else
-                            @foreach($categories as $key=>$category)
-                                <tr>
-                                    <td>{{ $key+1 }}</td>
-                                    <td>{{ $category->name }}</td>
-                                    <td>{{ ($category->parent_category)? $category->parent_category->name:'' }}</td>
-                                    <td>
-                                        @php
-                                            $url = asset('admin/assets/images/gallery/default.png');
+            <div class="col-md-12">
+                <div class="widget-box widget-color-blue2">
+                    <div class="widget-header">
+                        <h4 class="widget-title lighter smaller">Lista de categorías</h4>
+                    </div>
 
-                                            if($category->image){
-                                                $url = asset('admin/assets/images/category').'/'.$category->image;
-                                            }
-                                        @endphp
+                    <div class="widget-body">
+                        <div class="widget-main padding-8">
+                            <ul id="tree2" class="tree tree-unselectable tree-folder-select" role="tree">
+                                <li class="tree-branch hide" data-template="treebranch" role="treeitem" aria-expanded="false">
+                                    <i class="icon-caret ace-icon tree-plus"></i>&nbsp;
+                                    <div class="tree-branch-header">
+                                        <span class="tree-branch-name">
+                                            <i class="icon-folder ace-icon fa fa-folder"></i>
+                                            <span class="tree-label"></span>
+                                        </span>
+                                    </div>
+                                    <ul class="tree-branch-children" role="group"></ul>
+                                    <div class="tree-loader hidden" role="alert">
+                                        <div class="tree-loading"><i class="ace-icon fa fa-refresh fa-spin blue"></i>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="tree-item hide" data-template="treeitem" role="treeitem">
+                                    <span class="tree-item-name">
+                                        <span class="tree-label"></span>
+                                    </span>
+                                </li>
 
-                                        <img src="{{ $url  }}" alt="" class="img-category">
-                                    </td>
-                                    <td>{{ $category->status }}</td>
-                                    <td>{{ $category->position }}</td>
-                                    <td>
-                                        <a href="{{ route('admins.category.edit', $category->id) }}" class="btn btn-info"><i class="fa fa-pencil"></i> Editar</a>
-
-                                        <a href="{{ route('admins.category.delete', $category->id) }}" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar</a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        @endif
-                    </tbody>
-                </table>
+                                {!! $htmlCategories !!}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
+    <input type="hidden" id="url_category_update" value="{{ route('admins.category.edit','') }}">
+    <input type="hidden" id="url_category_delete" value="{{ route('admins.category.delete','') }}">
 </div>
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('js/admin/category/index.js') }}"></script>
 @endsection

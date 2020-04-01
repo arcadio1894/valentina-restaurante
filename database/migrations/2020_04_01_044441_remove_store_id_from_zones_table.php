@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddStoreIdToZonesTable extends Migration
+class RemoveStoreIdFromZonesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,8 @@ class AddStoreIdToZonesTable extends Migration
     public function up()
     {
         Schema::table('zones', function(Blueprint $table){
-            $table->integer('store_id')->unsigned();
-            $table->foreign('store_id')->references('id')->on('stores');
+            $table->dropColumn('store_id');
+            $table->dropForeign(['store_id']);
         });
     }
 
@@ -27,8 +27,7 @@ class AddStoreIdToZonesTable extends Migration
     public function down()
     {
         Schema::table('zones', function(Blueprint $table){
-            $table->dropColumn('store_id');
-            $table->dropForeign(['store_id']);
+            $table->integer('store_id')->unsigned()->nullable();
         });
     }
 }

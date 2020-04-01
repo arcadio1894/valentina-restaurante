@@ -14,7 +14,7 @@ class AddStoreIdToZonesTable extends Migration
     public function up()
     {
         Schema::table('zones', function(Blueprint $table){
-            $table->integer('store_id')->unsigned();
+            $table->integer('store_id')->unsigned()->nullable();
             $table->foreign('store_id')->references('id')->on('stores');
         });
     }
