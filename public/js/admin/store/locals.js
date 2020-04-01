@@ -1,5 +1,7 @@
+var map;
+
 function initialAll(address_array) {
-    var map;
+
     var bounds = new google.maps.LatLngBounds();
     var mapOptions = {
         mapTypeId: 'roadmap'
@@ -66,6 +68,41 @@ $(document).ready(function () {
     {
         initialAll(response);
     });
-    
-    //
+
+    $('[data-marker]').on('click', showInMap);
 });
+
+function showInMap() {
+
+    var name = $(this).data('name');
+    var longitude = $(this).data('longitude');
+    var latitude = $(this).data('latitude');
+    var schedule = $(this).data('schedule');
+    var phone = $(this).data('phone');
+
+    var infoWindowContent ='<div class="info_content">' +
+        '<h3>'+name+'</h3>' +
+        '<p class="number">'+phone+'</p>' +
+        '<p>'+schedule+'</p>' +
+        '</div>';
+
+    var position = new google.maps.LatLng(latitude, longitude);
+
+    var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+
+    var marker = new google.maps.Marker({
+        position: position,
+        map: map,
+        title: name,
+        icon: image
+    });
+
+    var infoWindow = new google.maps.InfoWindow();
+
+    if(!infoWindow.open(map, marker)){
+        infoWindow.setContent(infoWindowContent);
+        infoWindow.open(map, marker);
+    }
+
+    setTimeout(function () { infoWindow.close(); }, 2000);
+}

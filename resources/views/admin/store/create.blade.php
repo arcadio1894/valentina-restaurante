@@ -54,9 +54,9 @@
 
                             <div class="col-sm-9">
                                 <select id="service" name="service" class="col-xs-10 col-sm-8" data-placeholder="Seleccione el servicio...">
-                                    <option value="delivery">Delivery</option>
-                                    <option value="pickup">Pickup</option>
-                                    <option value="full">Full</option>
+									<option value="full">Delivery & Recojo en tienda</option>
+									<option value="delivery">Delivery</option>
+									<option value="pickup">Recojo en tienda</option>
                                 </select>
 
                             </div>
@@ -118,7 +118,7 @@
                             <label class="col-sm-3 control-label no-padding-right" for="longitude"> Orden: </label>
 
                             <div class="col-sm-9">
-                                <input type="text" id="order" placeholder="Orden" name="order" class="col-xs-10 col-sm-8" />
+                                <input type="number" id="order" placeholder="Orden" name="order" class="col-xs-10 col-sm-8" />
                             </div>
                         </div>
 

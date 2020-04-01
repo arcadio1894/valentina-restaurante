@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\Customer;
+use App\Models\Location;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -58,6 +59,8 @@ class RegisterController extends Controller
             'genre' => 'required|in:male,female',
             'phone' => 'required|regex:/[0-9]{9}/',
             'address' => 'required|string|max:255',
+            'latitude' => 'required|string',
+            'longitude' => 'required|string',
             'type_place' => 'required|in:home,business,department,hotel,condominium',
             'reference' => 'string',
         ]);
@@ -81,18 +84,31 @@ class RegisterController extends Controller
         $customer = Customer::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'role_id' => $data['role_id'],
+            //'role_id' => $data['role_id'],
             'user_id' => $user->id,
             'type_doc' => $data['type_doc'],
             'document' => $data['document'],
             'birthday' => $data['birthday'],
             'genre' => $data['genre'],
             'phone' => $data['phone'],
+            //'address' => $data['address'],
+            //'type_place' => $data['type_place'],
+            //'reference' => $data['reference'],
+        ]);
+
+        // TODO: Insert of address
+        
+        $location = Location::create([
+            'customer_id' => $customer->id,
+            'type_doc' => $data['type_doc'],
+            'document' => $data['document'],
             'address' => $data['address'],
+            'latitude' => $data['latitude'],
+            'longitude' => $data['longitude'],
             'type_place' => $data['type_place'],
             'reference' => $data['reference'],
         ]);
-
+        
         return $user;
     }
 }

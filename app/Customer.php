@@ -2,32 +2,31 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Customer extends Authenticatable
+class Customer extends Model
 {
-    use Notifiable;
     use SoftDeletes;
-
-   	protected $guard = 'customer';
-    protected $primaryKey = 'id';
+    
     protected $fillable = [
         'name',
         'email',
-        'password',
+        'user_id',
         'type_doc',
-        'num_doc',
+        'document',
         'birthday',
         'genre',
-        'phone'
+        'phone',
     ];
 
-    protected $hidden = [
-        'password',
-        'remember_token'
-    ];
+    public function user() {
+        return $this->belongsTo('App\User');
+    }
+
+    public function locations() {
+        return $this->hasMany('App\Models\Location');
+    }
 
     protected $dates = [
         'deleted_at'

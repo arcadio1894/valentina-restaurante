@@ -153,6 +153,8 @@
                             </div>
                             <div style="width: 100%;height: 400px" id="map"></div>
                             <br>
+                            <input type="hidden" id="loc_lat" name="latitude" />
+                            <input type="hidden" id="loc_long" name="longitude" />
                         </div>
 
                         <div class="col-md-12">
