@@ -39,22 +39,21 @@
             <div class="row justify-content-center">
                 <div class="col-lg-10 col-md-10 offset-1">
                 <form method="POST" class="form-horizontal" action="">
-                    <input type="hidden" name="polygons" id="polygons" value="{{ $polygons }}">
                     <div class="row">
                         {{ csrf_field() }}
+                        <input type="hidden" name="polygons" id="polygons" value="{{ ($polygons) }}">
                         <input type="hidden" name="role_id" value="2">
-                        <div class="col-md-12">
+
+                        <div class="col-md-6">
                             <div class="mt-10 form-group {{ $errors->has('name') ? ' has-error' : '' }}">
-                                <label for="name" class="control-label">Nombre completo (*)</label>
-                                <input id="name" type="text" class="col-md-6 single-input-primary" name="name" required autofocus>
+                                <label for="name" class="control-label">Nombre (*)</label>
+                                <input id="name" type="text" class="single-input-primary" name="name" required autofocus>
                                 @if ($errors->has('name'))
                                     <span class="help-block">
                                     <strong>{{ $errors->first('name') }}</strong>
                                 </span>
                                 @endif
                             </div>
-                        </div>
-                        <div class="col-md-6">
                             <div class="mt-10 form-group {{ $errors->has('type_doc') ? ' has-error' : '' }}">
                                 <label for="type_doc" class="control-label">Tipo de Documento (*)</label>
                                 <div class="form-select" id="default-select">
@@ -102,6 +101,15 @@
                             </div>
                         </div>
                         <div class="col-md-6">
+                            <div class="mt-10 form-group {{ $errors->has('lastname') ? ' has-error' : '' }}">
+                                <label for="lastname" class="control-label">Apellidos (*)</label>
+                                <input id="lastname" type="text" class="single-input-primary" name="lastname" required autofocus>
+                                @if ($errors->has('lastname'))
+                                    <span class="help-block">
+                                    <strong>{{ $errors->first('lastname') }}</strong>
+                                </span>
+                                @endif
+                            </div>
                             <div class="mt-10 form-group">
                                 <label for="document" class="control-label">Número de documento (*)</label>
                                 <input id="document" type="text" class="single-input-primary" name="document" required autofocus>

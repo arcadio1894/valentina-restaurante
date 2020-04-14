@@ -6,9 +6,10 @@ use Illuminate\Support\Facades\View;
 class BaseController extends Controller{
     public function __construct(){
     	$stores = \App\Models\Store::where('status','enabled')->orderBy('id','desc')->select(['id','name'])->get();
-
+		//dd($stores);
     	if(count($stores) > 0 && !\Session::has('store')){
     		session(['store'=>$stores[0]->id]);
+			//dd(session('store'));
     	}
 
     	View::share('stores', $stores);

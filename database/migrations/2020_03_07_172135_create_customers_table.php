@@ -20,7 +20,7 @@ class CreateCustomersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->enum('type_doc', ['dni', 'passport'])->nullable();
-            $table->string('num_doc')->nullable();
+            $table->string('document')->nullable();
             $table->date('birthday')->nullable();
             $table->enum('genre', ['male', 'female'])->nullable();
             $table->string('phone')->nullable();

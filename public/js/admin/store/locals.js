@@ -1,4 +1,5 @@
 var map;
+var isOpened = false;
 
 function initialAll(address_array) {
 
@@ -73,7 +74,6 @@ $(document).ready(function () {
 });
 
 function showInMap() {
-
     var name = $(this).data('name');
     var longitude = $(this).data('longitude');
     var latitude = $(this).data('latitude');
@@ -99,10 +99,12 @@ function showInMap() {
 
     var infoWindow = new google.maps.InfoWindow();
 
-    if(!infoWindow.open(map, marker)){
+    if(!isOpened){
         infoWindow.setContent(infoWindowContent);
         infoWindow.open(map, marker);
+        isOpened = true;
     }
 
-    setTimeout(function () { infoWindow.close(); }, 2000);
+    setTimeout(function () {
+        infoWindow.close(); isOpened = false;}, 1500);
 }

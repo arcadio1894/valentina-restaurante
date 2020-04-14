@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\Customer;
+
+use App\Customer;
 use App\Models\Location;
 use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -51,6 +53,7 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!_@$%^&*-]).{6,}$/|confirmed',
             'type_doc' => 'required|in:dni,passport',
@@ -74,26 +77,23 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $user = User::create([
+/*        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'role_id' => $data['role_id'],
-        ]);
+        ]);*/
 
         $customer = Customer::create([
             'name' => $data['name'],
+            'lastname' => $data['lastname'],
             'email' => $data['email'],
-            //'role_id' => $data['role_id'],
-            'user_id' => $user->id,
+            'password' => bcrypt($data['password']),
             'type_doc' => $data['type_doc'],
             'document' => $data['document'],
             'birthday' => $data['birthday'],
             'genre' => $data['genre'],
             'phone' => $data['phone'],
-            //'address' => $data['address'],
-            //'type_place' => $data['type_place'],
-            //'reference' => $data['reference'],
         ]);
 
         // TODO: Insert of address
@@ -108,7 +108,12 @@ class RegisterController extends Controller
             'type_place' => $data['type_place'],
             'reference' => $data['reference'],
         ]);
-        
-        return $user;
+
+        Auth::guard('customer')->attempt([
+            'email'=> $data['email'],
+            'password'=>bcrypt($data['password'])]);
+
+        return redirect()->intended(route('web.home'));
+
     }
 }

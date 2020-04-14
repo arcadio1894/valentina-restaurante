@@ -21,11 +21,6 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::prefix('admins')->group(function() {
 		Route::name('admins.')->group(function() {
 
-    		Route::get('/', function () {
-    			$stores = \App\Models\Store::where('status','enabled')->orderBy('id','desc')->select(['id','name'])->get();
-				return view('homeAdmin')->with(compact('stores'));
-			})->name('dashboard');
-
 			Route::post('/logout', 'Auth\LoginController@logoutAdmin')->name('logout');
 
 			Route::namespace('Admin')->group(function() {

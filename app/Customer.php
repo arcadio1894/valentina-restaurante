@@ -2,17 +2,20 @@
 
 namespace App;
 
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Customer extends Model
+
+class Customer extends Model 
 {
     use SoftDeletes;
     
     protected $fillable = [
         'name',
+        'lastname',
         'email',
-        'user_id',
+        'password',
         'type_doc',
         'document',
         'birthday',
