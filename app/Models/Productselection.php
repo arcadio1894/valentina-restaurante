@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Productselection extends Model
 {
-    $fillable = [
+    protected $fillable = [
 		'option_id',
 		'position',
 		'is_default',

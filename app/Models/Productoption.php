@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Productoption extends Model
 {
-    $fillable = [
+    protected $fillable = [
     	'parent_id',
 		'parent_id',
 		'is_required',

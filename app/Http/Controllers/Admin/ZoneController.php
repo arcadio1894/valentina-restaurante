@@ -8,6 +8,19 @@ use App\Models\Zone;
 
 class ZoneController extends BaseController
 {
+    const VALIDATION_CONSTRAINTS = [
+        'name'=>'required',
+        'code'=>'required',
+        'status'=>'required',
+        'polygon'=>'required'
+    ];
+    const VALIDATION_MESSAGES = [
+        'name.required'=>'El <b>NOMBRE</b> de la zona es requerido',
+        'code.required'=>'El <b>CÓDIGO</b> de la zona es requerido',
+        'status.required'=>'El <b>ESTADO</b> de la zona es requerido',
+        'polygon.required'=>'Debe trazar la <b>ZONA REPARTO</b>'
+    ];
+
     function index(){
         $store = session('store');
     	$zones = Zone::all();
@@ -25,6 +38,22 @@ class ZoneController extends BaseController
 
     function store(Request $request){
     	$data = $request->all();
+        $response = [
+            'success'=>false,
+            'errors'=>[],
+            'message'=>'',
+            'url'=>''
+        ];
+        $validator = \Validator::make(
+            $data,$this::VALIDATION_CONSTRAINTS,$this::VALIDATION_MESSAGES
+        );
+
+        if($validator->fails()){
+            $response['errors'] = $validator->errors();
+
+            return response()->json($response);
+        }
+
         $store   = session('store');
     	$polygon = $data['polygon'];
     	$center  = $data['center'];
@@ -40,8 +69,11 @@ class ZoneController extends BaseController
         $data['store_id']  = $store;
     	
     	$zone = Zone::create($data);
+        $response['success'] = true;
+        $response['message'] = 'Registro satisfactorio';
+        $response['url'] = route('admins.zone.index');
 
-    	return redirect()->route('admins.zone.index')->with('success','Registro satisfactorio');
+        return response()->json($response);
     }
 
     function edit($id){
@@ -53,6 +85,21 @@ class ZoneController extends BaseController
     function update(Request $request){
     	$data = $request->all();
     	$zone = Zone::findOrFail($data['id']);
+        $response = [
+            'success'=>false,
+            'errors'=>[],
+            'message'=>'',
+            'url'=>''
+        ];
+        $validator = \Validator::make(
+            $data,$this::VALIDATION_CONSTRAINTS,$this::VALIDATION_MESSAGES
+        );
+
+        if($validator->fails()){
+            $response['errors'] = $validator->errors();
+
+            return response()->json($response);
+        }
 
     	$polygon = $data['polygon'];
     	$center  = $data['center'];
@@ -70,7 +117,11 @@ class ZoneController extends BaseController
     	
     	$zone->update($data);
 
-    	return redirect()->route('admins.zone.index')->with('success','Actualización satisfactoria');
+        $response['success'] = true;
+        $response['message'] = 'Actualización satisfactoria';
+        $response['url'] = route('admins.zone.index');
+
+        return response()->json($response);
     }
 
     function delete($id){

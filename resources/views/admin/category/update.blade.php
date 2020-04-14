@@ -6,6 +6,8 @@
 		width: 100px;
 	}
 </style>
+
+<link href="{{ asset('css/jquery.toast.css') }}" rel="stylesheet">
 @endsection
 
 @section('breadcrumb')
@@ -32,7 +34,7 @@
 	        </small>
 	    </h1>
 	</div>
-	<form action="{{ route('admins.category.update') }}" method="post" enctype="multipart/form-data">
+	<form action="{{ route('admins.category.update') }}" method="post" enctype="multipart/form-data" id="form">
 		{{ csrf_field() }}
 		<input type="hidden" name="id" value="{{ $category->id }}">
 		<div class="col-md-12">
@@ -49,23 +51,12 @@
 		</div>
 		<div class="col-md-12">
 			<div class="form-group">
-				<label for="parent_id">Categoría padre</label>
-				<select name="parent_id" id="parent_id" class="form-control">
-					<option value=""> -- Seleccionar -- </option>
-					@foreach($parents as $parent)
-						<option value="{{ $parent->id }}" {{ $category->parent_id == $parent->id ? 'selected':'' }}>{{ $parent->name }}</option>
-					@endforeach
-				</select>
-			</div>
-		</div>
-		<div class="col-md-12">
-			<div class="form-group">
 				<label for="image">Imagen</label>
 				<input type="file" name="image" class="form-control">
 				@php
 					$url = asset('admin/assets/images/gallery/default.png');
 
-					if($category->img){
+					if($category->image){
 						$url = asset('admin/assets/images/category').'/'.$category->image;
 					}
 				@endphp
@@ -96,4 +87,9 @@
 		</div>
 	</form>
 </div>
+@endsection
+
+@section('scripts')
+	<script type="text/javascript" src="{{ asset('js/jquery.toast.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('js/admin/functions.js') }}"></script>
 @endsection

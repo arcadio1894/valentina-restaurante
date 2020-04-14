@@ -43,24 +43,38 @@ Route::group(['middleware' => 'auth'], function() {
 
 			Route::prefix('store')->group(function() {
 				Route::name('store.')->group(function() {
-					Route::get('/','Admin\StoreController@index')->name('index');
-					Route::get('/create','Admin\StoreController@create')->name('create');
-					Route::post('/store','Admin\StoreController@store')->name('store');
-					Route::get('/edit/{id}','Admin\StoreController@edit')->name('edit');
-					Route::post('/update','Admin\StoreController@update')->name('update');
-					Route::post('/delete','Admin\StoreController@delete')->name('delete');
-					Route::post('/session','Admin\StoreController@change_session')->name('session');
+					Route::namespace('Admin')->group(function() {
+						Route::get('/','StoreController@index')->name('index');
+						Route::get('/create','StoreController@create')->name('create');
+						Route::post('/store','StoreController@store')->name('store');
+						Route::get('/edit/{id}','StoreController@edit')->name('edit');
+						Route::post('/update','StoreController@update')->name('update');
+						Route::post('/delete','StoreController@delete')->name('delete');
+						Route::post('/session','StoreController@change_session')->name('session');
+					});
 				});
 			});
 
 			Route::prefix('category')->group(function() {
 				Route::name('category.')->group(function() {
-					Route::get('/','Admin\CategoryController@index')->name('index');
-					Route::get('/create','Admin\CategoryController@create')->name('create');
-					Route::post('/store','Admin\CategoryController@store')->name('store');
-					Route::get('/edit/{id}','Admin\CategoryController@edit')->name('edit');
-					Route::post('/update','Admin\CategoryController@update')->name('update');
-					Route::get('/delete/{id}','Admin\CategoryController@delete')->name('delete');
+					Route::namespace('Admin')->group(function() {
+						Route::get('/','CategoryController@index')->name('index');
+						Route::get('/create/{id?}','CategoryController@create')->name('create');
+						Route::post('/store','CategoryController@store')->name('store');
+						Route::get('/edit/{id}','CategoryController@edit')->name('edit');
+						Route::post('/update','CategoryController@update')->name('update');
+						Route::get('/delete/{id}','CategoryController@delete')->name('delete');
+					});
+				});
+			});
+
+			Route::prefix('product')->group(function(){
+				Route::name('product.')->group(function(){
+					Route::namespace('Admin')->group(function() {
+						Route::get('/','ProductController@index')->name('index');
+						Route::get('/create','ProductController@create')->name('create');
+						Route::get('/store','ProductController@store')->name('store');
+					});
 				});
 			});
     	});

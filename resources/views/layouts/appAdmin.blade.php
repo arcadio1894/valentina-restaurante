@@ -233,7 +233,7 @@
                 <b class="arrow"></b>
             </li>
 
-            <li class="{{route::is('admins.zone.index') || route::is('admins.zone.create') || route::is('admins.zone.update') || route::is('admins.zone.maps') || route::is('admins.store.create') || route::is('admins.store.edit') || route::is('admins.store.index') ? 'active open' : '' }}">
+            <li class="{{route::is('admins.zone.index') || route::is('admins.zone.create') || route::is('admins.zone.edit') || route::is('admins.zone.maps') || route::is('admins.store.create') || route::is('admins.store.edit') || route::is('admins.store.index') ? 'active open' : '' }}">
                 <a href="#" class="dropdown-toggle">
                     <i class="menu-icon fa fa-gear"></i>
 							<span class="menu-text">
@@ -263,14 +263,14 @@
                             Blog
                         </a>
                     </li>
-                    <li class="{{route::is('admins.zone.index') || route::is('admins.zone.create') || route::is('admins.zone.update') || route::is('admins.zone.maps') ? 'active open' : '' }}">
+                    <li class="{{route::is('admins.zone.index') || route::is('admins.zone.create') || route::is('admins.zone.edit') || route::is('admins.zone.maps') ? 'active open' : '' }}">
                         <a href="{{ route('admins.zone.index')}}">
                             <i class="menu-icon fa fa-caret-right"></i>
                             Zonas
                         </a>
                     </li>
 
-                    <li class="{{route::is('admins.store.index') || route::is('admins.store.create') || route::is('admins.store.update') ? 'active open' : '' }}">
+                    <li class="{{route::is('admins.store.index') || route::is('admins.store.create') || route::is('admins.store.edit') ? 'active open' : '' }}">
                         <a href="{{ route('admins.store.index')}}">
                             <i class="menu-icon fa fa-caret-right"></i>
                             Tiendas
@@ -340,7 +340,7 @@
                 </a>
             </li>
 
-            <li class="{{route::is('admins.category.index') || route::is('admins.category.create') || route::is('admins.category.update') ? 'active open' : '' }}">
+            <li class="{{route::is('admins.category.index') || route::is('admins.category.create') || route::is('admins.category.edit') || route::is('admins.product.index') || route::is('admins.product.create') ? 'active open' : '' }}">
                 <a href="#" class="dropdown-toggle">
                     <i class="menu-icon fa fa-coffee"></i>
                     <span class="menu-text"> Catálogo </span>
@@ -351,14 +351,14 @@
                 <b class="arrow"></b>
 
                 <ul class="submenu">
-                    <li class="{{route::is('admins.category.index') || route::is('admins.category.create') || route::is('admins.category.update') ? 'active open' : '' }}">
+                    <li class="{{route::is('admins.category.index') || route::is('admins.category.create') || route::is('admins.category.edit') ? 'active open' : '' }}">
                         <a href="{{ route('admins.category.index') }}">
                             <i class="menu-icon fa fa-caret-right"></i>
                             Categorías
                         </a>
                     </li>
-                    <li class="">
-                        <a href="tables.html">
+                    <li class="{{route::is('admins.product.index') || route::is('admins.product.create') ? 'active open' : '' }}">
+                        <a href="{{ route('admins.product.index') }}">
                             <i class="menu-icon fa fa-caret-right"></i>
                             Productos
                         </a>

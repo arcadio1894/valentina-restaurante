@@ -7,6 +7,8 @@
 			height: 500px;
 		}
 	</style>
+
+	<link href="{{ asset('css/jquery.toast.css') }}" rel="stylesheet">
 @endsection
 
 @section('breadcrumb')
@@ -33,7 +35,7 @@
 	        </small>
 	    </h1>
 	</div>
-	<form action="{{ route('admins.zone.store') }}" method="post">
+	<form action="{{ route('admins.zone.store') }}" method="post" id="form">
 		{{ csrf_field() }}
 		<div class="col-md-6">
 			<div class="form-group">
@@ -79,5 +81,7 @@
 
 @section('scripts')
 	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{ env('G_MAPS_API_KEY') }}&libraries=drawing"></script>
+	<script type="text/javascript" src="{{ asset('js/jquery.toast.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('js/admin/functions.js') }}"></script>
 	<script src="{{asset('js/admin/zone/create.js')}}"></script>
 @endsection
