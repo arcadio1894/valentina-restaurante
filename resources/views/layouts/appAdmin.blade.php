@@ -456,6 +456,8 @@
     </a>
 </div><!-- /.main-container -->
 
+@yield('modals')
+
 <!-- basic scripts -->
 
 <!--[if !IE]> -->

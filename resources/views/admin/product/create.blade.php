@@ -5,6 +5,68 @@
 	.mt-4{
 		margin-top: 4px;
 	}
+
+	.mb-10{
+		margin-bottom: 4px;
+	}
+
+	.mr-4{
+		margin-right: 4px;
+	}
+
+	.mt-27{
+		margin-top: 26px;
+	}
+
+	.tree-branch-product{
+        margin: 4px !important;
+    }
+
+	.selectable-category{
+		margin-left: 9px;
+		margin-right: 4px;
+	    color: #F9E8CE;
+	    width: 13px;
+	    height: 13px;
+	    line-height: 13px;
+	    font-size: 11px;
+	    text-align: center;
+	    border-radius: 3px;
+	    -webkit-box-sizing: content-box;
+	    -moz-box-sizing: content-box;
+	    box-sizing: content-box;
+	    border: 1px solid #ff9800c2;
+	    box-shadow: 0 1px 2px rgba(0,0,0,.05);
+	}
+
+	.selected-category{
+		background-color: #ff9800c2;
+	}
+
+	.selected-category-label{
+		font-weight: bold;
+		color: #2E8965 !important;
+	}
+
+	.btn-items{
+		margin: 4px;
+		font-weight: bold;
+	}
+
+	.btn-label{
+		height: 26px;
+	}
+	
+	.items{
+		margin: 0 !important;
+	}
+
+	.selection-item{
+		margin: 15px 0 10px 0;
+	    padding: 10px 0 10px 0;
+		border: 1px solid #2E8965;
+		border-radius: 5px;
+	}
 </style>
 @endsection
 
@@ -22,6 +84,7 @@
 @endsection
 
 @section('content')
+
 <div class="col-md-10 col-md-offset-1">
 	<div class="page-header">
 	    <h1 class="page-title text-primary-d2">
@@ -91,7 +154,7 @@
 												</li>
 
 												<li>
-													<a data-toggle="tab" href="#options" class="options hide">Opciones</a>
+													<a data-toggle="tab" href="#options" class="options hide">Artículos del paquete</a>
 												</li>
 											</ul>
 										</div>
@@ -162,80 +225,62 @@
 													
 													<div id="gallery" class="tab-pane">
 														<div class="form-group">
-															<label for="image">Imagen pequeña</label>
-															<input type="file" name="image" class="form-control">
+															<label for="small_image">Imagen pequeña</label>
+															<input type="file" name="small_image" class="form-control">
 														</div>
 														<div class="form-group">
-															<label for="small_image">Imagen</label>
-															<input type="file" name="small_image" class="form-control">
+															<label for="image">Imagen</label>
+															<input type="file" name="image" class="form-control">
 														</div>
 													</div>
 
 													<div id="categories" class="tab-pane">
-														<div class="widget-box widget-color-blue2">
+														<div class="widget-box widget-color-green2">
 															<div class="widget-header">
 																<h4 class="widget-title lighter smaller">Seleccionar categoría
 																</h4>
 															</div>
-
+															
 															<div class="widget-body">
-																<div class="widget-main padding-8">
-																	<ul id="tree2" class="tree tree-unselectable tree-folder-select" role="tree">
-																		<li class="tree-branch hide" data-template="treebranch" role="treeitem" aria-expanded="false">
-																			<i class="icon-caret ace-icon tree-plus"></i>&nbsp;
-																			<div class="tree-branch-header">
-																				<span class="tree-branch-name">
-																					<i class="icon-folder ace-icon fa fa-folder"></i>
-																					<span class="tree-label"></span>
-																				</span>
-																			</div>
-																			<ul class="tree-branch-children" role="group"></ul>
-																			<div class="tree-loader hidden" role="alert">
-																				<div class="tree-loading"><i class="ace-icon fa fa-refresh fa-spin blue"></i>
-																				</div>
-																			</div>
-																		</li>
-																		<li class="tree-item hide" data-template="treeitem" role="treeitem">
-																			<span class="tree-item-name">
-																				<span class="tree-label"></span>
-																			</span>
-																		</li>
+										                        <div class="widget-main padding-8">
+										                            <ul id="tree2" class="tree tree-unselectable tree-folder-select" role="tree">
+										                                <li class="tree-branch hide" data-template="treebranch" role="treeitem" aria-expanded="false">
+										                                    <i class="icon-caret ace-icon tree-plus"></i>&nbsp;
+										                                    <div class="tree-branch-header">
+										                                        <span class="tree-branch-name">
+										                                            <i class="icon-folder ace-icon fa fa-folder"></i>
+										                                            <span class="tree-label"></span>
+										                                        </span>
+										                                    </div>
+										                                    <ul class="tree-branch-children" role="group"></ul>
+										                                    <div class="tree-loader hidden" role="alert">
+										                                        <div class="tree-loading"><i class="ace-icon fa fa-refresh fa-spin blue"></i>
+										                                        </div>
+										                                    </div>
+										                                </li>
+										                                <li class="tree-item hide" data-template="treeitem" role="treeitem">
+										                                    <span class="tree-item-name">
+										                                        <span class="tree-label"></span>
+										                                    </span>
+										                                </li>
 
-																		<li class="tree-branch tree-open" role="treeitem" aria-expanded="true">
-																			<i class="icon-caret ace-icon tree-minus"></i>&nbsp;
-																			<div class="tree-branch-header">					<span class="tree-branch-name">						<i class="icon-folder red ace-icon fa fa-folder-open"></i>
-																					<span class="tree-label">Pictures</span>
-																				</span>
-																			</div>
-																			<ul class="tree-branch-children" role="group">
-																				<li class="tree-branch tree-open tree-selected" role="treeitem" aria-expanded="true">
-																					<i class="icon-caret ace-icon tree-minus"></i>&nbsp;
-																					<div class="tree-branch-header">
-																						<span class="tree-branch-name">
-																							<i class="icon-folder pink ace-icon fa fa-folder-open"></i>
-																							<span class="tree-label">Wallpapers</span>
-																						</span>
-																					</div>
-																					<ul class="tree-branch-children" role="group">
-																						<li class="tree-item" role="treeitem">
-																							<span class="tree-item-name">
-																								<span class="tree-label">
-																									<i class="ace-icon fa fa-picture-o green"></i>wallpaper1.jpg
-																								</span>
-																							</span>
-																						</li>
-																					</ul>
-																				</li>
-																			</ul>
-																		</li>
-																	</ul>
-																</div>
-															</div>
+										                                {!! $htmlCategories !!}
+										                            </ul>
+										                        </div>
+										                    </div>
 														</div>
 													</div>
 
 													<div id="options" class="tab-pane">
-														<p>Options</p>
+														<div class="widget-box">
+															<div class="widget-header">
+																<h4 class="widget-title">Artículos del paquete</h4>
+																<button type="button" class="btn btn-primary btn-xs pull-right btn-items" id="add_option">Agregar nueva opción</button>
+															</div>
+														</div>
+														<div class="items row">
+															
+														</div>
 													</div>
 												</div>
 											</div>
@@ -266,6 +311,28 @@
 		<div class="form-group">
 			<a href="{{route('admins.product.index')}}" class="btn btn-danger"><i class="fa fa-backward"></i> Volver</a>
 			<button class="btn btn-primary"><i class="fa fa-save"></i> Guardar</button>
+		</div>
+	</div>
+</div>
+@endsection
+
+@section('modals')
+<div class="modal" tabindex="-1" role="dialog" id="modal-products">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">Seleccionar productos</h4>
+			</div>
+			<div class="modal-body">
+				<p>Modal body text goes here.</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+				<button type="button" class="btn btn-primary">Guardar</button>
+			</div>
 		</div>
 	</div>
 </div>

@@ -25,10 +25,19 @@ class CategoryController extends BaseController
     ];
 
     function index(){
-    	$store = session('store');
-    	$categories = Category::where('store_id',$store)->select('id','name','level','status')->whereNull('parent_id')->orderBy('position')->get();
+        $htmlCategories = $this->getCategoryData();
+
+    	return view('admin.category.index')->with(compact('htmlCategories'));
+    }
+
+    function getCategoryData($selectable = false){
+        $store = session('store');
         $elements = [];
         $htmlCategories = '';
+
+        $categories = Category::where('store_id',$store)
+        ->select('id','name','level','status')->whereNull('parent_id')
+        ->orderBy('position')->get();
 
         foreach ($categories as $category) {
             $items = $this->buildCategoryTree($category);
@@ -42,19 +51,19 @@ class CategoryController extends BaseController
         }
 
         foreach ($elements as $category) {
-            $htmlCategories .= $this->printCategoryTree($category);    
+            $htmlCategories .= $this->printCategoryTree($category,$selectable);
         }
 
-    	return view('admin.category.index')->with(compact('htmlCategories'));
+        return $htmlCategories;
     }
 
     function buildCategoryTree($category){
         $store = session('store');
-        $categories = Category::where('store_id',$store)->where('parent_id',$category->id)->select('id','name','level','status')->orderBy('position')->get();
         $elements = [];
+        $categories = Category::where('store_id',$store)->where('parent_id',$category->id)
+        ->select('id','name','level','status')->orderBy('position')->get();
 
         if(count($categories)>0){
-
             foreach ($categories as $cat) {
                 $items = $this->buildCategoryTree($cat);
                 $cat->categories = [];
@@ -70,7 +79,7 @@ class CategoryController extends BaseController
         return $elements;
     }
 
-    function printCategoryTree($category){
+    function printCategoryTree($category,$selectable){
         $level = $this::LEVELS[0];
 
         if(isset($this::LEVELS[$category->level])){
@@ -85,24 +94,32 @@ class CategoryController extends BaseController
             $statusIcon = 'cloud-download';
         }
 
-        $htmlCategories = 
-            '<li class="tree-branch tree-open" role="treeitem" aria-expanded="true">'.
-                '<i class="icon-caret ace-icon tree-minus"></i>&nbsp;'.
-                '<div class="tree-branch-header">'.
-                    '<span class="tree-branch-name">'.
-                        '<span class="tree-label">'.$category->name.'</span>&nbsp;'.
-                        '<i class="'.$statusColor.' fa fa-'.$statusIcon.'"></i>'.
-                        '<a href="'.route('admins.category.delete', $category->id).'" data-delete class="ml-5 btn-xs btn-danger pull-right hide"><i class="fa fa-trash"></i></a>'.
-                        '<a href="'.route('admins.category.edit', $category->id).'"  data-update class="ml-5 btn-xs btn-info pull-right hide"><i class="fa fa-pencil"></i></a>'.
-                        '<a href="'.route('admins.category.create', $category->id).'" data-create class="ml-5 btn-xs btn-success pull-right hide"><i class="fa fa-plus"></i></a>'.
-                    '</span>'.
-                '</div>';
+        if($selectable){
+            $htmlCategories = 
+                '<li class="tree-branch tree-open tree-branch-product" role="treeitem" aria-expanded="true" data-category="'.$category->id.'">'.
+                    '<i class="icon-item ace-icon fa fa-times selectable-category"></i>'.
+                    '<span class="tree-label">'.$category->name.'</span>';
+        }else{
+            $htmlCategories = 
+                '<li class="tree-branch tree-open" role="treeitem" aria-expanded="true">'.
+                    '<i class="icon-caret ace-icon tree-minus"></i>&nbsp;'.
+                    '<div class="tree-branch-header">'.
+                        '<span class="tree-branch-name">'.
+                            '<span class="tree-label">'.$category->name.'</span>&nbsp;'.
+                            '<i class="'.$statusColor.' fa fa-'.$statusIcon.'"></i>'.
+                            '<a href="'.route('admins.category.delete', $category->id).'" data-delete class="ml-5 btn-xs btn-danger pull-right hide"><i class="fa fa-trash"></i></a>'.
+                            '<a href="'.route('admins.category.edit', $category->id).'"  data-update class="ml-5 btn-xs btn-info pull-right hide"><i class="fa fa-pencil"></i></a>'.
+                            '<a href="'.route('admins.category.create', $category->id).'" data-create class="ml-5 btn-xs btn-success pull-right hide"><i class="fa fa-plus"></i></a>'.
+                        '</span>'.
+                    '</div>';
+        }
+
 
         if(count($category->categories)>0){
             $htmlCategories .= '<ul class="tree-branch-children" role="group">';
 
             foreach ($category->categories as $cat) {
-                $htmlCategories .= $this->printCategoryTree($cat);
+                $htmlCategories .= $this->printCategoryTree($cat,$selectable);
             }
 
             $htmlCategories .= '</ul>';

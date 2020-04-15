@@ -2,19 +2,19 @@
 
 namespace App;
 
+
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-
 class Customer extends Authenticatable
 {
-    use SoftDeletes;
     use Notifiable;
+    use SoftDeletes;
 
     protected $guard = 'customer';
     protected $primaryKey = 'id';
-    
+
     protected $fillable = [
         'name',
         'lastname',
