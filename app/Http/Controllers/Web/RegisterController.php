@@ -1,15 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Web;
 
 
 use App\Customer;
 use App\Models\Location;
+use App\Models\Zone;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -31,27 +33,30 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    //protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('guest');
+    public function __construct(){
+        $this->middleware('guest:customer');
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
+    public function showRegisterForm(){
+        $polygons = Zone::select('polygon','name')->where('status','enabled')->get()->toArray();
+
+        if($polygons){
+            $polygons = json_encode($polygons);
+        }
+        return view('web.auth.register')->with(compact('polygons'));
+    }
+
+
+    protected function validator(Request $request)
     {
-        return Validator::make($data, [
+        return Validator::make($request, [
             'name' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -69,42 +74,36 @@ class RegisterController extends Controller
         ]);
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\User
-     */
-    protected function create(array $data)
+    protected function create(Request $request)
     {
         $customer = Customer::create([
-            'name' => $data['name'],
-            'lastname' => $data['lastname'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-            'type_doc' => $data['type_doc'],
-            'document' => $data['document'],
-            'birthday' => $data['birthday'],
-            'genre' => $data['genre'],
-            'phone' => $data['phone'],
+            'name' => $request->get('name'),
+            'lastname' => $request->get('lastname'),
+            'email' => $request->get('email'),
+            'password' => bcrypt($request->get('password')),
+            'type_doc' => $request->get('type_doc'),
+            'document' => $request->get('document'),
+            'birthday' => $request->get('birthday'),
+            'genre' => $request->get('genre'),
+            'phone' => $request->get('phone')
         ]);
 
         // TODO: Insert of address
         
         $location = Location::create([
             'customer_id' => $customer->id,
-            'type_doc' => $data['type_doc'],
-            'document' => $data['document'],
-            'address' => $data['address'],
-            'latitude' => $data['latitude'],
-            'longitude' => $data['longitude'],
-            'type_place' => $data['type_place'],
-            'reference' => $data['reference'],
+            'type_doc' => $request->get('type_doc'),
+            'document' => $request->get('document'),
+            'address' => $request->get('address'),
+            'latitude' => $request->get('latitude'),
+            'longitude' => $request->get('longitude'),
+            'type_place' => $request->get('type_place'),
+            'reference' => $request->get('reference')
         ]);
 
         try{
             if(Auth::guard('customer')->attempt(
-                ['email'=> $data['email'],'password'=>bcrypt($data['password'])],
+                ['email'=> $request->email,'password'=>$request->password],
                 0
             )){
                 return redirect()->intended(route('web.home'));
@@ -114,7 +113,7 @@ class RegisterController extends Controller
         }
 
 
-        return redirect()->back()->withInpput($data);
+        return redirect()->back()->withInpput($request);
 
     }
 }

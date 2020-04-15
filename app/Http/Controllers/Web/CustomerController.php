@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
 use App\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 
 class CustomerController extends Controller
 {
@@ -81,5 +83,12 @@ class CustomerController extends Controller
     public function destroy(Customer $customer)
     {
         //
+    }
+
+    public function account()
+    {
+        $user = Auth::guard('customer')->user();
+        //dd($user);
+        return view('web.account.user', compact('user'));
     }
 }

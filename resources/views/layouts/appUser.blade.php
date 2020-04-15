@@ -25,6 +25,11 @@
     <link rel="stylesheet" href="{{ asset('user/css/slicknav.css')}}">
     <link rel="stylesheet" href="{{ asset('user/css/style.css')}}">
     <!-- <link rel="stylesheet" href="css/responsive.css')}}"> -->
+    <style>
+        .black {
+            background: #000000;
+        }
+    </style>
     @yield('styles')
 </head>
 
@@ -34,10 +39,10 @@
 <![endif]-->
 <!-- header-start -->
 <header>
-    <div class="header-area ">
+    <div class="header-area black">
         <div id="sticky-header" class="main-header-area">
             <div class="container-fluid p-0">
-                <div class="row align-items-center no-gutters">
+                <div class="row align-items-center no-gutters ">
                     <div class="col-xl-5 col-lg-5">
                         <div class="main-menu  d-none d-lg-block">
                             <nav>
@@ -75,7 +80,7 @@
                                     <!-- Authentication Links -->
                                     @guest('customer')
                                         <li><a class="@yield('activeLogin')" href="{{ route('web.login.form') }}">Login</a></li>
-                                        <li><a class="@yield('activeRegister')" href="{{ route('register') }}">Register</a></li>
+                                        <li><a class="@yield('activeRegister')" href="{{ route('web.register.form') }}">Register</a></li>
                                     @endguest
                                     @auth('customer')
                                         <li class="dropdown">
@@ -94,6 +99,11 @@
                                                     <form id="logout-form" action="{{ route('web.logout') }}" method="POST" style="display: none;">
                                                         {{ csrf_field() }}
                                                     </form>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ route('web.account.user') }}">
+                                                        Mi cuenta
+                                                    </a>
                                                 </li>
                                             </ul>
                                         </li>

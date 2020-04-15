@@ -89,6 +89,12 @@ Route::group(['middleware' => 'web'], function() {
 				Route::get('/login','LoginController@showLoginForm')->name('login.form');
 				Route::post('/login','LoginController@login')->name('login');
 				Route::post('/logout','LoginController@logout')->name('logout');
+
+                Route::get('/register','RegisterController@showRegisterForm')->name('register.form');
+                Route::post('/register','RegisterController@create')->name('register');
+
+                Route::get('/account/user','CustomerController@account')->name('account.user');
+
 			});
 		});
 	});
