@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController as BaseController;
 use App\Models\Product;
 use App\Models\Category;
+use App\Http\Controllers\Admin\CategoryController;
 
 class ProductController extends BaseController
 {
@@ -16,8 +17,9 @@ class ProductController extends BaseController
     }
 
     public function create(){
-    	//$categories = Category::get()->groupBy('status')->dd();
+    	$categoryController = new CategoryController();
+    	$htmlCategories = $categoryController->getCategoryData(true);
 
-    	return view('admin.product.create')->with(compact('categories'));
+    	return view('admin.product.create')->with(compact('htmlCategories'));
     }
 }
