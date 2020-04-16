@@ -94,6 +94,10 @@ Route::group(['middleware' => 'web'], function() {
                 Route::post('/register','RegisterController@create')->name('register');
 
                 Route::get('/account/user','CustomerController@account')->name('account.user');
+                Route::get('/account/location','CustomerController@location')->name('account.location');
+                Route::get('/account/orders','CustomerController@orders')->name('account.orders');
+
+                Route::post('/account/user','CustomerController@update')->name('customer.update');
 
 			});
 		});
