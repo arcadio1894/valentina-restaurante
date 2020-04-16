@@ -11,6 +11,10 @@ class Location extends Model
 
     protected $fillable = [
         'customer_id',
+        'name',
+        'lastname',
+        'phone',
+        'email',
         'type_doc',
         'document',
         'address',

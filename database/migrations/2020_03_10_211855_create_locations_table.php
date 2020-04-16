@@ -17,9 +17,13 @@ class CreateLocationsTable extends Migration
             $table->increments('id');
             $table->integer('customer_id')->unsigned();
             $table->foreign('customer_id')->references('id')->on('customers');
+            $table->string('name');
+            $table->string('lastname');
+            $table->string('email');
+            $table->string('phone')->nullable();
             $table->enum('type_doc', ['dni', 'passport']);
             $table->string('document');
-            $table->string('address')->nullable();
+            $table->string('address');
             $table->string('latitude');
             $table->string('longitude');
             $table->enum('type_place', ['home', 'business', 'department', 'hotel', 'condominium']);

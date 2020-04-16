@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Customer;
 use App\Models\Location;
+use App\Models\Zone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
@@ -42,37 +43,97 @@ class CustomerController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Customer  $customer
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Customer $customer)
+    public function locationUpdate(Request $request)
     {
-        //
+        $rules = array(
+            'name' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'phone' => 'required|numeric|digits:9',
+            'email' => 'required|string|email|max:255',
+            'type_doc' => 'required|in:dni,passport',
+            'document' => 'required|string|digits_between:8,12',
+            'address' => 'required|string|max:255',
+            'latitude' => 'required|string',
+            'longitude' => 'required|string',
+            'type_place' => 'required|in:home,business,department,hotel,condominium',
+            'reference' => 'string',
+        );
+        $mensajes = array(
+            'name.required' => 'Es necesario ingresar el nombre del usuario',
+            'name.string' => 'El nombre del usuario debe contener sólo caracteres',
+            'name.max' => 'El nombre del usuario debe contener máx. 255 caracteres',
+            'lastname.required' => 'Es necesario ingresar el apellido del usuario',
+            'lastname.string' => 'El apellido del usuario debe contener sólo caracteres',
+            'lastname.max' => 'El apellido del usuario debe contener máx. 255 caracteres',
+            'phone.required' => 'Es necesario ingresar el teléfono de la tienda',
+            'phone.numeric' => 'El teléfono del usuario debe tener sólo números',
+            'phone.digits' => 'El teléfono debe tener 9 digitos',
+            'email.required' => 'Es necesario ingresar el email del usuario',
+            'email.string' => 'El email del usuario debe tener sólo caracteres',
+            'email.email' => 'El email del usuario debe tener el formato de email valido',
+            'email.max' => 'El email del usuario debe tener máx. 255 caracteres',
+            'type_doc.required' => 'Es necesario ingresar el tipo de documento',
+            'type_doc.in' => 'El tipo de documento solo puede ser DNI o pasaporte',
+            'document.required' => 'Es necesario ingresar el documento del usuario',
+            'document.string' => 'El documento debe contener sólo caracteres',
+            'document.digits_between' => 'El documento debe contener entre 8 y 12 digitos',
+            'address.required' => 'Es necesario ingresar la dirección',
+            'address.string' => 'La dirección debe contener caracteres',
+            'address.max' => 'La dirección debe contener máx. 255 caracteres',
+            'latitude.required' => 'Es necesario ingresar la latitud de la dirección.',
+            'latitude.string' => 'La latitud de la dirección esta incorrecta',
+            'longitude.required' => 'Es necesario ingresar la longitud de la dirección.',
+            'longitude.string' => 'La longitud de la dirección esta incorrecta',
+            'type_place.required' => 'Es necesario ingresar el tipo de lugar',
+            'type_place.in' => 'El tipo de documento solo puede ser CASA, DEPARTAMENTO, NEGOCIO, HOTEL o CONDOMINIO',
+            'reference.string' => 'La referencia de la dirección debe ser un texto'
+        );
+        $validator = Validator::make($request->all(), $rules, $mensajes);
+
+        $location = Location::findorfail($request->get('location_id'));
+        if (!$validator->fails()){
+
+            $location->name = $request->get('name');
+            $location->lastname = $request->get('lastname');
+            $location->phone = $request->get('phone');
+            $location->email = $request->get('email');
+            $location->type_doc = $request->get('type_doc');
+            $location->document = $request->get('document');
+            $location->address = $request->get('address');
+            $location->latitude = $request->get('latitude');
+            $location->longitude = $request->get('longitude');
+            $location->type_place = $request->get('type_place');
+            $location->reference = $request->get('reference');
+
+            $location->save();
+        } else {
+            return redirect()->route('web.account.location.edit', $location->id)
+                ->withErrors($validator);
+        }
+
+        return redirect()->route('web.account.location.edit', $location->id)
+            ->with('success', 'Cambios guardados correctamente.');
+
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Customer  $customer
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Customer $customer)
+    public function locationEdit($id)
     {
-        //
+        $location = Location::findorfail($id);
+        $polygons = Zone::select('polygon','name')->where('status','enabled')->get()->toArray();
+
+        if($polygons){
+            $polygons = json_encode($polygons);
+        }
+        //dd($location);
+        return view('web.account.locationEdit', compact('location', 'polygons'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Customer  $customer
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Customer $customer)
+    public function locationDelete(Request $request)
     {
-        //
+        $location = Location::find($request->get('location_id'));
+        $location->delete();
+        return redirect()->route('web.account.location')
+            ->with('success', 'Dirección eliminada correctamente.');
     }
 
     public function account()

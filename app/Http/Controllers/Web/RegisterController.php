@@ -65,7 +65,7 @@ class RegisterController extends Controller
             'document' => 'required|string|digits_between:8,12',
             'birthday' => 'required|date',
             'genre' => 'required|in:male,female',
-            'phone' => 'required|regex:/[0-9]{9}/',
+            'phone' => 'required|numeric|digits:9',
             'address' => 'required|string|max:255',
             'latitude' => 'required|string',
             'longitude' => 'required|string',
@@ -92,6 +92,10 @@ class RegisterController extends Controller
         
         $location = Location::create([
             'customer_id' => $customer->id,
+            'name' => $customer->name,
+            'lastname' => $customer->lastname,
+            'phone' => $customer->phone,
+            'email' => $customer->email,
             'type_doc' => $request->get('type_doc'),
             'document' => $request->get('document'),
             'address' => $request->get('address'),

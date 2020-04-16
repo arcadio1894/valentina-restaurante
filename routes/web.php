@@ -98,6 +98,10 @@ Route::group(['middleware' => 'web'], function() {
                 Route::get('/account/orders','CustomerController@orders')->name('account.orders');
 
                 Route::post('/account/user','CustomerController@update')->name('customer.update');
+                Route::post('/account/location/delete','CustomerController@locationDelete')->name('account.location.delete');
+
+                Route::get('/account/location/edit/{id}','CustomerController@locationEdit')->name('account.location.edit');
+                Route::post('/account/location/update','CustomerController@locationUpdate')->name('account.location.update');
 
 			});
 		});

@@ -74,8 +74,8 @@
                                 <label for="type_doc" class="control-label">Tipo de Documento (*)</label>
                                 <div class="form-select" id="default-select">
                                     <select name="type_doc" id="type_doc" class="">
-                                        <option value="dni" {{ ( $user->genre == 'dni') ? 'selected' : '' }}>DNI</option>
-                                        <option value="passport" {{ ( $user->genre == 'passport') ? 'selected' : '' }}>Pasaporte</option>
+                                        <option value="dni" {{ ( $user->type_doc == 'dni') ? 'selected' : '' }}>DNI</option>
+                                        <option value="passport" {{ ( $user->type_doc == 'passport') ? 'selected' : '' }}>Pasaporte</option>
                                     </select>
 
                                 </div>

@@ -31,6 +31,14 @@
         <br>
         <div class="row">
             <div class="col-sm-12">
+                @if (Session::has('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Éxito!</strong> {{Session::get('success')}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
                 @foreach( $locations as $location )
                     <div class="card">
                         <div class="card-header">
@@ -55,8 +63,16 @@
                                 <span>CASA</span>
                             @endswitch
 
-                            <a href="#" class="genric-btn small-button primary-border btn-sm pull-right"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Eliminar</a>
-                            <a href="#" class="genric-btn small-button primary-border btn-sm pull-right"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;Editar</a>
+                            <a href="{{ route('web.account.location.delete') }}" class="genric-btn small-button primary-border btn-sm pull-right"
+                               onclick="event.preventDefault();
+                               document.getElementById('delete-form').submit();"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Eliminar
+                            </a>
+
+                            <form id="delete-form" action="{{ route('web.account.location.delete') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                                <input type="hidden" name="location_id" value="{{ $location->id }}">
+                            </form>
+                            <a href="{{ route('web.account.location.edit', $location->id) }}" class="genric-btn small-button primary-border btn-sm pull-right"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;Editar</a>
                         </div>
                         <div class="card-body">
                             <h5 style="display:inline" class="card-title">Direccion: </h5>
