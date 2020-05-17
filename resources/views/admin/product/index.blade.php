@@ -9,6 +9,7 @@
             margin-bottom: 15px;
         }
     </style>
+    <link href="{{ asset('css/jquery.toast.css') }}" rel="stylesheet">
 @endsection
 
 @section('breadcrumb')
@@ -38,7 +39,12 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Nombre</th>
+                            <th>Producto</th>
+                            <th>Imagen</th>
+                            <th>Código</th>
+                            <th>Tipo</th>
+                            <th>Precio</th>
+                            <th>Stock</th>
                             <th>Estado</th>
                             <th>Posicion</th>
                             <th>Acción</th>
@@ -52,12 +58,31 @@
                         @else
                             @foreach($products as $key=>$product)
                                 <tr>
-                                    <td>{{ $product->status }}</td>
+                                    <td>{{ $key + 1 }}</td>
+                                    <td>{{ $product->name }}</td>
+                                    <td>
+                                        @if($product->small_image)
+                                            <img src="{{ asset('/admin/assets/images/product/'.$product->small_image) }}" alt="{{ $product->name }}" height="100">
+                                        @endif
+                                    </td>
+                                    <td>{{ $product->code }}</td>
+                                    <td>{{ $product->type === 'simple' ? 'Simple' : 'Paquete' }}</td>
+                                    <td>S/ {{ $product->price }}</td>
+                                    <td>{{ $product->stock }}</td>
+                                    <td>{{ $product->status === 'enabled' ? 'Habilitado' : 'Deshabilitado' }}</td>
                                     <td>{{ $product->position }}</td>
                                     <td>
                                         <a href="{{ route('admins.product.edit', $product->id) }}" class="btn btn-info"><i class="fa fa-pencil"></i> Editar</a>
 
-                                        <a href="{{ route('admins.product.delete', $product->id) }}" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar</a>
+                                        <button
+                                            class="btn btn-danger button-modal-delete" 
+                                            data-modal-configure-title="Eliminar producto"
+                                            data-modal-configure-name="{{ $product->name }}"
+                                            data-modal-configure-id="{{ $product->id }}"
+                                            data-modal-configure-url="{{ route('admins.product.delete') }}"
+                                            >
+                                            <i class="fa fa-trash"></i> Eliminar
+                                        </button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -68,4 +93,9 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('js/jquery.toast.js') }}"></script>
+    <script src="{{ asset('js/admin/functions.js') }}"></script>
 @endsection

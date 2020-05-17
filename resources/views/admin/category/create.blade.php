@@ -34,31 +34,31 @@
 		<input type="hidden" name="parent_id" value="{{ $parent_id }}">
 		<div class="col-md-12">
 			<div class="form-group">
-				<label for="name">Nombre</label>
+				<label for="name">Nombre: <span class="required">*</span></label>
 				<input type="text" name="name" class="form-control">
 			</div>
 		</div>
 		<div class="col-md-12">
 			<div class="form-group">
-				<label for="description">Descripción</label>
+				<label for="description">Descripción: <span class="required">*</span></label>
 				<textarea rows="4" name="description" class="form-control"></textarea>
 			</div>
 		</div>
 		<div class="col-md-12">
 			<div class="form-group">
-				<label for="image">Imagen</label>
+				<label for="image">Imagen: </label>
 				<input type="file" name="image" class="form-control">
 			</div>
 		</div>
 		<div class="col-md-12">
 			<div class="form-group">
-				<label for="position">Posición</label>
+				<label for="position">Posición: <span class="required">*</span></label>
 				<input type="text" name="position" class="form-control">
 			</div>
 		</div>
 		<div class="col-md-12">
 			<div class="form-group">
-				<label for="status">Status</label>
+				<label for="status">Estado: <span class="required">*</span></label>
 				<select name="status" class="form-control">
 					<option value=""> -- Seleccionar -- </option>
 					<option value="enabled">Habilitado</option>
@@ -66,10 +66,16 @@
 				</select>
 			</div>
 		</div>
+
+		<div class="col-md-12">
+			<div class="form-group">
+				<p><span class="required">*</span> campos obligatorios</p>
+			</div>
+		</div>
 		<div class="col-md-12 text-center">
 			<div class="form-group">
 				<a href="{{route('admins.category.index')}}" class="btn btn-danger"><i class="fa fa-backward"></i> Volver</a>
-				<button class="btn btn-primary"><i class="fa fa-save"></i> Guardar</button>
+				<button class="btn btn-primary" id="form-submit"><i class="fa fa-save"></i> Guardar</button>
 			</div>
 		</div>
 	</form>

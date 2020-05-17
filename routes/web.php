@@ -35,7 +35,7 @@ Route::group(['middleware' => 'auth'], function() {
                         Route::post('/store','ZoneController@store')->name('store');
                         Route::get('/edit/{id}','ZoneController@edit')->name('edit');
                         Route::post('/update','ZoneController@update')->name('update');
-                        Route::get('/delete/{id}','ZoneController@delete')->name('delete');
+                        Route::post('/delete','ZoneController@delete')->name('delete');
                         Route::get('/maps','ZoneController@maps')->name('maps');
                     });
 		    	});
@@ -73,7 +73,10 @@ Route::group(['middleware' => 'auth'], function() {
 					Route::namespace('Admin')->group(function() {
 						Route::get('/','ProductController@index')->name('index');
 						Route::get('/create','ProductController@create')->name('create');
-						Route::get('/store','ProductController@store')->name('store');
+						Route::post('/store','ProductController@store')->name('store');
+						Route::get('/edit/{id}','ProductController@edit')->name('edit');
+						Route::post('/delete','ProductController@delete')->name('delete');
+						Route::post('/filterable','ProductController@filterableProducts')->name('filterable');
 					});
 				});
 			});

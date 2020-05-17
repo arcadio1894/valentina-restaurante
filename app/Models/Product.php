@@ -31,4 +31,8 @@ class Product extends Model
 
 	    return $date->format('d-m-Y h:i:s A');
 	}
+
+	public function categories(){
+		return $this->belongsToMany(Category::class)->withPivot('position');
+	}
 }

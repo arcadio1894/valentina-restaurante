@@ -44,6 +44,11 @@
     <script src="{{ asset('admin/assets/js/html5shiv.min.js')}}"></script>
     <script src="{{ asset('admin/assets/js/respond.min.js')}}"></script>
     <![endif]-->
+    <style>
+        .required{
+            color:red;
+        }
+    </style>
     @yield('styles')
 </head>
 
@@ -455,6 +460,29 @@
         <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
     </a>
 </div><!-- /.main-container -->
+
+<div class="modal" tabindex="-1" role="dialog" id="modal-delete">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="modal-configure-title"></h4>
+            </div>
+            <div class="modal-body">
+                <p><strong>¿Está seguro que desea elimiar el siguiente registro?</strong></p>
+                <input type="hidden" id="modal-configure-url">
+                <input type="hidden" id="modal-configure-id">
+                <input type="text" id="modal-configure-name" disabled="true" class="form-control">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-danger" id="button-modal-accept">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @yield('modals')
 
