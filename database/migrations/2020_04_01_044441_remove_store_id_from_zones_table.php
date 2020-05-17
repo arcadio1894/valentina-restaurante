@@ -14,8 +14,8 @@ class RemoveStoreIdFromZonesTable extends Migration
     public function up()
     {
         Schema::table('zones', function(Blueprint $table){
-            $table->dropColumn('store_id');
             $table->dropForeign(['store_id']);
+            $table->dropColumn('store_id');
         });
     }
 
