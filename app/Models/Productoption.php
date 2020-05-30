@@ -8,7 +8,7 @@ class Productoption extends Model
 {
     protected $fillable = [
     	'parent_id',
-		'parent_id',
+		'title',
 		'is_required',
 		'position',
 		'type'

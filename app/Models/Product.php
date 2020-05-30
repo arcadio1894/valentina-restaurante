@@ -22,6 +22,7 @@ class Product extends Model
 		'initial_stock',
 		'stock',
 		'position',
+		'visibility',
 		'status'
 	];
 

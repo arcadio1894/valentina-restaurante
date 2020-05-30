@@ -73,8 +73,8 @@
 		margin: 0 !important;
 	}
 
-	.selection-item{
-		margin: 15px 0 10px 0;
+	.option-object{
+		margin: 20px 0 10px 0;
 	    padding: 10px 0 10px 0;
 		border: 1px solid #2E8965;
 		border-radius: 5px;
@@ -145,7 +145,7 @@
 								<select name="product_type" id="product_type" class="form-control">
 									<option value="">--Seleccionar--</option>
 									<option value="simple">Simple</option>
-									<option value="bundle">Paquete</option>
+									<option value="bundle">Paquete de productos</option>
 								</select>
 								<p class="type-product-error red hide">* Seleccione el tipo de producto</p>
 							</div>
@@ -225,6 +225,19 @@
 															</div>
 															<div class="col-md-6">
 																<div class="form-group">
+																	<label for="visibility">Visibilidad: <span class="required">*</span></label>
+																	<select name="visibility" class="form-control">
+																		<option value="">--Seleccionar--</option>
+																		<option value="catalog">Catálogo</option>
+																		<option value="bundle">Parte de un paquete</option>
+																	</select>
+																</div>
+															</div>
+														</div>
+
+														<div class="row">
+															<div class="col-md-6">
+																<div class="form-group">
 																	<label for="status">Estado: <span class="required">*</span></label>
 																	<select name="status" class="form-control">
 																		<option value="">--Seleccionar--</option>
@@ -291,7 +304,7 @@
 																<button type="button" class="btn btn-primary btn-xs pull-right btn-items" id="add_option">Agregar nueva opción</button>
 															</div>
 														</div>
-														<div class="items row">
+														<div class="option-items row">
 															
 														</div>
 													</div>
@@ -340,8 +353,8 @@
 				<h4 class="modal-title">Seleccionar productos</h4>
 			</div>
 			<div class="modal-body table-responsive">
-				<button class="btn btn-success pull-right mb-4" id="modal-filterable-products"
-				data-modal-filterable-products-url="{{ route('admins.product.filterable') }}"><i class="fa fa-search"></i>&nbsp;Buscar</button>
+				<button class="btn btn-success pull-right mb-4" id="modal-search-products"
+				data-modal-search-products-url="{{ route('admins.product.filterable') }}"><i class="fa fa-search"></i>&nbsp;Buscar</button>
 				<input type="hidden" id="temporay-option-id" value="">
 				<table class="table table-striped">
 					<thead>
@@ -354,14 +367,14 @@
 						</tr>
 						<tr>
 							<th></th>
-							<th><input type="text" class="col-md-12"></th>
-							<th><input type="text"></th>
-							<th><input type="text"></th>
+							<th><input type="text" class="col-md-12" id="modal-search-id"></th>
+							<th><input type="text" id="modal-search-name"></th>
+							<th><input type="text" id="modal-search-code"></th>
 							<th class="col-md-12">
 								<span class="col-md-3 mt-4">Desde:&nbsp;</span>
-								<input type="text" class="col-md-3">
+								<input type="text" class="col-md-3" id="modal-search-min-price">
 								<span class="col-md-3 mt-4">Hasta:&nbsp;</span>
-								<input type="text" class="col-md-3">
+								<input type="text" class="col-md-3" id="modal-search-max-price">
 							</th>
 						</tr>
 					</thead>
@@ -370,7 +383,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-				<button type="button" class="btn btn-primary" id="modal-products-option-items-add">Guardar</button>
+				<button type="button" class="btn btn-primary" id="modal-products-option-items-add">Agregar</button>
 			</div>
 		</div>
 	</div>

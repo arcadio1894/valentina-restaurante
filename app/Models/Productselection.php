@@ -13,7 +13,6 @@ class Productselection extends Model
 		'price',
 		'qty',
 		'parent_product_id',
-		'parent_product_id',
 		'product_id'
     ];
 }

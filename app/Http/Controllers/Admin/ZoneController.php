@@ -45,8 +45,10 @@ class ZoneController extends BaseController
             'message'=>'',
             'url'=>''
         ];
+        $rules = $data,$this::VALIDATION_CONSTRAINTS;
+        $rules['code'] = 'required|unique:zones,code,,,deleted_at,NULL';
         $validator = \Validator::make(
-            $data,$this::VALIDATION_CONSTRAINTS,$this::VALIDATION_MESSAGES
+            $rules,$this::VALIDATION_MESSAGES
         );
 
         if($validator->fails()){
@@ -94,7 +96,7 @@ class ZoneController extends BaseController
             'url'=>''
         ];
 
-        $rules['code'] = 'required|unique:zones,code,'.$data['id'].',id';
+        $rules['code'] = 'required|unique:zones,code,'.$data['id'].',id,deleted_at,NULL';
         $validator = \Validator::make(
             $data,$rules,$this::VALIDATION_MESSAGES
         );
