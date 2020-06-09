@@ -34,7 +34,7 @@
 					<form id="formRegistrar" data-url="{{ route('admins.store.store') }}" class="form-horizontal" role="form" enctype="multipart/form-data">
 						{{ csrf_field() }}
 						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right" for="name"> Nombre: </label>
+							<label class="col-sm-3 control-label no-padding-right" for="name"> Nombre: <span class="required">*</span></label>
 
 							<div class="col-sm-9">
 								<input type="text" id="name" placeholder="Nombre" name="name" class="col-xs-10 col-sm-8" />
@@ -42,7 +42,7 @@
 						</div>
 
 						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right" for="code"> Código: </label>
+							<label class="col-sm-3 control-label no-padding-right" for="code"> Código: <span class="required">*</span></label>
 
 							<div class="col-sm-9">
 								<input type="text" id="code" placeholder="Código" name="code" class="col-xs-10 col-sm-8" />
@@ -71,7 +71,7 @@
                         </div>
 
 						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right" for="search_input"> Dirección: </label>
+							<label class="col-sm-3 control-label no-padding-right" for="search_input"> Dirección: <span class="required">*</span></label>
 
 							<div class="col-sm-9">
 								<input type="text" class="col-xs-10 col-sm-8" name="address" id="search_input" placeholder="Ingrese dirección..." />
@@ -83,7 +83,7 @@
 						</div>
 
 						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right" for="phone"> Teléfono: </label>
+							<label class="col-sm-3 control-label no-padding-right" for="phone"> Teléfono: <span class="required">*</span></label>
 
 							<div class="col-sm-9">
 								<input type="text" id="phone" placeholder="Teléfono" name="phone" class="col-xs-10 col-sm-8" />
@@ -91,7 +91,7 @@
 						</div>
 
                         <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="attention_schedule"> Horario de atención: </label>
+                            <label class="col-sm-3 control-label no-padding-right" for="attention_schedule"> Horario de atención: <span class="required">*</span></label>
 
                             <div class="col-sm-9">
                                 <textarea class=" col-xs-10 col-sm-8" id="attention_schedule" name="attention_schedule" placeholder="Horario de atención"></textarea>
@@ -132,6 +132,11 @@
                                 </select>
 
                             </div>
+                        </div>
+                        <div class="form-group">
+                        	<label class="col-sm-offset-3 col-sm-9 no-padding-right">
+                        		<span class="required">*</span> campos obligatorios
+                        	</label>
                         </div>
 
 						<div class="form-actions center">

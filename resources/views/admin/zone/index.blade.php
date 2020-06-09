@@ -10,6 +10,7 @@
             margin-bottom: 15px;
         }
     </style>
+    <link href="{{ asset('css/jquery.toast.css') }}" rel="stylesheet">
 @endsection
 
 @section('breadcrumb')
@@ -44,6 +45,7 @@
                         <tr>
                             <th>#</th>
                             <th>Zona</th>
+                            <th>Código</th>
                             <th>Estado</th>
                             <th>Fecha de creación</th>
                             <th>Acción</th>
@@ -59,12 +61,21 @@
                                 <tr>
                                     <td>{{ $key+1 }}</td>
                                     <td>{{ $zone->name }}</td>
+                                    <td>{{ $zone->code }}</td>
                                     <td>{{ $zone->status }}</td>
                                     <td>{{ $zone->created_at }}</td>
                                     <td>
                                         <a href="{{ route('admins.zone.edit', $zone->id) }}" class="btn btn-info"><i class="fa fa-pencil"></i> Editar</a>
 
-                                        <a href="{{ route('admins.zone.delete', $zone->id) }}" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar</a>
+                                        <button 
+                                            class="btn btn-danger button-modal-delete" 
+                                            data-modal-configure-title="Eliminar zona"
+                                            data-modal-configure-name="{{ $zone->name }}"
+                                            data-modal-configure-id="{{ $zone->id }}"
+                                            data-modal-configure-url="{{ route('admins.zone.delete') }}"
+                                            >
+                                            <i class="fa fa-trash"></i> Eliminar
+                                        </button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -75,4 +86,9 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('js/jquery.toast.js') }}"></script>
+    <script src="{{ asset('js/admin/functions.js') }}"></script>
 @endsection

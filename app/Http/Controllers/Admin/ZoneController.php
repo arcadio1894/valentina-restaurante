@@ -10,13 +10,14 @@ class ZoneController extends BaseController
 {
     const VALIDATION_CONSTRAINTS = [
         'name'=>'required',
-        'code'=>'required',
+        'code'=>'required|unique:zones,code',
         'status'=>'required',
         'polygon'=>'required'
     ];
     const VALIDATION_MESSAGES = [
         'name.required'=>'El <b>NOMBRE</b> de la zona es requerido',
         'code.required'=>'El <b>CÓDIGO</b> de la zona es requerido',
+        'code.unique'=>'El <b>CÓDIGO</b> de la zona debe ser único',
         'status.required'=>'El <b>ESTADO</b> de la zona es requerido',
         'polygon.required'=>'Debe trazar la <b>ZONA REPARTO</b>'
     ];
@@ -44,8 +45,10 @@ class ZoneController extends BaseController
             'message'=>'',
             'url'=>''
         ];
+        $rules = $data,$this::VALIDATION_CONSTRAINTS;
+        $rules['code'] = 'required|unique:zones,code,,,deleted_at,NULL';
         $validator = \Validator::make(
-            $data,$this::VALIDATION_CONSTRAINTS,$this::VALIDATION_MESSAGES
+            $rules,$this::VALIDATION_MESSAGES
         );
 
         if($validator->fails()){
@@ -85,14 +88,17 @@ class ZoneController extends BaseController
     function update(Request $request){
     	$data = $request->all();
     	$zone = Zone::findOrFail($data['id']);
+        $rules = $this::VALIDATION_CONSTRAINTS;
         $response = [
             'success'=>false,
             'errors'=>[],
             'message'=>'',
             'url'=>''
         ];
+
+        $rules['code'] = 'required|unique:zones,code,'.$data['id'].',id,deleted_at,NULL';
         $validator = \Validator::make(
-            $data,$this::VALIDATION_CONSTRAINTS,$this::VALIDATION_MESSAGES
+            $data,$rules,$this::VALIDATION_MESSAGES
         );
 
         if($validator->fails()){
@@ -124,11 +130,16 @@ class ZoneController extends BaseController
         return response()->json($response);
     }
 
-    function delete($id){
+    function delete(Request $request){
+        $id = $request->get('id');
     	$zone = Zone::findOrFail($id);
     	$zone->delete();
 
-    	return redirect()->route('admins.zone.index')->with('success','Eliminación satisfactoria');
+        $response['success'] = true;
+        $response['message'] = 'Eliminación correcta';
+        $response['url'] = route('admins.zone.index');
+
+    	return response()->json($response);
     }
 
     function maps(){

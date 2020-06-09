@@ -40,19 +40,19 @@
 		<input type="hidden" name="id" value="{{ $zone->id }}">
 		<div class="col-md-6">
 			<div class="form-group">
-				<label for="name">Nombre</label>
+				<label for="name">Nombre: <span class="required">*</span></label>
 				<input type="text" name="name" class="form-control" value="{{ $zone->name }}">
 			</div>
 		</div>
 		<div class="col-md-3">
 			<div class="form-group">
-				<label for="code">Código</label>
+				<label for="code">Código: <span class="required">*</span></label>
 				<input type="text" name="code" class="form-control" value="{{ $zone->code }}">
 			</div>
 		</div>
 		<div class="col-md-3">
 			<div class="form-group">
-				<label for="status">Status</label>
+				<label for="status">Status: <span class="required">*</span></label>
 				<select name="status" class="form-control">
 					<option value="">Seleccionar</option>
 					<option value="enabled" {{ $zone->status == 'enabled'? 'selected':'' }}>Habilitado</option>
@@ -70,10 +70,15 @@
 		        <input type="hidden" name="center" id="center" value="{{ $zone->center }}">
 			</div>
 		</div>
+		<div class="col-md-12">
+			<div class="form-group">
+				<p><span class="required">*</span> campos obligatorios</p>
+			</div>
+		</div>
 		<div class="col-md-12 text-center">
 			<div class="form-group">
 				<a href="{{route('admins.zone.index')}}" class="btn btn-danger"><i class="fa fa-backward"></i> Volver</a>
-				<button class="btn btn-primary"><i class="fa fa-save"></i> Actualizar</button>
+				<button class="btn btn-primary" id="form-submit"><i class="fa fa-save"></i> Actualizar</button>
 			</div>
 		</div>
 	</form>

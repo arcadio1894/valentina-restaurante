@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class RemoveStoreIdFromZonesTable extends Migration
+class RenameCategoryProductsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,7 @@ class RemoveStoreIdFromZonesTable extends Migration
      */
     public function up()
     {
-        Schema::table('zones', function(Blueprint $table){
-            $table->dropForeign(['store_id']);
-            $table->dropColumn('store_id');
-        });
+        Schema::rename('category_products', 'category_product');
     }
 
     /**
@@ -26,8 +23,6 @@ class RemoveStoreIdFromZonesTable extends Migration
      */
     public function down()
     {
-        Schema::table('zones', function(Blueprint $table){
-            $table->integer('store_id')->unsigned()->nullable();
-        });
+        //
     }
 }

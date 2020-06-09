@@ -22,6 +22,7 @@ class Product extends Model
 		'initial_stock',
 		'stock',
 		'position',
+		'visibility',
 		'status'
 	];
 
@@ -30,5 +31,9 @@ class Product extends Model
     	$date->tz ='America/Lima' ;
 
 	    return $date->format('d-m-Y h:i:s A');
+	}
+
+	public function categories(){
+		return $this->belongsToMany(Category::class)->withPivot('position');
 	}
 }

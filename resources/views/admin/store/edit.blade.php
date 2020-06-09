@@ -36,7 +36,7 @@
 
 						<input type="hidden" name="store_id" value="{{ $store->id }}">
 						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right" for="name"> Nombre: </label>
+							<label class="col-sm-3 control-label no-padding-right" for="name"> Nombre: <span class="required">*</span></label>
 
 							<div class="col-sm-9">
 								<input type="text" id="name" placeholder="Nombre" name="name" value="{{ $store->name }}" class="col-xs-10 col-sm-8" />
@@ -44,7 +44,7 @@
 						</div>
 
 						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right" for="code"> Código: </label>
+							<label class="col-sm-3 control-label no-padding-right" for="code"> Código: <span class="required">*</span></label>
 
 							<div class="col-sm-9">
 								<input type="text" id="code" placeholder="Código" name="code" value="{{ $store->code }}" class="col-xs-10 col-sm-85" />
@@ -74,7 +74,7 @@
                         </div>
 
 						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right" for="address"> Dirección: </label>
+							<label class="col-sm-3 control-label no-padding-right" for="address"> Dirección: <span class="required">*</span></label>
 
 							<div class="col-sm-9">
 								<input type="text" class="col-xs-10 col-sm-8" name="address" id="search_input" value="{{ $store->address }}" placeholder="Ingrese dirección..." />
@@ -85,7 +85,7 @@
 						</div>
 
 						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right" for="phone"> Teléfono: </label>
+							<label class="col-sm-3 control-label no-padding-right" for="phone"> Teléfono: <span class="required">*</span></label>
 
 							<div class="col-sm-9">
 								<input type="text" id="phone" placeholder="Teléfono" name="phone" value="{{ $store->phone }}" class="col-xs-10 col-sm-8" />
@@ -93,7 +93,7 @@
 						</div>
 
                         <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="attention_schedule"> Horario de atención: </label>
+                            <label class="col-sm-3 control-label no-padding-right" for="attention_schedule"> Horario de atención: <span class="required">*</span></label>
 
                             <div class="col-sm-9">
                                 <textarea class=" col-xs-10 col-sm-8" id="attention_schedule" name="attention_schedule" placeholder="Horario de atención">{{ $store->attention_schedule }}</textarea>

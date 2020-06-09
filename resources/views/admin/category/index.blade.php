@@ -83,5 +83,7 @@
 @endsection
 
 @section('scripts')
+    <script src="{{ asset('js/jquery.toast.js') }}"></script>
+    <script src="{{ asset('js/admin/functions.js') }}"></script>
     <script src="{{ asset('js/admin/category/index.js') }}"></script>
 @endsection

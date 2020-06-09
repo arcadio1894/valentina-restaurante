@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class RemoveStoreIdFromZonesTable extends Migration
+class AddVisibilityToProductTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class RemoveStoreIdFromZonesTable extends Migration
      */
     public function up()
     {
-        Schema::table('zones', function(Blueprint $table){
-            $table->dropForeign(['store_id']);
-            $table->dropColumn('store_id');
+        Schema::table('products', function(Blueprint $table){
+            $table->enum('visibility',['catalog','bundle'])->after('position');
         });
     }
 
@@ -26,8 +25,8 @@ class RemoveStoreIdFromZonesTable extends Migration
      */
     public function down()
     {
-        Schema::table('zones', function(Blueprint $table){
-            $table->integer('store_id')->unsigned()->nullable();
+        Schema::table('products', function(Blueprint $table){
+            $table->dropColumn('visibility');
         });
     }
 }
