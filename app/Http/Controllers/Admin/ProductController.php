@@ -66,11 +66,11 @@ class ProductController extends BaseController
         $rules['code'] = 'required|unique:products,code,,,deleted_at,NULL';
     	$validator = \Validator::make($data,$rules,$this::VALIDATION_MESSAGES);
 
-        if(empty($options)){
+        if(empty($categories)){
             $validator->errors()->add('categories','Debe asociar el producto a una <strong>CATEGORÍA</strong>');
         }
 
-        if(empty($options)){
+        if(empty($options) && $data['type'] === 'bundle'){
             $validator->errors()->add('options','Debe asociar el producto a sus <strong>OPCIONES</strong>');
         }
 
