@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\User;
+use App\Customer;
 
 class UsersTableSeeder extends Seeder
 {
@@ -23,6 +24,14 @@ class UsersTableSeeder extends Seeder
             'email' => 'juanperez@gmail.com',
             'password' => bcrypt('789456'),
             'role_id' => 2
+        ]);
+        Customer::create([
+            'name' => 'Juan',
+            'lastname' => 'Perez',
+            'email' => 'juanperez@gmail.com',
+            'password' => bcrypt('789456'),
+            'type_doc' => 'dni',
+            'document' => '12345678'
         ]);
         User::create([
             'name' => 'Administrador',

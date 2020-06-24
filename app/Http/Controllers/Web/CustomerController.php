@@ -12,35 +12,106 @@ use Illuminate\Support\Facades\Validator;
 
 class CustomerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         //
+    }
+
+    public function locationCreate()
+    {
+        //dd($user);
+        $customer = Auth::guard('customer')->user();
+        $polygons = Zone::select('polygon','name')->where('status','enabled')->get()->toArray();
+
+        /*if($polygons){
+            $polygons = $polygons;
+        }*/
+        //dd($location);
+        return view('web.account.locationCreate', compact('polygons', 'customer'));
+    }
+
+    public function locationStore( Request $request )
+    {
+        $rules = array(
+            'name' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'phone' => 'required|numeric|digits:9',
+            'email' => 'required|string|email|max:255',
+            'type_doc' => 'required|in:dni,passport',
+            'document' => 'required|string|digits_between:8,12',
+            'address' => 'required|string|max:255',
+            'latitude' => 'required|string',
+            'longitude' => 'required|string',
+            'type_place' => 'required|in:home,business,department,hotel,condominium',
+            'reference' => 'string',
+        );
+        $mensajes = array(
+            'name.required' => 'Es necesario ingresar el nombre del usuario',
+            'name.string' => 'El nombre del usuario debe contener sólo caracteres',
+            'name.max' => 'El nombre del usuario debe contener máx. 255 caracteres',
+            'lastname.required' => 'Es necesario ingresar el apellido del usuario',
+            'lastname.string' => 'El apellido del usuario debe contener sólo caracteres',
+            'lastname.max' => 'El apellido del usuario debe contener máx. 255 caracteres',
+            'phone.required' => 'Es necesario ingresar el teléfono de la tienda',
+            'phone.numeric' => 'El teléfono del usuario debe tener sólo números',
+            'phone.digits' => 'El teléfono debe tener 9 digitos',
+            'email.required' => 'Es necesario ingresar el email del usuario',
+            'email.string' => 'El email del usuario debe tener sólo caracteres',
+            'email.email' => 'El email del usuario debe tener el formato de email valido',
+            'email.max' => 'El email del usuario debe tener máx. 255 caracteres',
+            'type_doc.required' => 'Es necesario ingresar el tipo de documento',
+            'type_doc.in' => 'El tipo de documento solo puede ser DNI o pasaporte',
+            'document.required' => 'Es necesario ingresar el documento del usuario',
+            'document.string' => 'El documento debe contener sólo caracteres',
+            'document.digits_between' => 'El documento debe contener entre 8 y 12 digitos',
+            'address.required' => 'Es necesario ingresar la dirección',
+            'address.string' => 'La dirección debe contener caracteres',
+            'address.max' => 'La dirección debe contener máx. 255 caracteres',
+            'latitude.required' => 'Es necesario ingresar la latitud de la dirección.',
+            'latitude.string' => 'La latitud de la dirección esta incorrecta',
+            'longitude.required' => 'Es necesario ingresar la longitud de la dirección.',
+            'longitude.string' => 'La longitud de la dirección esta incorrecta',
+            'type_place.required' => 'Es necesario ingresar el tipo de lugar',
+            'type_place.in' => 'El tipo de documento solo puede ser CASA, DEPARTAMENTO, NEGOCIO, HOTEL o CONDOMINIO',
+            'reference.string' => 'La referencia de la dirección debe ser un texto'
+        );
+        $validator = Validator::make($request->all(), $rules, $mensajes);
+
+        if (!$validator->fails()){
+            $customer = Auth::guard('customer')->user();
+            $location = Location::create([
+                'customer_id' => $customer->id,
+                'name' => $request->get('name'),
+                'lastname' => $request->get('lastname'),
+                'phone' => $request->get('phone'),
+                'email' => $request->get('email'),
+                'type_doc' => $request->get('type_doc'),
+                'document' => $request->get('document'),
+                'address' => $request->get('address'),
+                'latitude' => $request->get('latitude'),
+                'longitude' => $request->get('longitude'),
+                'type_place' => $request->get('type_place'),
+                'reference' => $request->get('reference')
+            ]);
+
+        } else {
+            return redirect()->route('web.account.locationCreate')
+                ->withErrors($validator);
+        }
+
+        return redirect()->route('web.account.location')
+            ->with('success', 'Cambios guardados correctamente.');
     }
 
     public function locationUpdate(Request $request)
