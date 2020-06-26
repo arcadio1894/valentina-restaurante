@@ -149,7 +149,15 @@ class ProductController extends BaseController
     	return response()->json($response);
     }
 
-    public function edit(){
+    public function edit($id){
+        $product = Product::find($id);
+        $categoryController = new CategoryController();
+        $htmlCategories = $categoryController->getCategoryData(true,$product->getCategoryIds());
+
+        return view('admin.product.update')->with(compact('htmlCategories','product'));
+    }
+
+    public function update(Request $request){
 
     }
 

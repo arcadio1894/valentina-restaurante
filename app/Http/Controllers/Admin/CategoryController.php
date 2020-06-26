@@ -30,7 +30,7 @@ class CategoryController extends BaseController
     	return view('admin.category.index')->with(compact('htmlCategories'));
     }
 
-    function getCategoryData($selectable = false){
+    function getCategoryData($selectable = false,$ids = []){
         $store = session('store');
         $elements = [];
         $htmlCategories = '';
@@ -51,7 +51,7 @@ class CategoryController extends BaseController
         }
 
         foreach ($elements as $category) {
-            $htmlCategories .= $this->printCategoryTree($category,$selectable);
+            $htmlCategories .= $this->printCategoryTree($category,$selectable,$ids);
         }
 
         return $htmlCategories;
@@ -79,8 +79,11 @@ class CategoryController extends BaseController
         return $elements;
     }
 
-    function printCategoryTree($category,$selectable){
+    function printCategoryTree($category,$selectable,$ids = []){
         $level = $this::LEVELS[0];
+        $faTimes = 'fa-times';
+        $selectedCategory = '';
+        $selectedCategoryLabel = '';
 
         if(isset($this::LEVELS[$category->level])){
             $level = $this::LEVELS[$category->level];
@@ -94,11 +97,17 @@ class CategoryController extends BaseController
             $statusIcon = 'cloud-download';
         }
 
+        if(in_array($category->id, $ids)){
+            $faTimes = 'fa-check';
+            $selectedCategory = 'selected-category';
+            $selectedCategoryLabel = 'selected-category-label';
+        }
+
         if($selectable){
             $htmlCategories = 
                 '<li class="tree-branch tree-open tree-branch-product" role="treeitem" aria-expanded="true" data-category="'.$category->id.'">'.
-                    '<i class="icon-item ace-icon fa fa-times selectable-category"></i>'.
-                    '<span class="tree-label">'.$category->name.'</span>';
+                    '<i class="icon-item ace-icon '.$faTimes.' '.$selectedCategory.' fa selectable-category"></i>'.
+                    '<span class="tree-label '.$selectedCategoryLabel.'">'.$category->name.'</span>';
         }else{
             $htmlCategories = 
                 '<li class="tree-branch tree-open" role="treeitem" aria-expanded="true">'.
@@ -119,7 +128,7 @@ class CategoryController extends BaseController
             $htmlCategories .= '<ul class="tree-branch-children" role="group">';
 
             foreach ($category->categories as $cat) {
-                $htmlCategories .= $this->printCategoryTree($cat,$selectable);
+                $htmlCategories .= $this->printCategoryTree($cat,$selectable,$ids);
             }
 
             $htmlCategories .= '</ul>';

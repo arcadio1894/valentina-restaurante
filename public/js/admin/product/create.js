@@ -133,7 +133,7 @@ function main(){
 					'</div>'+
 					'<div class="col-md-3">'+
 						'<label for="is_required">Requerido: <span class="required">*</span></label>'+
-						'<select name="option_type" id="option_type" class="form-control">'+
+						'<select name="is_required" id="is_required" class="form-control">'+
 							'<option value="0">No</option>'+
 							'<option value="1">Sí</option>'+
 						'</select>'+
