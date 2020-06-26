@@ -16,18 +16,17 @@ class LoginController extends Controller{
     }
 
     public function login(Request $request){
+        //dd(bcrypt($request['password']));
     	$this->validate($request,[
     		'email'=>'required|email',
     		'password'=>'required|min:6'
     	]);
 
-
     	if(Auth::guard('customer')->attempt(['email'=> $request->email,'password'=>$request->password],
-			$request->remember
+            false, false
 		)){
     		return redirect()->intended(route('web.home'));
 		}
-
 		return redirect()->back()->withInpput($request->only('email','remember'));
     }
 

@@ -45,7 +45,7 @@ class ZoneController extends BaseController
             'message'=>'',
             'url'=>''
         ];
-        $rules = $data,$this::VALIDATION_CONSTRAINTS;
+        $rules = $this::VALIDATION_CONSTRAINTS;
         $rules['code'] = 'required|unique:zones,code,,,deleted_at,NULL';
         $validator = \Validator::make(
             $rules,$this::VALIDATION_MESSAGES

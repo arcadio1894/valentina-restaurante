@@ -106,7 +106,10 @@ Route::group(['middleware' => 'web'], function() {
                 Route::get('/account/location/edit/{id}','CustomerController@locationEdit')->name('account.location.edit');
                 Route::post('/account/location/update','CustomerController@locationUpdate')->name('account.location.update');
 
-			});
+                Route::get('/account/location/create','CustomerController@locationCreate')->name('account.location.create');
+                Route::post('/account/location/store','CustomerController@locationStore')->name('account.location.store');
+
+            });
 		});
 	});
 });

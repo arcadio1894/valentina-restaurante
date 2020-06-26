@@ -84,7 +84,7 @@
                     </div>
                     <br>
                 @endforeach
-                <a href="#" class="genric-btn small-button primary-border btn-sm pull-right">
+                <a href="{{ route('web.account.location.create') }}" class="genric-btn small-button primary-border btn-sm pull-right">
                     <i class="fa fa-map-marker fa-lg"></i>&nbsp;
                     Agregar dirección
                 </a>
