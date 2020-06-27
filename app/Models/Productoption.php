@@ -13,4 +13,12 @@ class Productoption extends Model
 		'position',
 		'type'
     ];
+
+    public function product(){
+        return $this->belongsTo(Product::class, 'id', 'parent_id');
+    }
+
+    /*public function selections(){
+        return $this->hasMany(Productselection::class, 'parent_product_id', 'id');
+    }*/
 }

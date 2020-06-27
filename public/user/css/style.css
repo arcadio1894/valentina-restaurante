@@ -4619,7 +4619,7 @@ h6 {
 
 /* line 10, ../../Arafath/CL/December/229. Restaurant (Burger)/HTML/scss/_blog.scss */
 .blog_area a {
-  color: #666666 !important;
+  color: #000000 !important;
   text-decoration: none;
   -webkit-transition: 0.5s;
   transition: 0.5s;
@@ -4627,9 +4627,9 @@ h6 {
 
 /* line 14, ../../Arafath/CL/December/229. Restaurant (Burger)/HTML/scss/_blog.scss */
 .blog_area a:hover, .blog_area a :hover {
+  color: #F0542C !important;
   background: -webkit-linear-gradient(131deg, #F0542C 0%, #F0542C 99%);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   text-decoration: none;
   -webkit-transition: 0.5s;
   transition: 0.5s;
