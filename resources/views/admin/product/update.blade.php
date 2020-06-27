@@ -65,7 +65,8 @@
 							
 							<form action="{{ route('admins.product.store') }}" method="post" enctype="multipart/form-data" id="product-form">
 								{{ csrf_field() }}
-								<input type="hidden" name="type" id="type">
+								<input type="hidden" name="product_id" id="product_id" value="{{ $product->id }}">
+								<input type="hidden" id="category_ids" value="{{ json_encode($product->getCategoryIds()) }}">
 								<div class="widget-body">
 									<div class="widget-main padding-6">
 										<div class="tab-content">
@@ -115,8 +116,8 @@
 																<label for="visibility">Visibilidad: <span class="required">*</span></label>
 																<select name="visibility" class="form-control">
 																	<option value="">--Seleccionar--</option>
-																	<option value="catalog" {{ $product->visibility === 'catalog' ? 'selected' : '' }}>Catálogo</option>
-																	<option value="bundle" {{ $product->visibility === 'bundle' ? 'selected' : '' }}>Parte de un paquete</option>
+																	<option value="catalog" {{ $product->visibility === 'catalog' ? 'selected' : '' }}>En catálogo</option>
+																	<option value="bundle" {{ $product->visibility === 'bundle' ? 'selected' : '' }}>No visible individualmente</option>
 																</select>
 															</div>
 														</div>
@@ -217,11 +218,11 @@
 												</div>
 												<div class="option-items row">
 													@foreach($product->options as $option)
-														<div class="row option-object option-{{ $option->id }}">
+														<div class="row option-object option-{{ $option->id }}" data-option-id="{{ $option->id }}">
 															<div class="col-md-12">
 																<div class="col-md-9 mb-10">
 																	<label for="title">Título: <span class="required">*</span></label>
-																	<input type="text" name="title" class="form-control" value="{{ $option->title }}">
+																	<input type="text" class="form-control" value="{{ $option->title }}">
 																</div>
 																<div class="col-md-3 mt-27 mb-10">
 																	<button type="button" class="btn btn-sm btn-danger" data-delete-option="">Eliminar</button>
@@ -230,7 +231,7 @@
 															<div class="col-md-12 mt-4">
 																<div class="col-md-3">
 																	<label for="option_type">Tipo: <span class="required">*</span></label>
-																	<select name="option_type" id="option_type" class="form-control">
+																	<select id="option_type" class="form-control">
 																		<option value="select" {{ $option->type === 'select' ? 'selected' : '' }}>Select</option>
 																		<option value="radio" {{ $option->type === 'radio' ? 'selected' : '' }}>Radio button</option>
 																		<option value="checkbox" {{ $option->type === 'checkbox' ? 'selected' : '' }}>Checkbox</option>
@@ -239,14 +240,14 @@
 																</div>
 																<div class="col-md-3">
 																	<label for="is_required">Requerido: <span class="required">*</span></label>
-																	<select name="is_required" id="is_required" class="form-control">
+																	<select id="is_required" class="form-control">
 																		<option value="0" {{ $option->is_required === 0 ? 'selected' : '' }}>No</option>
 																		<option value="1" {{ $option->is_required === 1 ? 'selected' : '' }}>Sí</option>
 																	</select>
 																</div>
 																<div class="col-md-3">
 																	<label for="position">Posición: <span class="required">*</span></label>
-																	<input type="text" name="position" class="form-control" value="{{ $option->position }}">
+																	<input type="text" class="form-control" value="{{ $option->position }}">
 																</div>
 																<div class="col-md-3">
 																	<div class="btn-label"></div>
@@ -267,12 +268,12 @@
 																	</thead>
 																	<tbody class="option-table-items">
 																		@foreach($option->selections as $selection)
-																			<tr data-selection-id="{{ $selection->product_id }}">
+																			<tr data-product-id="{{ $selection->product_id }}" data-selection-id="{{ $selection->id }}">
 																				<td style="vertical-align:middle">{{ $selection->product->name }}</td>
 																				<td style="vertical-align:middle">{{ $selection->price }}</td>
 																				<td><input type="text" value="{{ $selection->qty }}"></td>
 																				<td><input type="text" value="{{ $selection->position }}"></td>
-																				<td class="text-center"><input type="radio" {{$selection->is_default ? 'checked':'' }}></td>
+																				<td class="text-center"><input type="radio"  name="is_default_{{ $option->id }}" {{$selection->is_default ? 'checked':'' }}></td>
 																				<td><button class="btn btn-danger btn-xs" data-delete-selection=""><i class="fa fa-trash"></i></button></td>
 																			</tr>
 																		@endforeach
@@ -297,7 +298,7 @@
 	<div class="col-md-12 text-center mt-4">
 		<div class="form-group">
 			<a href="{{route('admins.product.index')}}" class="btn btn-danger"><i class="fa fa-backward"></i> Volver</a>
-			<button class="btn btn-primary submit-form hide"><i class="fa fa-save"></i> Guardar</button>
+			<button class="btn btn-primary submit-form"><i class="fa fa-save"></i> Guardar</button>
 		</div>
 	</div>
 </div>

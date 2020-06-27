@@ -8,6 +8,9 @@
         .new{
             margin-bottom: 15px;
         }
+        .image-container img{
+            height: 100px;
+        }
     </style>
     <link href="{{ asset('css/jquery.toast.css') }}" rel="stylesheet">
 @endsection
@@ -45,8 +48,9 @@
                             <th>Tipo</th>
                             <th>Precio</th>
                             <th>Stock</th>
-                            <th>Estado</th>
+                            <th>Visibilidad</th>
                             <th>Posicion</th>
+                            <th>Estado</th>
                             <th>Acción</th>
                         </tr>
                     </thead>
@@ -62,15 +66,18 @@
                                     <td>{{ $product->name }}</td>
                                     <td>
                                         @if($product->small_image)
-                                            <img src="{{ asset('/admin/assets/images/product/'.$product->small_image) }}" alt="{{ $product->name }}" height="100">
+                                            <div class="image-container">
+                                                <img src="{{ asset('/admin/assets/images/product/'.$product->small_image) }}" alt="{{ $product->name }}">
+                                            </div>
                                         @endif
                                     </td>
                                     <td>{{ $product->code }}</td>
                                     <td>{{ $product->type === 'simple' ? 'Simple' : 'Paquete' }}</td>
                                     <td>S/ {{ $product->price }}</td>
                                     <td>{{ $product->stock }}</td>
-                                    <td>{{ $product->status === 'enabled' ? 'Habilitado' : 'Deshabilitado' }}</td>
+                                    <td>{{ $product->visibility === 'catalog' ? 'En catálogo' : 'No visible individualmente' }}</td>
                                     <td>{{ $product->position }}</td>
+                                    <td>{{ $product->status === 'enabled' ? 'Habilitado' : 'Deshabilitado' }}</td>
                                     <td>
                                         <a href="{{ route('admins.product.edit', $product->id) }}" class="btn btn-info"><i class="fa fa-pencil"></i> Editar</a>
 

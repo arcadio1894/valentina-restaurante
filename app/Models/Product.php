@@ -48,6 +48,16 @@ class Product extends Model
 	}
 
 	public function options(){
-		return $this->hasMany('App\Models\Productoption','parent_id');
+		return $this->hasMany('App\Models\Productoption','parent_id')->orderBy('position');
+	}
+
+	public function optionIds(){
+		$ids = array();
+
+		foreach ($this->options as $option) {
+			array_push($ids, $option->id);
+		}
+
+		return $ids;
 	}
 }

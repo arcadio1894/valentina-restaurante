@@ -91,7 +91,6 @@
 		margin-top: 10px;
 		padding:  10px;
 		background-color: #d4d9dc;
-		width: 100px;
 		height: 100px;
 	}
 </style>

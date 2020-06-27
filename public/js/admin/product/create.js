@@ -16,6 +16,7 @@ var $navContentLast;
 var $type;
 var categories = [];
 var items = [];
+var $productId = null;
 
 function main(){
 	var $steps = $('.steps');
@@ -43,12 +44,47 @@ function main(){
 	$navContentLast = $('.tab-content .tab-pane:last-child');
 	$form = $('#product-form');
 	$submitForm = $('.submit-form');
+	$productId = $('#product_id');
 
 	$productType.on('change',function(){
-		if($(this).val()){
-			if(!$productTypeError.hasClass('hide')){
-				$productTypeError.addClass('hide');
-			}
+		var $containerVisibility = $('#container-visibility');
+		var $containerStatus = $('#container-status');
+		var $contentVisibility = '';
+		var $contentStatus = '';
+
+		$contentVisibility =
+			'<div class="form-group">'+
+				'<label for="visibility">Visibilidad: <span class="required">*</span></label>'+
+				'<select name="visibility" class="form-control">'+
+					'<option value="" class="hide">--Seleccionar--</option>'+
+					'<option value="catalog">En catálogo</option>'+
+					'<option value="bundle">No visible individualmente</option>'+
+				'</select>'+
+			'</div>'
+		;
+		$contentStatus = 
+			'<div class="form-group">'+
+				'<label for="status">Estado: <span class="required">*</span></label>'+
+				'<select name="status" class="form-control">'+
+					'<option value="" class="hide">--Seleccionar--</option>'+
+					'<option value="enabled">Habilitado</option>'+
+					'<option value="disabled">Desabilitado</option>'+
+				'</select>'+
+			'</div>	'
+		;
+
+		$containerVisibility.empty();
+		$containerStatus.empty();
+
+		if($(this).val() === 'simple'){
+			$containerVisibility.append($contentVisibility);
+			$containerStatus.append($contentStatus);
+		}else if($(this).val() === 'bundle'){
+			$containerVisibility.append($contentStatus);
+		}
+
+		if(!$productTypeError.hasClass('hide')){
+			$productTypeError.addClass('hide');
 		}
 	});
 
@@ -65,6 +101,10 @@ function main(){
 			}
 		}
 	});
+
+	if($productId && $productId.val()){
+		categories = JSON.parse($('#category_ids').val());
+	}
 
 	/*Manage categories*/
 	$treeBranchProduct.on('click', function(e){
@@ -115,7 +155,7 @@ function main(){
 				'<div class="col-md-12">'+
 					'<div class="col-md-9 mb-10">'+
 						'<label for="title">Título: <span class="required">*</span></label>'+
-						'<input type="text" name="title" class="form-control">'+
+						'<input type="text" class="form-control">'+
 					'</div>'+
 					'<div class="col-md-3 mt-27 mb-10">'+
 						'<button type="button" class="btn btn-sm btn-danger" data-delete-option>Eliminar</button>'+
@@ -124,7 +164,7 @@ function main(){
 				'<div class="col-md-12 mt-4">'+
 					'<div class="col-md-3">'+
 						'<label for="option_type">Tipo: <span class="required">*</span></label>'+
-						'<select name="option_type" id="option_type" class="form-control">'+
+						'<select id="option_type" class="form-control">'+
 							'<option value="select">Select</option>'+
 							'<option value="radio">Radio button</option>'+
 							'<option value="checkbox">Checkbox</option>'+
@@ -133,14 +173,14 @@ function main(){
 					'</div>'+
 					'<div class="col-md-3">'+
 						'<label for="is_required">Requerido: <span class="required">*</span></label>'+
-						'<select name="is_required" id="is_required" class="form-control">'+
+						'<select id="is_required" class="form-control">'+
 							'<option value="0">No</option>'+
 							'<option value="1">Sí</option>'+
 						'</select>'+
 					'</div>'+
 					'<div class="col-md-3">'+
 						'<label for="position">Posición: <span class="required">*</span></label>'+
-						'<input type="text" name="position" class="form-control">'+
+						'<input type="text" class="form-control">'+
 					'</div>'+
 					'<div class="col-md-3">'+
 						'<div class="btn-label"></div>'+
@@ -182,7 +222,7 @@ function main(){
 
 		if($optionItems.children().length > 0){
 			$optionItems.children().each(function(key,tr){
-				ids.push($(tr).data('selection-id'));
+				ids.push($(tr).data('product-id'));
 			});
 		}
 
@@ -253,15 +293,17 @@ function main(){
 		var $optionId = '.option-' + $('#temporay-option-id').val();
 		var $option = $($optionId);
 		var toAppend = '';
+		var now;
 
 		for(var it of items){
+			now = Date.now();
 			toAppend += 
-				'<tr data-selection-id="'+it.id+'">'+
+				'<tr data-product-id="'+it.id+'">'+
 					'<td style="vertical-align:middle">'+it.name+'</td>'+
 					'<td style="vertical-align:middle">'+it.price+'</td>'+
 					'<td><input type="text" value="1" /></td>'+
 					'<td><input type="text" value="0" /></td>'+
-					'<td class="text-center"><input type="radio" /></td>'+
+					'<td class="text-center"><input type="radio" name="is_default_'+$('#temporay-option-id').val()+'"/></td>'+
 					'<td><button class="btn btn-danger btn-xs" data-delete-selection><i class="fa fa-trash"></i></button></td>'+
 				'</tr>'
 			;
@@ -310,7 +352,7 @@ function main(){
 		var $optionObjects = $('.option-object');
 		var options = [];
 
-		if(!$productType.val()){
+		if(!$productType.val() && !$productId && !$productId.val()){
 			return;
 		}
 
@@ -321,28 +363,37 @@ function main(){
 			var option = {};
 			var optionItems = [];
 
+			option.id = '';
 			option.title = $($titleContainer.children().children()[1]).val();
 			option.type = $($($($extraContainer).children()[0]).children()[1]).val();
 			option.is_required = $($($($extraContainer).children()[1]).children()[1]).val();
 			option.position = $($($($extraContainer).children()[2]).children()[1]).val();
 
+			if($productId && $productId.val() && $(this).data('option-id')){
+				option.id = $(this).data('option-id');
+			}
 
 			if($tableContainer){
 				$($tableContainer.children().children()[1]).children().each(function(k,row){
 					var optionItem = {};
 
-					optionItem.product_id = $(row).data('selection-id');
+					optionItem.id = '';
+					optionItem.product_id = $(row).data('product-id');
 					optionItem.name   = $($(row).children()[0]).text();
 					optionItem.price  = $($(row).children()[1]).text();
 					optionItem.qty    = $($(row).children()[2]).children().val();
 					optionItem.position   = $($(row).children()[3]).children().val();
 					optionItem.is_default = $($(row).children()[4]).children().is(':checked')?1:0;
 
+					if($productId && $productId.val() && $(row).data('selection-id')){
+						optionItem.id = $(row).data('selection-id');
+					}
+
 					optionItems.push(optionItem);
 				});
 			}
 
-			option.selections =optionItems;
+			option.selections = optionItems;
 			options.push(option);
 		});
 

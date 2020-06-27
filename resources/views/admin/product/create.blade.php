@@ -60,7 +60,7 @@
 							
 							<div class="form-group">
 								<select name="product_type" id="product_type" class="form-control">
-									<option value="">--Seleccionar--</option>
+									<option value="" class="hide">--Seleccionar--</option>
 									<option value="simple">Simple</option>
 									<option value="bundle">Paquete de productos</option>
 								</select>
@@ -140,28 +140,14 @@
 																	<input type="text" class="form-control" name="position">
 																</div>		
 															</div>
-															<div class="col-md-6">
-																<div class="form-group">
-																	<label for="visibility">Visibilidad: <span class="required">*</span></label>
-																	<select name="visibility" class="form-control">
-																		<option value="">--Seleccionar--</option>
-																		<option value="catalog">Catálogo</option>
-																		<option value="bundle">Parte de un paquete</option>
-																	</select>
-																</div>
+															<div class="col-md-6" id="container-visibility">
+																
 															</div>
 														</div>
 
 														<div class="row">
-															<div class="col-md-6">
-																<div class="form-group">
-																	<label for="status">Estado: <span class="required">*</span></label>
-																	<select name="status" class="form-control">
-																		<option value="">--Seleccionar--</option>
-																		<option value="enabled">Habilitado</option>
-																		<option value="disabled">Desabilitado</option>
-																	</select>
-																</div>	
+															<div class="col-md-6" id="container-status">
+																
 															</div>
 														</div>
 													</div>

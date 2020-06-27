@@ -64,6 +64,20 @@ class ProductController extends BaseController
     	$categories = json_decode($data['categories']);
         $options = json_decode($data['options']);
         $rules['code'] = 'required|unique:products,code,,,deleted_at,NULL';
+        $store = session('store');
+        $data['store_id'] = $store;
+
+        if(isset($data['product_id'])){
+            $productToUpdate = Product::findOrFail($data['product_id']);
+            $rules['code'] = 'required|unique:products,code,'.$data['product_id'].',id,deleted_at,NULL';
+            $data['type'] = $productToUpdate->type;
+            $data['visibility'] = $productToUpdate->visibility;
+        }else{
+            if($data['type'] === 'bundle'){
+                $data['visibility'] = 'catalog';
+            }
+        }
+
     	$validator = \Validator::make($data,$rules,$this::VALIDATION_MESSAGES);
 
         if(empty($categories)){
@@ -88,7 +102,24 @@ class ProductController extends BaseController
         DB::beginTransaction();
 
         try{
-            $product = Product::create($data);
+            if(isset($data['product_id'])){
+                $product = $productToUpdate;
+            }else{
+                $product = new Product();
+            }
+
+            $product->store_id      = $data['store_id'];
+            $product->code          = $data['code'];
+            $product->name          = $data['name'];
+            $product->description   = $data['description'];
+            $product->type          = $data['type'];
+            $product->price         = $data['price'];
+            $product->initial_stock = $data['initial_stock'];
+            $product->stock         = $data['stock'];
+            $product->position      = $data['position'];
+            $product->visibility    = $data['visibility'];
+            $product->status        = $data['status'];
+            $product->save();
 
             if($request->hasFile('image') || $request->hasFile('small_image')){
                 if($request->hasFile('image')){
@@ -114,25 +145,65 @@ class ProductController extends BaseController
 
             $product->categories()->sync($categories);
 
+            if(isset($data['product_id'])){
+                $optionIds = $product->optionIds();
+                $optionsToUpdate = array();
+                $selectionsToDelete = array();
+            }
+
             foreach ($options as $option) {
-                $newOption = Productoption::create([
-                    'parent_id' => $product->id,
-                    'title' => $option->title,
-                    'is_required' => $option->is_required,
-                    'position' => $option->position,
-                    'type' => $option->type
-                ]);
+                $selectionsToUpdate = array();
+                $selectionIds = array();
+
+                if($option->id){
+                    array_push($optionsToUpdate, $option->id);
+                    $newOption = Productoption::findOrFail($option->id);
+                    $selectionIds = $newOption->selectionIds();
+                }else{
+                    $newOption = new Productoption();
+                }
+
+                $newOption->parent_id   = $product->id;
+                $newOption->title       = $option->title;
+                $newOption->is_required = $option->is_required;
+                $newOption->position    = $option->position;
+                $newOption->type        = $option->type;
+                $newOption->save();
 
                 foreach ($option->selections as $selection) {
-                    Productselection::create([
-                        'option_id' => $newOption->id,
-                        'position' => $selection->position,
-                        'is_default' => $selection->is_default,
-                        'price' => $selection->price,
-                        'qty' => $selection->qty,
-                        'parent_product_id' => $product->id,
-                        'product_id' => $selection->product_id
-                    ]);
+                    if($selection->id){
+                        array_push($selectionsToUpdate, $selection->id);
+                        $newSelection = Productselection::findOrFail($selection->id);
+                    }else{
+                        $newSelection = new Productselection();
+                    }
+                   
+                    $newSelection->option_id  = $newOption->id;
+                    $newSelection->position   = $selection->position;
+                    $newSelection->is_default = $selection->is_default;
+                    $newSelection->price      = $selection->price;
+                    $newSelection->qty        = $selection->qty;
+                    $newSelection->parent_product_id = $product->id;
+                    $newSelection->product_id = $selection->product_id;
+                    $newSelection->save();
+                }
+
+                if(!empty($selectionIds)){
+                    array_push($selectionsToDelete, array_diff($selectionIds, $selectionsToUpdate));
+                }
+            }
+
+            if(isset($data['product_id'])){
+                $optionsToDelete = array_diff($optionIds, $optionsToUpdate);
+
+                foreach ($optionsToDelete as $optionId) {
+                    Productoption::findOrFail($optionId)->delete();
+                }
+
+                foreach ($selectionsToDelete as $selectionArray) {
+                    foreach ($selectionArray as $selectionId) {
+                        Productselection::findOrFail($selectionId)->delete();
+                    }
                 }
             }
 
@@ -141,7 +212,8 @@ class ProductController extends BaseController
             $response['url'] = route('admins.product.index');
             DB::commit();
         }catch(\Exception $e){
-            Log::debug($e);
+            Log::debug($optionsToDelete);
+            Log::debug($selectionsToDelete);
             $response['errors'] = ['general'=>[$e->getMessage()]];
             DB::rollback();
         }
@@ -155,10 +227,6 @@ class ProductController extends BaseController
         $htmlCategories = $categoryController->getCategoryData(true,$product->getCategoryIds());
 
         return view('admin.product.update')->with(compact('htmlCategories','product'));
-    }
-
-    public function update(Request $request){
-
     }
 
     public function delete(Request $request){
