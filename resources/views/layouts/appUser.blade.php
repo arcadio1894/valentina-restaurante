@@ -5,7 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Burger</title>
+    <title>Valentina - Restaurante</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -48,7 +48,7 @@
                             <nav>
                                 <ul id="navigation">
                                     <li><a  href="{{ url('/') }}">home</a></li>
-                                    <li><a href="Menu.html">Menu</a></li>
+                                    <li><a class="@yield('activeMenu')" href="{{ route('web.menu') }}">Menu</a></li>
                                     <li><a class="@yield('activeLocals')" href="{{ route('locals') }}">Locales</a></li>
                                     <li><a href="#">blog <i class="ti-angle-down"></i></a>
                                         <ul class="submenu">

@@ -14,6 +14,10 @@ class Productoption extends Model
 		'type'
     ];
 
+    public function product(){
+        return $this->belongsTo(Product::class, 'id', 'parent_id');
+    }
+
     public function selections(){
 		return $this->hasMany('App\Models\Productselection','option_id')->orderBy('position');
 	}
