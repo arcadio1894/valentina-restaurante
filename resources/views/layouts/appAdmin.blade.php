@@ -311,6 +311,32 @@
                 </ul>
             </li>
 
+            <li class="{{route::is('admins.category.index') || route::is('admins.category.create') || route::is('admins.category.edit') || route::is('admins.product.index') || route::is('admins.product.create') ? 'active open' : '' }}">
+                <a href="#" class="dropdown-toggle">
+                    <i class="menu-icon fa fa-coffee"></i>
+                    <span class="menu-text"> Catálogo </span>
+
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+
+                <b class="arrow"></b>
+
+                <ul class="submenu">
+                    <li class="{{route::is('admins.category.index') || route::is('admins.category.create') || route::is('admins.category.edit') ? 'active open' : '' }}">
+                        <a href="{{ route('admins.category.index') }}">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Categorías
+                        </a>
+                    </li>
+                    <li class="{{route::is('admins.product.index') || route::is('admins.product.create') ? 'active open' : '' }}">
+                        <a href="{{ route('admins.product.index') }}">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Productos
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
             <li class="">
                 <a href="#" class="dropdown-toggle">
                     <i class="menu-icon fa fa-shopping-cart"></i>
@@ -343,32 +369,6 @@
                     <i class="menu-icon fa fa-money"></i>
                     <span class="menu-text"> Métodos de pago </span>
                 </a>
-            </li>
-
-            <li class="{{route::is('admins.category.index') || route::is('admins.category.create') || route::is('admins.category.edit') || route::is('admins.product.index') || route::is('admins.product.create') ? 'active open' : '' }}">
-                <a href="#" class="dropdown-toggle">
-                    <i class="menu-icon fa fa-coffee"></i>
-                    <span class="menu-text"> Catálogo </span>
-
-                    <b class="arrow fa fa-angle-down"></b>
-                </a>
-
-                <b class="arrow"></b>
-
-                <ul class="submenu">
-                    <li class="{{route::is('admins.category.index') || route::is('admins.category.create') || route::is('admins.category.edit') ? 'active open' : '' }}">
-                        <a href="{{ route('admins.category.index') }}">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            Categorías
-                        </a>
-                    </li>
-                    <li class="{{route::is('admins.product.index') || route::is('admins.product.create') ? 'active open' : '' }}">
-                        <a href="{{ route('admins.product.index') }}">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            Productos
-                        </a>
-                    </li>
-                </ul>
             </li>
 
             <li class="">
