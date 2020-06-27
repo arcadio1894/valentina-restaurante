@@ -15,4 +15,8 @@ class Productselection extends Model
 		'parent_product_id',
 		'product_id'
     ];
+
+    public function product(){
+    	return $this->belongsTo('App\Models\Product','product_id');
+    }
 }

@@ -36,8 +36,19 @@ class Product extends Model
 	public function categories(){
 		return $this->belongsToMany(Category::class)->withPivot('position');
 	}
-/*
-    public function options(){
-        return $this->hasMany(Productoption::class, 'parent_id', 'id');
-    }*/
+
+	public function getCategoryIds(){
+		$ids = array();
+
+		foreach($this->categories as $category){
+			array_push($ids, $category->id);
+		}
+
+		return $ids;
+	}
+
+	public function options(){
+		return $this->hasMany('App\Models\Productoption','parent_id');
+	}
+
 }
