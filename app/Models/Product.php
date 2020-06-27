@@ -5,15 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
+use Cviebrock\EloquentSluggable\Sluggable;
 
 class Product extends Model
 {
 	use SoftDeletes;
+	use Sluggable;
 
 	protected $fillable = [
 		'store_id',
 		'code',
 		'name',
+		'slug',
 		'description',
 		'type',
 		'small_image',
@@ -25,6 +28,14 @@ class Product extends Model
 		'visibility',
 		'status'
 	];
+
+	public function sluggable(){
+        return [
+            'slug' => [
+                'source' => 'name'
+            ]
+        ];
+    }
 
 	public function getCreatedAtAttribute($date){
     	$date = Carbon::createFromFormat('Y-m-d H:i:s', $date);

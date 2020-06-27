@@ -5,21 +5,32 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
+use Cviebrock\EloquentSluggable\Sluggable;
 
 class Category extends Model
 {
 	use SoftDeletes;
+	use Sluggable;
 
     protected $fillable = [
 		'store_id',
 		'parent_id',
 		'name',
+		'slug',
 		'description',
 		'image',
 		'position',
 		'status',
 		'level'
     ];
+
+     public function sluggable(){
+        return [
+            'slug' => [
+                'source' => 'name'
+            ]
+        ];
+    }
 
     public function getCreatedAtAttribute($date){
     	$date = Carbon::createFromFormat('Y-m-d H:i:s', $date);

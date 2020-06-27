@@ -212,8 +212,7 @@ class ProductController extends BaseController
             $response['url'] = route('admins.product.index');
             DB::commit();
         }catch(\Exception $e){
-            Log::debug($optionsToDelete);
-            Log::debug($selectionsToDelete);
+            Log::debug($e);
             $response['errors'] = ['general'=>[$e->getMessage()]];
             DB::rollback();
         }

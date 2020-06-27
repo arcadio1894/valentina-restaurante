@@ -43,6 +43,7 @@
                         <tr>
                             <th>#</th>
                             <th>Producto</th>
+                            <th>Slug</th>
                             <th>Imagen</th>
                             <th>Código</th>
                             <th>Tipo</th>
@@ -64,6 +65,7 @@
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
                                     <td>{{ $product->name }}</td>
+                                    <td>{{ $product->slug }}</td>
                                     <td>
                                         @if($product->small_image)
                                             <div class="image-container">
