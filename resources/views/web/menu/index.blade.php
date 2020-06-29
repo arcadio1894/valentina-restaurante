@@ -24,15 +24,8 @@ active
     </div>
     <div class="best_burgers_area">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section_title text-center ">
-                        <span>Platos Simples</span>
-                    </div>
-                </div>
-            </div>
-            @foreach( $categories_products_simple as $category )
-
+            @foreach( $categories_products as $category )
+            <div>
                 <div class="col-lg-12">
                     <div class="section_title text-center mb-60">
                         <h3>{{ $category->name }}</h3>
@@ -44,17 +37,31 @@ active
                         <div class="row">
                             <div class="col-xl-6 col-md-6 col-lg-6">
                                 <div class="single_delicious d-flex align-items-center">
-                                    <a href="#">
-                                    <div class="thumb">
-                                        <img src="{{ asset('admin/assets/images/product/'.$product->image) }}" width="166px" height="166px" alt="">
-                                    </div>
-                                    </a>
-                                    <div class="info">
-                                        <a href="#">
-                                        <h3>{{ $product->name }}</h3>
+                                    @if( $product->type = 'simple' )
+                                        <a href="{{ route('web.menu.product.simple', [$product->name, $product->id]) }}">
+                                            <div class="thumb">
+                                                <img src="{{ asset('admin/assets/images/product/'.$product->image) }}" width="166px" height="166px" alt="">
+                                            </div>
                                         </a>
+                                    @else
+                                        <a href="{{ route('web.menu.product.bundle', [$product->name, $product->id]) }}">
+                                            <div class="thumb">
+                                                <img src="{{ asset('admin/assets/images/product/'.$product->image) }}" width="166px" height="166px" alt="">
+                                            </div>
+                                        </a>
+                                    @endif
+                                    <div class="info">
+                                        @if( $product->type = 'simple' )
+                                            <a href="{{ route('web.menu.product.simple', [$product->name, $product->id]) }}"><h3>{{ $product->name }}</h3></a>
+                                        @else
+                                            <a href="{{ route('web.menu.product.bundle', [$product->name, $product->id]) }}"><h3>{{ $product->name }}</h3></a>
+                                        @endif
                                         <p>{{ $product->description }}</p>
-                                        <a href="{{ route('web.menu.product.simple', [$product->name, $product->id]) }}" class="ver">Ver más ...</a>
+                                        @if( $product->type = 'simple' )
+                                            <a href="{{ route('web.menu.product.simple', [$product->name, $product->id]) }}" class="ver">Ver más ...</a>
+                                        @else
+                                            <a href="{{ route('web.menu.product.bundle', [$product->name, $product->id]) }}" class="ver">Ver más ...</a>
+                                        @endif
                                         <span>S/. {{ $product->price }}</span>
                                         <a href="#" class="genric-btn primary circle medium"><i class="fa fa-cart-plus fa-2x vertical" aria-hidden="true"></i></a>
                                     </div>
@@ -63,48 +70,7 @@ active
                         </div>
                     @endif
                 @endforeach
-            @endforeach
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section_title text-center ">
-                        <span>Combos</span>
-                    </div>
-                </div>
             </div>
-            @foreach( $categories_products_bundle as $category )
-
-                <div class="col-lg-12">
-                    <div class="section_title text-center mb-60">
-                        <h3>{{ $category->name }}</h3>
-                    </div>
-                </div>
-
-                @foreach( $category->products as $product )
-                    @if( $product->visibility == 'catalog' )
-                        <div class="row">
-                            <div class="col-xl-6 col-md-6 col-lg-6">
-                                <div class="single_delicious d-flex align-items-center">
-                                    <a href="#">
-                                        <div class="thumb">
-                                            <img src="{{ asset('admin/assets/images/product/'.$product->image) }}" width="166px" height="166px" alt="">
-                                        </div>
-                                    </a>
-                                    <div class="info">
-                                        <a href="#">
-                                            <h3>{{ $product->name }}</h3>
-                                        </a>
-                                        <p>{{ $product->description }}</p>
-                                        <a href="{{ route('web.menu.product.bundle', [$product->name, $product->id]) }}" class="ver">Ver más ...</a>
-                                        <span>{{ $product->price }}</span>
-                                        <a href="#" class="genric-btn primary circle medium"><i class="fa fa-cart-plus fa-2x vertical" aria-hidden="true"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-                @endforeach
             @endforeach
         </div>
     </div>

@@ -11,17 +11,13 @@ class MenuController extends Controller
 {
     public function index()
     {
-        $categories_products_simple = Category::with('products')->whereHas('products', function($q){
-            $q->where('visibility', 'catalog')->where('type', 'simple');
-        })->where('parent_id', null)->get();
-
-        $categories_products_bundle = Category::with('products')->whereHas('products', function($q){
-            $q->where('type', '<>','simple');
+        $categories_products = Category::with('products')->whereHas('products', function($q){
+            $q->where('visibility', 'catalog');
         })->where('parent_id', null)->get();
 
         //dd($categories_products_simple);
 
-        return view('web.menu.index', compact('categories_products_simple', 'categories_products_bundle'));
+        return view('web.menu.index', compact('categories_products'));
     }
 
     public function productSimple($name, $id)
