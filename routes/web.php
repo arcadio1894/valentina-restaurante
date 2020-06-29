@@ -134,9 +134,7 @@ Route::group(['middleware' => 'web'], function() {
                 Route::post('/account/location/store','CustomerController@locationStore')->name('account.location.store');
 
                 Route::get('/menu','MenuController@index')->name('menu');
-                Route::get('/menu/product/{name}/{id}','MenuController@productSimple')->name('menu.product.simple');
-                Route::get('/menu/bundle/{name}/{id}','MenuController@productBundle')->name('menu.product.bundle');
-
+                Route::get('/menu/{categorySlug}/{productSlug}','MenuController@productDetail')->name('menu.productdetail');
             });
 		});
 	});

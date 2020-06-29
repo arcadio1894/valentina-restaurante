@@ -11,22 +11,16 @@ class MenuController extends Controller
 {
     public function index()
     {
-        $categories_products = Category::with('products')->whereHas('products', function($q){
-            $q->where('visibility', 'catalog');
-        })->where('parent_id', null)->get();
+        $categories = Category::has('products')->whereNull('parent_id')->where('status','enabled')->orderBy('position')->get();
 
-        //dd($categories_products_simple);
-
-        return view('web.menu.index', compact('categories_products'));
+        return view('web.menu.index', compact('categories'));
     }
 
-    public function productSimple($name, $id)
+    public function productDetail($categorySlug, $productSlug)
     {
-        //dd($id);
-        $product = Product::with('categories')->find($id);
-        //dd($product);
+        $product = Product::where('slug',$productSlug)->first();
 
-        return view('web.menu.productSimple', compact('product'));
+        return view('web.menu.product-detail', compact('product'));
 
     }
 

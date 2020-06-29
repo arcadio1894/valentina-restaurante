@@ -24,55 +24,41 @@ active
     </div>
     <div class="best_burgers_area">
         <div class="container">
-            @foreach( $categories_products as $category )
-            <div>
+            @foreach( $categories as $category )
+            <div class="row">
                 <div class="col-lg-12">
                     <div class="section_title text-center mb-60">
                         <h3>{{ $category->name }}</h3>
                     </div>
                 </div>
 
-                @foreach( $category->products as $product )
-                    @if( $product->visibility == 'catalog' )
-                        <div class="row">
-                            <div class="col-xl-6 col-md-6 col-lg-6">
-                                <div class="single_delicious d-flex align-items-center">
-                                    @if( $product->type = 'simple' )
-                                        <a href="{{ route('web.menu.product.simple', [$product->name, $product->id]) }}">
-                                            <div class="thumb">
-                                                <img src="{{ asset('admin/assets/images/product/'.$product->image) }}" width="166px" height="166px" alt="">
-                                            </div>
+                <div class="row">
+                    @foreach( $category->products as $product )
+                        <div class="col-xl-6 col-md-6 col-lg-6">
+                            <div class="single_delicious d-flex align-items-center">
+                                <div class="thumb">
+                                    @if($product->image)
+                                        <a href="{{ route('web.menu.productdetail', [$category->slug, $product->slug]) }}">
+                                            <img src="{{ asset('admin/assets/images/product/'.$product->small_image) }}" alt="{{ $product->name }}" height="166" width="166">
                                         </a>
                                     @else
-                                        <a href="{{ route('web.menu.product.bundle', [$product->name, $product->id]) }}">
-                                            <div class="thumb">
-                                                <img src="{{ asset('admin/assets/images/product/'.$product->image) }}" width="166px" height="166px" alt="">
-                                            </div>
+                                        <a href="{{ route('web.menu.productdetail', [$category->slug, $product->slug]) }}">
+                                            <img src="{{ asset('user/img/default2.png') }}" alt="{{ $product->name }}" height="166" width="166">
                                         </a>
                                     @endif
-                                    <div class="info">
-                                        @if( $product->type = 'simple' )
-                                            <a href="{{ route('web.menu.product.simple', [$product->name, $product->id]) }}"><h3>{{ $product->name }}</h3></a>
-                                        @else
-                                            <a href="{{ route('web.menu.product.bundle', [$product->name, $product->id]) }}"><h3>{{ $product->name }}</h3></a>
-                                        @endif
-                                        <p>{{ $product->description }}</p>
-                                        @if( $product->type = 'simple' )
-                                            <a href="{{ route('web.menu.product.simple', [$product->name, $product->id]) }}" class="ver">Ver más ...</a>
-                                        @else
-                                            <a href="{{ route('web.menu.product.bundle', [$product->name, $product->id]) }}" class="ver">Ver más ...</a>
-                                        @endif
-                                        <span>S/. {{ $product->price }}</span>
-                                        <a href="#" class="genric-btn primary circle medium"><i class="fa fa-cart-plus fa-2x vertical" aria-hidden="true"></i></a>
-                                    </div>
+                                </div>
+                                <div class="info">
+                                    <h3>{{ $product->name }}</h3>
+                                    <p align="justify">{{ $product->description }}</p>
+                                    <span>{{ $product->price }}</span>
+                                    <a href="{{ route('web.menu.productdetail', [$category->slug, $product->slug]) }}" class="genric-btn primary circle medium"><i class="fa fa-cart-plus fa-2x vertical" aria-hidden="true"></i></a>
                                 </div>
                             </div>
                         </div>
-                    @endif
-                @endforeach
+                    @endforeach
+                </div>
             </div>
             @endforeach
         </div>
     </div>
-
 @endsection
