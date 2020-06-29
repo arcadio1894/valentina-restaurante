@@ -115,7 +115,7 @@
 															<div class="form-group">
 																<label for="visibility">Visibilidad: <span class="required">*</span></label>
 																<select name="visibility" class="form-control">
-																	<option value="">--Seleccionar--</option>
+																	<option value="" class="hide">--Seleccionar--</option>
 																	<option value="catalog" {{ $product->visibility === 'catalog' ? 'selected' : '' }}>En catálogo</option>
 																	<option value="bundle" {{ $product->visibility === 'bundle' ? 'selected' : '' }}>No visible individualmente</option>
 																</select>
@@ -126,7 +126,7 @@
 															<div class="form-group">
 																<label for="status">Estado: <span class="required">*</span></label>
 																<select name="status" class="form-control">
-																	<option value="">--Seleccionar--</option>
+																	<option value="" class="hide">--Seleccionar--</option>
 																	<option value="enabled" {{ $product->status === 'enabled' ? 'selected' : '' }}>Habilitado</option>
 																	<option value="disabled" {{ $product->status === 'disabled' ? 'selected' : '' }}>Desabilitado</option>
 																</select>
@@ -141,7 +141,7 @@
 															<div class="form-group">
 																<label for="status">Estado: <span class="required">*</span></label>
 																<select name="status" class="form-control">
-																	<option value="">--Seleccionar--</option>
+																	<option value="" class="hide">--Seleccionar--</option>
 																	<option value="enabled" {{ $product->status === 'enabled' ? 'selected' : '' }}>Habilitado</option>
 																	<option value="disabled" {{ $product->status === 'disabled' ? 'selected' : '' }}>Desabilitado</option>
 																</select>

@@ -53,9 +53,9 @@
 			<div class="form-group">
 				<label for="status">Status: <span class="required">*</span></label>
 				<select name="status" class="form-control">
-					<option value="">Seleccionar</option>
+					<option value="" class="hide">Seleccionar</option>
 					<option value="enabled">Habilitado</option>
-					<option value="disabled">Inabilitado</option>
+					<option value="disabled">Deshabilitado</option>
 				</select>
 			</div>
 		</div>

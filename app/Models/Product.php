@@ -59,7 +59,7 @@ class Product extends Model
 	}
 
 	public function options(){
-		return $this->hasMany('App\Models\Productoption','parent_id')->orderBy('position');
+		return $this->hasMany('App\Models\ProductOption','parent_id')->orderBy('position');
 	}
 
 	public function optionIds(){

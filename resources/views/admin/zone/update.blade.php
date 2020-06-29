@@ -54,9 +54,9 @@
 			<div class="form-group">
 				<label for="status">Status: <span class="required">*</span></label>
 				<select name="status" class="form-control">
-					<option value="">Seleccionar</option>
+					<option value="" class="hide">Seleccionar</option>
 					<option value="enabled" {{ $zone->status == 'enabled'? 'selected':'' }}>Habilitado</option>
-					<option value="disabled" {{ $zone->status == 'disabled'? 'selected':'' }}>Inabilitado</option>
+					<option value="disabled" {{ $zone->status == 'disabled'? 'selected':'' }}>Deshabilitado</option>
 				</select>
 			</div>
 		</div>

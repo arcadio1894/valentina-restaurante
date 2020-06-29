@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Productoption extends Model
+class ProductOption extends Model
 {
     protected $fillable = [
     	'parent_id',
@@ -19,7 +19,7 @@ class Productoption extends Model
     }
 
     public function selections(){
-		return $this->hasMany('App\Models\Productselection','option_id')->orderBy('position');
+		return $this->hasMany('App\Models\ProductSelection','option_id')->orderBy('position');
 	}
 
 	public function selectionIds(){

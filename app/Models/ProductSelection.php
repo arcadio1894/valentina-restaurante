@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Productselection extends Model
+class ProductSelection extends Model
 {
     protected $fillable = [
 		'option_id',

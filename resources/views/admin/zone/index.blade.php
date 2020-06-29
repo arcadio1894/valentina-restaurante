@@ -54,7 +54,7 @@
                     <tbody>
                         @if(count($zones) == 0)
                             <tr>
-                                <td colspan="4" class="no-data">No existen datos</td>
+                                <td colspan="6" class="no-data">No existen datos</td>
                             </tr>
                         @else
                             @foreach($zones as $key=>$zone)
