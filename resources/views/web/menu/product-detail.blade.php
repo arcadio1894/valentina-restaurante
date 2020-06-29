@@ -92,6 +92,17 @@ active
 
                     </div>
                 </div>
+                @if($product->type === 'bundle')
+                    <div class="col-lg-12 mt-5">
+                        @foreach($product->options as $option)
+                            <h3>{{ $option->title }}</h3>
+                            
+                            @foreach($option->selections as $selection)
+                            <p>{{ $selection->product->name }} <span> {{ $selection->price }}</span></p>
+                            @endforeach
+                        @endforeach
+                    </div>
+                @endif
             </div>
         </div>
     </section>

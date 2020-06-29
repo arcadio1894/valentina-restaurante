@@ -48,7 +48,16 @@
                             <nav>
                                 <ul id="navigation">
                                     <li><a  href="{{ url('/') }}">home</a></li>
-                                    <li><a class="@yield('activeMenu')" href="{{ route('web.menu') }}">Menu</a></li>
+                                    <li><a class="@yield('activeMenu')" href="{{ route('web.menu') }}">Menu</a>
+                                        @php($menuCategories = App\Models\Category::whereNull('parent_id')->where('status','enabled')->orderBy('position')->select('id','name','slug')->get())
+                                        @if(!empty($menuCategories))
+                                            <ul class="submenu">
+                                                @foreach($menuCategories as $category)
+                                                    <li><a href="{{ route('web.menu.category.products', $category->slug) }}">{{ $category->name }}</a></li>
+                                                @endforeach
+                                            </ul>
+                                        @endif
+                                    </li>
                                     <li><a class="@yield('activeLocals')" href="{{ route('locals') }}">Locales</a></li>
                                     <li><a href="#">blog <i class="ti-angle-down"></i></a>
                                         <ul class="submenu">

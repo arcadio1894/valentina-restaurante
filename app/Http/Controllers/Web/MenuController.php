@@ -9,9 +9,13 @@ use Illuminate\Http\Request;
 
 class MenuController extends Controller
 {
-    public function index()
+    public function index($slug = null)
     {
-        $categories = Category::has('products')->whereNull('parent_id')->where('status','enabled')->orderBy('position')->get();
+        $categories = Category::whereNull('parent_id')->where('status','enabled')->orderBy('position')->get();
+
+        if($slug){
+            $categories = Category::where('slug',$slug)->whereNull('parent_id')->where('status','enabled')->get();
+        }
 
         return view('web.menu.index', compact('categories'));
     }
