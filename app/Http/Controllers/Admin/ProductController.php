@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController as BaseController;
 use App\Models\Product;
-use App\Models\Productoption;
-use App\Models\Productselection;
+use App\Models\ProductOption;
+use App\Models\ProductSelection;
 use App\Models\Category;
 use App\Models\CategoryProduct;
 use App\Http\Controllers\Admin\CategoryController;
@@ -157,10 +157,10 @@ class ProductController extends BaseController
 
                 if($option->id){
                     array_push($optionsToUpdate, $option->id);
-                    $newOption = Productoption::findOrFail($option->id);
+                    $newOption = ProductOption::findOrFail($option->id);
                     $selectionIds = $newOption->selectionIds();
                 }else{
-                    $newOption = new Productoption();
+                    $newOption = new ProductOption();
                 }
 
                 $newOption->parent_id   = $product->id;
@@ -173,9 +173,9 @@ class ProductController extends BaseController
                 foreach ($option->selections as $selection) {
                     if($selection->id){
                         array_push($selectionsToUpdate, $selection->id);
-                        $newSelection = Productselection::findOrFail($selection->id);
+                        $newSelection = ProductSelection::findOrFail($selection->id);
                     }else{
-                        $newSelection = new Productselection();
+                        $newSelection = new ProductSelection();
                     }
                    
                     $newSelection->option_id  = $newOption->id;
@@ -197,12 +197,12 @@ class ProductController extends BaseController
                 $optionsToDelete = array_diff($optionIds, $optionsToUpdate);
 
                 foreach ($optionsToDelete as $optionId) {
-                    Productoption::findOrFail($optionId)->delete();
+                    ProductOption::findOrFail($optionId)->delete();
                 }
 
                 foreach ($selectionsToDelete as $selectionArray) {
                     foreach ($selectionArray as $selectionId) {
-                        Productselection::findOrFail($selectionId)->delete();
+                        ProductSelection::findOrFail($selectionId)->delete();
                     }
                 }
             }

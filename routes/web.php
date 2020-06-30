@@ -80,6 +80,30 @@ Route::group(['middleware' => 'auth'], function() {
 					});
 				});
 			});
+
+			Route::prefix('paymentmethod')->group(function(){
+				Route::name('paymentmethod.')->group(function(){
+					Route::namespace('Admin')->group(function() {
+						Route::get('/','PaymentMethodController@index')->name('index');
+						Route::get('/create','PaymentMethodController@create')->name('create');
+						Route::post('/store','PaymentMethodController@store')->name('store');
+						Route::get('/edit/{id}','PaymentMethodController@edit')->name('edit');
+						Route::post('/delete','PaymentMethodController@delete')->name('delete');
+					});
+				});
+			});
+
+			Route::prefix('shippingmethod')->group(function(){
+				Route::name('shippingmethod.')->group(function(){
+					Route::namespace('Admin')->group(function() {
+						Route::get('/','ShippingMethodController@index')->name('index');
+						Route::get('/create','ShippingMethodController@create')->name('create');
+						Route::post('/store','ShippingMethodController@store')->name('store');
+						Route::get('/edit/{id}','ShippingMethodController@edit')->name('edit');
+						Route::post('/delete','ShippingMethodController@delete')->name('delete');
+					});
+				});
+			});
     	});
     });
 });
@@ -110,9 +134,8 @@ Route::group(['middleware' => 'web'], function() {
                 Route::post('/account/location/store','CustomerController@locationStore')->name('account.location.store');
 
                 Route::get('/menu','MenuController@index')->name('menu');
-                Route::get('/menu/product/{name}/{id}','MenuController@productSimple')->name('menu.product.simple');
-                Route::get('/menu/bundle/{name}/{id}','MenuController@productBundle')->name('menu.product.bundle');
-
+                Route::get('/menu/{categorySlug}','MenuController@index')->name('menu.category.products');
+                Route::get('/menu/{categorySlug}/{productSlug}','MenuController@productDetail')->name('menu.productdetail');
             });
 		});
 	});

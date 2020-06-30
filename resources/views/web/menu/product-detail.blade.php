@@ -43,9 +43,6 @@ active
 @endsection
 
 @section('content')
-    <div class="bradcam_area breadcam_bg">
-        <h3>{{ $product->name }}</h3>
-    </div>
     <section class="blog_area section-padding">
         <div class="container">
             <div class="row">
@@ -53,22 +50,14 @@ active
                     <div class="blog_left_sidebar">
                         <article class="blog_item">
                             <div class="blog_item_img">
-                                <img class="card-img rounded-0" src="{{ asset('admin/assets/images/product/'.$product->image) }}" alt="">
+                                @if($product->image)
+                                    <img class="card-img rounded-0" src="{{ asset('admin/assets/images/product/'.$product->image) }}" alt="{{ $product->name }}" height="405px">
+                                @else
+                                    <img class="card-img rounded-0" src="{{ asset('user/img/default2.png') }}" alt="{{ $product->name }}" height="405px">
+                                @endif
                                 <span class="blog_item_date">
                                     <h3>S/. {{ $product->price }}</h3>
                                 </span>
-                            </div>
-
-                            <div class="blog_details">
-                                <a class="d-inline-block" href="#">
-                                    <h2>{{ $product->name }}</h2>
-                                </a>
-                                <p>{{ $product->description }}</p>
-                                <ul class="blog-info-link">
-                                    @foreach( $product->categories as $category )
-                                    <li><i class="fa fa-hashtag"></i> {{ $category->name }}</li>
-                                    @endforeach
-                                </ul>
                             </div>
                         </article>
                     </div>
@@ -78,9 +67,7 @@ active
                         <aside class="single_sidebar_widget post_category_widget">
                             <br><br><br>
                             <h4 class="widget_title">{{ $product->name }}</h4>
-                            <p>{{ $product->description }}</p>
-                            <p>S/. {{ $product->price }}</p>
-                            <p>Cantidad</p>
+                            <p align="justify">{{ $product->description }}</p>
                             <div class="col-lg-2">
                                 <div class="input-group">
                                     <div>
@@ -105,6 +92,17 @@ active
 
                     </div>
                 </div>
+                @if($product->type === 'bundle')
+                    <div class="col-lg-12 mt-5">
+                        @foreach($product->options as $option)
+                            <h3>{{ $option->title }}</h3>
+                            
+                            @foreach($option->selections as $selection)
+                            <p>{{ $selection->product->name }} <span> {{ $selection->price }}</span></p>
+                            @endforeach
+                        @endforeach
+                    </div>
+                @endif
             </div>
         </div>
     </section>
@@ -141,7 +139,7 @@ active
                 // If is not undefined
 
                 // Increment
-                if(quantity>0){
+                if(quantity>1){
                     $('#quantity').val(quantity - 1);
                 }
             });

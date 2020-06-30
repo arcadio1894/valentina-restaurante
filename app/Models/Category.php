@@ -44,6 +44,6 @@ class Category extends Model
 	}
 
 	public function products(){
-		return $this->belongsToMany(Product::class)->withPivot('position');
+		return $this->belongsToMany(Product::class)->withPivot('position')->where('visibility', 'catalog')->where('status','enabled')->orderBy('position');
 	}
 }

@@ -337,37 +337,17 @@
                 </ul>
             </li>
 
-            <li class="">
-                <a href="#" class="dropdown-toggle">
-                    <i class="menu-icon fa fa-shopping-cart"></i>
-                    <span class="menu-text"> Métodos de envío </span>
-
-                    <b class="arrow fa fa-angle-down"></b>
-                </a>
-
-                <b class="arrow"></b>
-
-                <ul class="submenu">
-                    <li class="">
-                        <a href="form-elements.html">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            Delivery
-                        </a>
-                    </li>
-
-                    <li class="">
-                        <a href="form-elements-2.html">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            Pickup
-                        </a>
-                    </li>
-                </ul>
-            </li>
-
-            <li class="">
-                <a href="#" class="dropdown-toggle">
+            <li class="{{route::is('admins.paymentmethod.index') || route::is('admins.paymentmethod.create') || route::is('admins.paymentmethod.edit') ? 'active open' : '' }}">
+                <a href="{{ route('admins.paymentmethod.index') }}">
                     <i class="menu-icon fa fa-money"></i>
                     <span class="menu-text"> Métodos de pago </span>
+                </a>
+            </li>
+
+            <li class="{{route::is('admins.shippingmethod.index') || route::is('admins.shippingmethod.create') || route::is('admins.shippingmethod.edit') ? 'active open' : '' }}">
+                <a href="{{ route('admins.shippingmethod.index') }}">
+                    <i class="menu-icon fa fa-shopping-cart"></i>
+                    <span class="menu-text"> Métodos de envío </span>
                 </a>
             </li>
 
