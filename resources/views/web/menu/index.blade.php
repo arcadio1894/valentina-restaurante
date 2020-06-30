@@ -37,7 +37,8 @@ active
                         <div class="row">
                             <div class="col-xl-6 col-md-6 col-lg-6">
                                 <div class="single_delicious d-flex align-items-center">
-                                    @if( $product->type = 'simple' )
+
+                                    @if( $product->type == 'simple' )
                                         <a href="{{ route('web.menu.product.simple', [$product->name, $product->id]) }}">
                                             <div class="thumb">
                                                 <img src="{{ asset('admin/assets/images/product/'.$product->image) }}" width="166px" height="166px" alt="">
@@ -51,13 +52,13 @@ active
                                         </a>
                                     @endif
                                     <div class="info">
-                                        @if( $product->type = 'simple' )
+                                        @if( $product->type == 'simple' )
                                             <a href="{{ route('web.menu.product.simple', [$product->name, $product->id]) }}"><h3>{{ $product->name }}</h3></a>
                                         @else
                                             <a href="{{ route('web.menu.product.bundle', [$product->name, $product->id]) }}"><h3>{{ $product->name }}</h3></a>
                                         @endif
                                         <p>{{ $product->description }}</p>
-                                        @if( $product->type = 'simple' )
+                                        @if( $product->type == 'simple' )
                                             <a href="{{ route('web.menu.product.simple', [$product->name, $product->id]) }}" class="ver">Ver más ...</a>
                                         @else
                                             <a href="{{ route('web.menu.product.bundle', [$product->name, $product->id]) }}" class="ver">Ver más ...</a>

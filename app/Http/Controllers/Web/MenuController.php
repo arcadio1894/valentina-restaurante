@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Productoption;
 use Illuminate\Http\Request;
 
 class MenuController extends Controller
@@ -15,7 +16,7 @@ class MenuController extends Controller
             $q->where('visibility', 'catalog');
         })->where('parent_id', null)->get();
 
-        //dd($categories_products_simple);
+        //dd($categories_products);
 
         return view('web.menu.index', compact('categories_products'));
     }
@@ -32,5 +33,8 @@ class MenuController extends Controller
 
 
     public function productBundle($name, $id)
-    {}
+    {
+        $product = Product::with('options.selections')->find($id);
+        dd($product);
+    }
 }
