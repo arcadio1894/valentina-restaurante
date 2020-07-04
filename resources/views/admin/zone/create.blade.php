@@ -45,8 +45,8 @@
 		</div>
 		<div class="col-md-3">
 			<div class="form-group">
-				<label for="code">Código: <span class="required">*</span></label>
-				<input type="text" name="code" class="form-control">
+				<label for="amount">Monto delivery: <span class="required">*</span></label>
+				<input type="integer" name="amount" class="form-control">
 			</div>
 		</div>
 		<div class="col-md-3">

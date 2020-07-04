@@ -40,7 +40,8 @@ class ProductController extends BaseController
     ];
 
     public function index(){
-    	$products = Product::all();
+        $store = session('store');
+    	$products = Product::where('store_id',$store)->get();
 
     	return view('admin.product.index')->with(compact('products'));
     }

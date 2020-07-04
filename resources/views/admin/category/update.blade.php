@@ -64,9 +64,23 @@
 			</div>
 		</div>
 		<div class="col-md-12">
-			<div class="form-group">
-				<label for="position">Posición: <span class="required">*</span></label>
-				<input type="text" name="position" class="form-control" value="{{ $category->position }}">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="position">Posición: <span class="required">*</span></label>
+						<input type="text" name="position" class="form-control" value="{{ $category->position }}">
+					</div>	
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="visible_on_web">Visible en web: <span class="required">*</span></label>
+						<select name="visible_on_web" class="form-control">
+							<option value="" class="hide"> -- Seleccionar -- </option>
+							<option value="1" {{ $category->visible_on_web === 1 ? 'selected' : '' }}>Sí</option>
+							<option value="0" {{ $category->visible_on_web === 0 ? 'selected' : '' }}>No</option>
+						</select>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="col-md-12">

@@ -10,14 +10,14 @@ class ZoneController extends BaseController
 {
     const VALIDATION_CONSTRAINTS = [
         'name'=>'required',
-        'code'=>'required|unique:zones,code',
+        'amount'=>'required|numeric',
         'status'=>'required',
         'polygon'=>'required'
     ];
     const VALIDATION_MESSAGES = [
         'name.required'=>'El <b>NOMBRE</b> de la zona es requerido',
-        'code.required'=>'El <b>CÓDIGO</b> de la zona es requerido',
-        'code.unique'=>'El <b>CÓDIGO</b> de la zona debe ser único',
+        'amount.required'=>'El <b>MONTO DE DELIVERY</b> es requerido',
+        'amount.numeric'=>'El <b>MONTO DE DELIVERY</b> debe ser numérico',
         'status.required'=>'El <b>ESTADO</b> de la zona es requerido',
         'polygon.required'=>'Debe trazar la <b>ZONA REPARTO</b>'
     ];
@@ -45,10 +45,9 @@ class ZoneController extends BaseController
             'message'=>'',
             'url'=>''
         ];
-        $rules = $this::VALIDATION_CONSTRAINTS;
-        $rules['code'] = 'required|unique:zones,code,,,deleted_at,NULL';
+
         $validator = \Validator::make(
-            $rules,$this::VALIDATION_MESSAGES
+            $data,$this::VALIDATION_CONSTRAINTS,$this::VALIDATION_MESSAGES
         );
 
         if($validator->fails()){
@@ -88,7 +87,6 @@ class ZoneController extends BaseController
     function update(Request $request){
     	$data = $request->all();
     	$zone = Zone::findOrFail($data['id']);
-        $rules = $this::VALIDATION_CONSTRAINTS;
         $response = [
             'success'=>false,
             'errors'=>[],
@@ -96,9 +94,8 @@ class ZoneController extends BaseController
             'url'=>''
         ];
 
-        $rules['code'] = 'required|unique:zones,code,'.$data['id'].',id,deleted_at,NULL';
         $validator = \Validator::make(
-            $data,$rules,$this::VALIDATION_MESSAGES
+            $data,$this::VALIDATION_CONSTRAINTS,$this::VALIDATION_MESSAGES
         );
 
         if($validator->fails()){

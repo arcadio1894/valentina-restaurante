@@ -23,7 +23,8 @@ class PaymentMethodController extends BaseController
     ];
 
     public function index(){
-    	$paymentmethods = PaymentMethod::all();
+        $store = session('store');
+    	$paymentmethods = PaymentMethod::where('store_id',$store)->get();
 
     	return view('admin.paymentmethod.index')->with(compact('paymentmethods'));
     }

@@ -23,7 +23,8 @@ class ShippingMethodController extends BaseController
     ];
 
     public function index(){
-    	$shippingmethods = ShippingMethod::all();
+        $store = session('store');
+    	$shippingmethods = ShippingMethod::where('store_id',$store)->get();
 
     	return view('admin.shippingmethod.index')->with(compact('shippingmethods'));
     }

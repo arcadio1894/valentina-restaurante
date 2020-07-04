@@ -17,6 +17,7 @@ class Category extends Model
 		'parent_id',
 		'name',
 		'slug',
+		'visible_on_web',
 		'description',
 		'image',
 		'position',

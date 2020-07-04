@@ -61,7 +61,7 @@
                                 <tr>
                                     <td>{{ $key+1 }}</td>
                                     <td>{{ $zone->name }}</td>
-                                    <td>{{ $zone->code }}</td>
+                                    <td>S/ {{ $zone->amount }}</td>
                                     <td>{{ $zone->status }}</td>
                                     <td>{{ $zone->created_at }}</td>
                                     <td>

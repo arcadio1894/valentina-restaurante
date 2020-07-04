@@ -11,6 +11,7 @@ class CategoryController extends BaseController
     const LEVELS = ['default','red','pink','orange','green'];
     const VALIDATION_CONSTRAINTS = [
         'name'=>'required',
+        'visible_on_web'=>'required',
         'description'=>'required',
         'image'=>'file',
         'position'=>'required|integer',
