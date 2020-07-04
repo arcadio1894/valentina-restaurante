@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Productoption;
 use Illuminate\Http\Request;
 
 class MenuController extends Controller
@@ -31,5 +32,8 @@ class MenuController extends Controller
 
 
     public function productBundle($name, $id)
-    {}
+    {
+        $product = Product::with('options.selections')->find($id);
+        dd($product);
+    }
 }

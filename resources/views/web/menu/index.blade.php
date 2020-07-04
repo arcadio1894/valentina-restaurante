@@ -46,6 +46,7 @@ active
                                             <img src="{{ asset('user/img/default2.png') }}" alt="{{ $product->name }}" height="166" width="166">
                                         </a>
                                     @endif
+
                                 </div>
                                 <div class="info">
                                     <h3>{{ $product->name }}</h3>
