@@ -24,15 +24,10 @@ class MenuController extends Controller
     public function productDetail($categorySlug, $productSlug)
     {
         $product = Product::where('slug',$productSlug)->first();
+        //dd($product->options[0]->selections[0]->product);
 
         return view('web.menu.product-detail', compact('product'));
 
     }
 
-
-    public function productBundle($name, $id)
-    {
-        $product = Product::with('options.selections')->find($id);
-        dd($product);
-    }
 }

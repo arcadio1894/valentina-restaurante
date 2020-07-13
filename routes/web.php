@@ -136,6 +136,7 @@ Route::group(['middleware' => 'web'], function() {
                 Route::get('/menu','MenuController@index')->name('menu');
                 Route::get('/menu/{categorySlug}','MenuController@index')->name('menu.category.products');
                 Route::get('/menu/{categorySlug}/{productSlug}','MenuController@productDetail')->name('menu.productdetail');
+
             });
 		});
 	});
