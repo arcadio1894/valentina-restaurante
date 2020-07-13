@@ -133,11 +133,14 @@ Route::group(['middleware' => 'web'], function() {
                 Route::get('/account/location/create','CustomerController@locationCreate')->name('account.location.create');
                 Route::post('/account/location/store','CustomerController@locationStore')->name('account.location.store');
 
-                Route::get('/menu','MenuController@index')->name('menu');
-                Route::get('/menu/{categorySlug}','MenuController@index')->name('menu.category.products');
-                Route::get('/menu/{categorySlug}/{productSlug}','MenuController@productDetail')->name('menu.productdetail');
-
             });
+
 		});
+
+		Route::name('web.')->group(function(){
+	    	Route::get('/menu','MenuController@index')->name('menu');
+	    	Route::get('/menu/{categorySlug}','MenuController@index')->name('menu.category.products');
+	    	Route::get('/menu/{categorySlug}/{productSlug}','MenuController@productDetail')->name('menu.productdetail');
+	    });
 	});
 });

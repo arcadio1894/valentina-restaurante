@@ -58,7 +58,7 @@
                     <tbody>
                         @if(count($products) == 0)
                             <tr>
-                                <td colspan="4" class="no-data">No existen datos</td>
+                                <td colspan="12" class="no-data">No existen datos</td>
                             </tr>
                         @else
                             @foreach($products as $key=>$product)

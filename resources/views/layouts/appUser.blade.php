@@ -49,7 +49,7 @@
                                 <ul id="navigation">
                                     <li><a  href="{{ url('/') }}">home</a></li>
                                     <li><a class="@yield('activeMenu')" href="{{ route('web.menu') }}">Menu</a>
-                                        @php($menuCategories = App\Models\Category::whereNull('parent_id')->where('status','enabled')->orderBy('position')->select('id','name','slug')->get())
+                                        @php($menuCategories = App\Models\Category::whereNull('parent_id')->where('status','enabled')->where('visible_on_web',1)->orderBy('position')->select('id','name','slug')->get())
                                         @if(!empty($menuCategories))
                                             <ul class="submenu">
                                                 @foreach($menuCategories as $category)

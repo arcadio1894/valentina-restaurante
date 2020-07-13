@@ -12,10 +12,11 @@ class MenuController extends Controller
 {
     public function index($slug = null)
     {
-        $categories = Category::whereNull('parent_id')->where('status','enabled')->orderBy('position')->get();
+        $categories = Category::whereNull('parent_id')->where('status','enabled')->where('visible_on_web',1)->orderBy('position')->get();
 
         if($slug){
-            $categories = Category::where('slug',$slug)->whereNull('parent_id')->where('status','enabled')->get();
+            $categories = Category::where('slug',$slug)->whereNull('parent_id')->where('status','enabled')
+            ->where('visible_on_web',1)->get();
         }
 
         return view('web.menu.index', compact('categories'));

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterStoreIdToZonesTable extends Migration
+class AddAmountToZonesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,7 @@ class AlterStoreIdToZonesTable extends Migration
     public function up()
     {
         Schema::table('zones', function(Blueprint $table){
-            $table->integer('store_id')->unsigned()->nullable();
-            $table->foreign('store_id')->references('id')->on('stores');
+            $table->decimal('amount',6,2)->after('name');
         });
     }
 
@@ -27,8 +26,7 @@ class AlterStoreIdToZonesTable extends Migration
     public function down()
     {
         Schema::table('zones', function(Blueprint $table){
-            $table->dropColumn('store_id');
-            $table->dropForeign(['store_id']);
+            $table->dropColumn('amount');
         });
     }
 }
