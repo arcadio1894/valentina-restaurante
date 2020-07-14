@@ -43,7 +43,22 @@
 
         }
 
+        .multiselected {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+
+        }
+
         [type=radio] + img {
+            cursor: pointer;
+            width: 150px;
+            height: 150px;
+            padding: 10px;
+        }
+
+        .multiselected + img {
             cursor: pointer;
             width: 150px;
             height: 150px;
@@ -52,6 +67,10 @@
 
         /* CHECKED STYLES */
         [type=radio]:checked + img {
+            outline: 1px solid #F0542C;
+        }
+
+        .multiselected:checked + img {
             outline: 1px solid #F0542C;
         }
 
@@ -102,6 +121,14 @@
             display: none;
         }
 
+        input[type="checkbox"][id^="ms"] {
+            display: none;
+        }
+
+        input[type="radio"][id^="cb"] {
+            display: none;
+        }
+
         .label {
             border: 1px solid #fff;
             padding: 10px;
@@ -115,7 +142,6 @@
             -ms-user-select: none;
             user-select: none;
         }
-
 
         label img {
             height: 150px;
@@ -132,9 +158,11 @@
             background-color: grey;
             transform: scale(1);
         }
+
         .everyselection [id^="label"] {
             position: relative;
         }
+
         .plus {
             height: 30px;
             width: 30px;
@@ -143,6 +171,7 @@
             top: -170px;
             left: 30px;
         }
+
         .minus {
             height: 30px;
             width: 30px;
@@ -151,6 +180,7 @@
             top: -170px;
             left: 40px;
         }
+
         .cantidad {
             height: 30px;
             width: 30px;
@@ -162,10 +192,12 @@
             color: #FFFFFF;
             text-align: center;
         }
+
         .nameSelection {
             position: relative;
             top: -75px;
         }
+
         .priceSelection {
             position: relative;
             top: -85px;
@@ -239,21 +271,24 @@ active
                                 <h3>{{ $option->title }}</h3>
                                 @foreach( $option->selections as $selection )
                                     <label>
-                                        <input type="radio" name="{{ $option->type }}" value="{{ $selection->id }}" class="radio">
+                                        <input data-price="{{ $selection->price }}" data-prod="{{ $selection->product->name }}" data-select="{{ $selection->id }}"  type="radio" name="select" value="{{ $selection->id }}" class="radio">
                                         <img src="{{ asset('admin/assets/images/product/'.$selection->product->image) }}" alt="">
-                                        <p>{{ $selection->product->name }}</p>
+                                        <p class="" align="center">{{ $selection->product->name }}</p>
+                                        <p class="" align="center">S/. {{ $selection->price }}</p>
                                     </label>
                                 @endforeach
                                 @break
 
                                 @case('radio')
                                 <h3>{{ $option->title }}</h3>
+
                                 @foreach( $option->selections as $selection )
-                                <label>
-                                    <input type="radio" name="{{ $option->type }}" value="{{ $selection->id }}" class="radio">
-                                    <img src="{{ asset('admin/assets/images/product/'.$selection->product->image) }}" alt="">
-                                    <p>{{ $selection->product->name }}</p>
-                                </label>
+                                    <label>
+                                        <input data-price="{{ $selection->price }}" data-prod="{{ $selection->product->name }}" data-radio="{{ $selection->id }}" type="radio" name="radio" value="{{ $selection->id }}" class="radio">
+                                        <img src="{{ asset('admin/assets/images/product/'.$selection->product->image) }}" alt="">
+                                        <p class="" align="center">{{ $selection->product->name }}</p>
+                                        <p class="" align="center">S/. {{ $selection->price }}</p>
+                                    </label>
                                 @endforeach
                                 @break
 
@@ -277,17 +312,27 @@ active
 
                                 @case('multiselect')
                                 <h3>{{ $option->title }}</h3>
+                                @foreach( $option->selections as $selection )
+                                    <label>
+                                        <input data-price="{{ $selection->price }}" data-prod="{{ $selection->product->name }}" data-multiselect="{{ $selection->id }}" type="checkbox" value="{{ $selection->id }}" id="ms{{ $selection->id }}" class="multiselected">
+                                        <img src="{{ asset('admin/assets/images/product/'.$selection->product->image) }}" alt="">
+                                        <p class="" align="center">{{ $selection->product->name }}</p>
+                                        <p class="" align="center">S/. {{ $selection->price }}</p>
+                                    </label>
+                                @endforeach
 
-                                <ul class="selections">
+                                {{--<ul class="selections">
                                     @foreach( $option->selections as $selection )
                                         <li class="everyselection" id="{{'label'.$selection->id}}">
-                                            <input data-ckeckbox="{{$selection->id}}" type="checkbox" id="{{'cb'.$selection->id}}" />
-                                            <label class="label" for="{{'cb'.$selection->id}}"><img src="{{ asset('admin/assets/images/product/'.$selection->product->image) }}" /></label>
-                                            <p class="nameSelection" align="center">{{ $selection->product->name }}</p>
-                                            <p class="priceSelection" align="center">S/. {{ $selection->price }}</p>
+                                            <input data-price="{{ $selection->price }}" data-prod="{{ $selection->product->name }}" data-multiselect="{{ $selection->id }}" type="checkbox" id="{{'ms'.$selection->id}}" />
+                                            <label class="label" for="{{'cb'.$selection->id}}">
+                                                <img src="{{ asset('admin/assets/images/product/'.$selection->product->image) }}" />
+                                            </label>
+                                            <p align="center">{{ $selection->product->name }}</p>
+                                            <p align="center">S/. {{ $selection->price }}</p>
                                         </li>
                                     @endforeach
-                                </ul>
+                                </ul>--}}
                                 @break
 
                                 @default
@@ -305,9 +350,14 @@ active
 @section('scripts')
     <script>
         $(document).ready(function(){
+            var lastRadio;
+            var lastRadioPrice=0;
+            var lastSelect;
+            var lastSelectPrice=0;
             var quantitiy=0;
             var total=parseFloat( $('#main').val() );
             $('#total').html('Total: S/. '+total);
+
             $('.quantity-right-plus').click(function(e){
                 // Stop acting like a button
                 e.preventDefault();
@@ -380,6 +430,61 @@ active
                     }
                 }
             });
+
+            $("input[name=radio]").change(function () {
+                var selection = $(this).data('radio');
+                var nameProduct = $(this).data('prod');
+                var priceProduct = $(this).data('price');
+
+                $("#ps_"+lastRadio).remove();
+                total -= parseFloat(lastRadioPrice);
+
+                $('#products_added').append('<p id="ps_'+selection+'" align="justify">'+nameProduct+': S/. '+priceProduct+'</p>');
+                total += parseFloat(priceProduct);
+                $('#total').html('Total: S/. '+total);
+
+                lastRadio = $(this).val();
+                lastRadioPrice = parseFloat($(this).data('price'));
+                console.log(lastRadio);
+
+            });
+
+            $("input[name=select]").change(function () {
+                var selection = $(this).data('select');
+                var nameProduct = $(this).data('prod');
+                var priceProduct = $(this).data('price');
+
+                $("#ps_"+lastSelect).remove();
+                total -= parseFloat(lastSelectPrice);
+
+                $('#products_added').append('<p id="ps_'+selection+'" align="justify">'+nameProduct+': S/. '+priceProduct+'</p>');
+                total += parseFloat(priceProduct);
+                $('#total').html('Total: S/. '+total);
+
+                lastSelect = $(this).val();
+                lastSelectPrice = parseFloat($(this).data('price'));
+
+            });
+
+            $('input[class=multiselected]').click(function () {
+                var selection = $(this).data('multiselect');
+                var nameProduct = $(this).data('prod');
+                var priceProduct = $(this).data('price');
+
+                if($(this).prop("checked") == true){
+
+                    $('#products_added').append('<p id="ps_'+selection+'" align="justify">'+nameProduct+': S/. '+priceProduct+'</p>');
+                    total += parseFloat(priceProduct);
+                    $('#total').html('Total: S/. '+total);
+
+                }
+                else if($(this).prop("checked") == false){
+                    $("#ps_"+selection).remove();
+                    total -= parseFloat(priceProduct);
+                    $('#total').html('Total: S/. '+total);
+                }
+            });
+
 
         });
     </script>
