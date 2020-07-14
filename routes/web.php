@@ -104,6 +104,19 @@ Route::group(['middleware' => 'auth'], function() {
 					});
 				});
 			});
+
+            Route::prefix('customer')->group(function() {
+                Route::name('customer.')->group(function() {
+                    Route::namespace('Admin')->group(function() {
+                        Route::get('/','CustomerController@index')->name('index');
+                        Route::get('/create','CustomerController@create')->name('create');
+                        Route::post('/store','CustomerController@store')->name('store');
+                        Route::get('/edit/{id}','CustomerController@edit')->name('edit');
+                        Route::post('/update','CustomerController@update')->name('update');
+                        Route::post('/delete','CustomerController@delete')->name('delete');
+                    });
+                });
+            });
     	});
     });
 });

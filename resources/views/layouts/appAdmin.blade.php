@@ -250,8 +250,8 @@
                 <b class="arrow"></b>
 
                 <ul class="submenu">
-                    <li class="">
-                        <a href="typography.html">
+                    <li class="{{route::is('admins.customer.index') || route::is('admins.customer.create') || route::is('admins.customer.edit') ? 'active open' : '' }}">
+                        <a href="{{ route('admins.customer.index')}}">
                             <i class="menu-icon fa fa-caret-right"></i>
                             Clientes
                         </a>
