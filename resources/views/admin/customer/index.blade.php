@@ -32,7 +32,7 @@
     <div class="col-md-10 col-md-offset-1">
         <div class="row new">
             <div class="col-md-12">
-                <a href="{{route('admins.store.create')}}" class="btn btn-success">Nuevo cliente</a>
+                <a href="{{route('admins.customer.create')}}" class="btn btn-success">Nuevo cliente</a>
             </div>
         </div>
         <div class="row">

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Customer;
+use App\Models\Location;
+use App\Models\Zone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\BaseController as BaseController;
@@ -28,7 +30,12 @@ class CustomerController extends BaseController
      */
     public function create()
     {
-        return view('admin.store.create');
+        $polygons = Zone::select('polygon','name')->where('status','enabled')->get()->toArray();
+
+        if($polygons){
+            $polygons = json_encode($polygons);
+        }
+        return view('admin.customer.create')->with(compact('polygons'));
     }
 
     /**
@@ -40,16 +47,20 @@ class CustomerController extends BaseController
     public function store(Request $request)
     {
         $rules = array(
-            'name' => 'required|min:4',
-            'code' => 'required|min:2|unique:stores,code',
-            'service' => 'required',
-            'address' => 'required|min:4',
-            'phone' => 'required|min:6',
-            'attention_schedule' => 'required|min:6',
-            'latitude' => 'required',
-            'longitude' => 'required',
-            'order' => 'required',
-            'status' => 'required',
+            'name' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!_@$%^&*-]).{6,}$/|confirmed',
+            'type_doc' => 'required|in:dni,passport',
+            'document' => 'required|string|digits_between:8,12',
+            'birthday' => 'required|date',
+            'genre' => 'required|in:male,female',
+            'phone' => 'required|numeric|digits:9',
+            'address' => 'required|string|max:255',
+            'latitude' => 'required|string',
+            'longitude' => 'required|string',
+            'type_place' => 'required|in:home,business,department,hotel,condominium',
+            'reference' => 'string',
         );
         $mensajes = array(
             'name.required' => 'Es necesario ingresar el nombre de la tienda',
@@ -79,31 +90,34 @@ class CustomerController extends BaseController
         });
 
         if (!$validator->fails()){
-            $store = Store::create([
+            $customer = Customer::create([
                 'name' => $request->get('name'),
-                'code' => $request->get('code'),
-                'service' => $request->get('service'),
+                'lastname' => $request->get('lastname'),
+                'email' => $request->get('email'),
+                'password' => bcrypt($request->get('password')),
+                'type_doc' => $request->get('type_doc'),
+                'document' => $request->get('document'),
+                'birthday' => $request->get('birthday'),
+                'genre' => $request->get('genre'),
+                'phone' => $request->get('phone')
+            ]);
+
+            // TODO: Insert of address
+
+            $location = Location::create([
+                'customer_id' => $customer->id,
+                'name' => $customer->name,
+                'lastname' => $customer->lastname,
+                'phone' => $customer->phone,
+                'email' => $customer->email,
+                'type_doc' => $request->get('type_doc'),
+                'document' => $request->get('document'),
                 'address' => $request->get('address'),
-                'phone' => $request->get('phone'),
-                'attention_schedule' => $request->get('attention_schedule'),
                 'latitude' => $request->get('latitude'),
                 'longitude' => $request->get('longitude'),
-                'order' => $request->get('order'),
-                'status' => $request->get('status')
+                'type_place' => $request->get('type_place'),
+                'reference' => $request->get('reference')
             ]);
-            if ( $request->file('image') )
-            {
-                $path = public_path().'/admin/assets/images/stores';
-                $extension = $request->file('image')->getClientOriginalExtension();
-                $filename = $store->id . '.' . $extension;
-                $request->file('image')->move($path, $filename);
-                $store->image = $filename;
-            } else {
-                $validator->after(function ($validator){
-                    $validator->errors()->add('image', 'Es necesario ingresar una imagen');
-                });
-            }
-            $store->save();
         }
 
         return response()->json($validator->messages(),200);
@@ -128,9 +142,17 @@ class CustomerController extends BaseController
      */
     public function edit($id)
     {
-        $store = Store::findOrFail($id);
+        $customer = Customer::findOrFail($id);
 
-        return view('admin.store.edit')->with(compact('store'));
+        $locations = Location::where('customer_id', $customer->id)->get();
+
+        $polygons = Zone::select('polygon','name')->where('status','enabled')->get()->toArray();
+
+        if($polygons){
+            $polygons = json_encode($polygons);
+        }
+
+        return view('admin.customer.edit')->with(compact('customer', 'locations', 'polygons'));
     }
 
     /**
@@ -142,66 +164,47 @@ class CustomerController extends BaseController
     public function update(Request $request)
     {
         $rules = array(
-            'name' => 'required|min:4',
-            'code' => 'required|min:2',
-            'service' => 'required',
-            'address' => 'required|min:4',
-            'phone' => 'required|min:6',
-            'attention_schedule' => 'required|min:6',
-            'latitude' => 'required',
-            'longitude' => 'required',
-            'order' => 'required',
-            'status' => 'required',
+            'name' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'birthday' => 'required|date',
+            'phone' => 'required|numeric|digits:9',
+            'document' => 'required|string|digits_between:8,12',
+            'genre' => 'required|in:male,female',
+            'type_doc' => 'required|in:dni,passport',
         );
         $mensajes = array(
-            'name.required' => 'Es necesario ingresar el nombre de la tienda',
-            'name.min' => 'El nombre de la tienda debe tener por lo menos 4 caracteres',
-            'code.required' => 'Es necesario ingresar un codigo a la tienda',
-            'code.min' => 'El código de la tienda debe tener por lo menos 2 caracteres',
-            'service.required' => 'Es necesario ingresar el tipo de servicio de la tienda',
-            'address.required' => 'Es necesario ingresar la dirección de la tienda',
-            'address.min' => 'La dirección de la tienda debe tener minimo 4 caracteres',
+            'name.required' => 'Es necesario ingresar el nombre del usuario',
+            'name.string' => 'El nombre del usuario debe contener sólo caracteres',
+            'name.max' => 'El nombre del usuario debe contener máx. 255 caracteres',
+            'lastname.required' => 'Es necesario ingresar el apellido del usuario',
+            'lastname.string' => 'El apellido del usuario debe contener sólo caracteres',
+            'lastname.max' => 'El apellido del usuario debe contener máx. 255 caracteres',
+            'birthday.required' => 'Es necesario ingresar la fecha de nacimiento del usuario',
+            'birthday.date' => 'Es necesario que la fecha sea una fecha',
             'phone.required' => 'Es necesario ingresar el teléfono de la tienda',
-            'phone.min' => 'El teléfono de la tienda debe tener minimo 6 caracteres',
-            'attention_schedule.required' => 'Es necesario ingresar el horario de atención de la tienda',
-            'attention_schedule.min' => 'El horario de la tienda debe tener minimo 6 caracteres',
-            'latitude.required' => 'Es necesario ingresar la latitud de la tienda',
-            'longitude.required' => 'Es necesario ingresar la longitud de la tienda',
-            'order.required' => 'Es necesario ingresar el orden de la tienda',
-            'status.required' => 'Es necesario ingresar el estado de la tienda'
+            'phone.numeric' => 'El teléfono del usuario debe tener sólo números',
+            'phone.size' => 'El teléfono debe tener 9 digitos',
+            'document.required' => 'Es necesario ingresar el documento del usuario',
+            'document.string' => 'El apellido del usuario debe contener sólo caracteres',
+            'document.digits_between' => 'La cantidad de números puede ser entre 8 y 12',
+            'genre.required' => 'Es necesario ingresar el género del usuario',
+            'genre.in' => 'El género puede ser masculino o femenino',
+            'type_doc.required' => 'Es necesario ingresar el tipo de documento',
+            'type_doc.in' => 'El tipo de documento solo puede ser DNI o pasaporte'
         );
         $validator = Validator::make($request->all(), $rules, $mensajes);
 
-        // TODO: Validar el rol de usuario
-        $validator->after(function ($validator){
-            /*if (Auth::user()->role_id > 1 ) {
-                $validator->errors()->add('role', 'No tiene permisos para hacer esta acción');
-            }*/
-        });
-
         if (!$validator->fails()){
-            $store = Store::find($request->get('store_id'));
-            $store->name = $request->get('name');
-            $store->code = $request->get('code');
-            $store->service = $request->get('service');
-            $store->address = $request->get('address');
-            $store->phone = $request->get('phone');
-            $store->attention_schedule = $request->get('attention_schedule');
-            $store->latitude = $request->get('latitude');
-            $store->longitude = $request->get('longitude');
-            $store->order = $request->get('order');
-            $store->status = $request->get('status');
+            $customer = Customer::find($request->get('id'));
+            $customer->name = $request->get('name');
+            $customer->lastname = $request->get('lastname');
+            $customer->type_doc = $request->get('type_doc');
+            $customer->document = $request->get('document');
+            $customer->birthday = $request->get('birthday');
+            $customer->genre = $request->get('genre');
+            $customer->phone = $request->get('phone');
 
-            if ( $request->file('image') )
-            {
-                $path = public_path().'/admin/assets/images/films';
-                $extension = $request->file('image')->getClientOriginalExtension();
-                $filename = $store->id . '.' . $extension;
-                $request->file('image')->move($path, $filename);
-                $store->image = $filename;
-            }
-
-            $store->save();
+            $customer->save();
         }
 
         return response()->json($validator->messages(),200);
