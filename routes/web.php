@@ -114,7 +114,7 @@ Route::group(['middleware' => 'auth'], function() {
                         Route::get('/edit/{id}','CustomerController@edit')->name('edit');
                         Route::post('/update','CustomerController@update')->name('update');
                         Route::post('/delete','CustomerController@delete')->name('delete');
-                        Route::post('/location/update/{id}','CustomerController@update')->name('location.edit');
+                        Route::post('/location/update','CustomerController@locationUpdate')->name('location.edit');
                     });
                 });
             });

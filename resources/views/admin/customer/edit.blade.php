@@ -191,7 +191,7 @@
                                                     @endswitch
                                                 </td>
                                                 <td>
-                                                    <a data-editar class="btn btn-danger"><i class="fa fa-pencil-square"></i> </a>
+                                                    <a data-reference="{{$location->reference}}" data-type_place="{{$location->type_place}}" data-longitude="{{$location->longitude}}" data-latitude="{{$location->latitude}}" data-address="{{$location->address}}" data-document="{{$location->document}}" data-type_doc="{{$location->type_doc}}" data-phone="{{$location->phone}}" data-email="{{$location->email}}" data-lastname="{{$location->lastname}}" data-name="{{ $location->name }}" data-customer_id="{{ $location->customer_id }}" data-locedit="{{ $location->id }}" class="btn btn-danger"><i class="fa fa-pencil-square"></i> </a>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -202,20 +202,16 @@
                     </div>
                     <div class="col-sm-6">
                         {{-- EDITOR DE DIRECCIONES --}}
-                        <form id="formEditLocation" data-url="{{--{{ route('admins.customer.location.edit') }}--}}" class="form-horizontal" role="form" enctype="multipart/form-data">
+                        <form id="formEditLocation" data-url="{{ route('admins.customer.location.edit') }}" class="form-horizontal" role="form" enctype="multipart/form-data">
                             {{ csrf_field() }}
                             <input type="hidden" name="polygons" id="polygons" value="{{ ($polygons) }}">
-                            <input type="hidden" name="role_id" value="2">
+                            <input type="hidden" name="loc_id">
+                            <input type="hidden" name="customer_id">
                             <div class="col-md-6">
                                 <div class="form-group {{ $errors->has('name') ? ' has-error' : '' }}">
                                     <label class="control-label col-md-12 align-left" for="name">Nombre (*)</label>
                                     <div class="col-md-12">
                                         <input id="name" type="text" class="form-control" name="name" required autofocus>
-                                        @if ($errors->has('name'))
-                                            <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                        @endif
                                     </div>
                                 </div>
                                 <div class="form-group {{ $errors->has('type_doc') ? ' has-error' : '' }}">
@@ -225,34 +221,12 @@
                                             <option value="dni">DNI</option>
                                             <option value="passport">Pasaporte</option>
                                         </select>
-                                        @if ($errors->has('type_doc'))
-                                            <span class="help-block">
-                                            <strong>{{ $errors->first('type_doc') }}</strong>
-                                        </span>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="form-group {{ $errors->has('birthday') ? ' has-error' : '' }}">
-                                    <label for="birthday" class="control-label col-md-12 align-left">Cumpleaños (*)</label>
-                                    <div class="col-md-12">
-                                        <input id="birthday" type="date" class="form-control" name="birthday" required>
-                                        @if ($errors->has('birthday'))
-                                            <span class="help-block">
-                                    <strong>{{ $errors->first('birthday') }}</strong>
-                                    </span>
-                                        @endif
                                     </div>
                                 </div>
                                 <div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
                                     <label for="phone" class="control-label col-md-12 align-left">Teléfono (*)</label>
-                                    <div class="col-md-8">
+                                    <div class="col-md-12">
                                         <input id="phone" type="text" class="form-control" name="phone" required>
-
-                                        @if ($errors->has('phone'))
-                                            <span class="help-block">
-                                        <strong>{{ $errors->first('phone') }}</strong>
-                                        </span>
-                                        @endif
                                     </div>
 
                                 </div>
@@ -260,13 +234,8 @@
                             <div class="col-md-6">
                                 <div class="form-group {{ $errors->has('lastname') ? ' has-error' : '' }}">
                                     <label for="lastname" class="control-label col-md-12 align-left">Apellidos (*)</label>
-                                    <div class="col-md-8">
+                                    <div class="col-md-12">
                                         <input id="lastname" type="text" class="form-control" name="lastname" required autofocus>
-                                        @if ($errors->has('lastname'))
-                                            <span class="help-block">
-                                            <strong>{{ $errors->first('lastname') }}</strong>
-                                        </span>
-                                        @endif
                                     </div>
 
                                 </div>
@@ -274,26 +243,6 @@
                                     <label for="document" class="control-label col-md-12 align-left">Número de documento (*)</label>
                                     <div class="col-sm-12">
                                         <input id="document" type="text" class="form-control" name="document" required autofocus>
-                                        @if ($errors->has('document'))
-                                            <span class="help-block">
-                                    <strong>{{ $errors->first('document') }}</strong>
-                                </span>
-                                        @endif
-                                    </div>
-
-                                </div>
-                                <div class="form-group {{ $errors->has('genre') ? ' has-error' : '' }}">
-                                    <label for="genre" class="control-label col-md-12 align-left">Género (*)</label>
-                                    <div class="form-select col-md-12" id="default-select">
-                                        <select name="genre" id="genre" class="form-control">
-                                            <option value="male">Masculino</option>
-                                            <option value="female">Femenino</option>
-                                        </select>
-                                        @if ($errors->has('genre'))
-                                            <span class="help-block">
-                                            <strong>{{ $errors->first('genre') }}</strong>
-                                        </span>
-                                        @endif
                                     </div>
 
                                 </div>
@@ -302,11 +251,6 @@
                                     <div class="col-md-12">
                                         <input id="email" type="email" class="form-control" name="email" required>
 
-                                        @if ($errors->has('email'))
-                                            <span class="help-block">
-                                            <strong>{{ $errors->first('email') }}</strong>
-                                        </span>
-                                        @endif
                                     </div>
 
                                 </div>
@@ -317,11 +261,6 @@
                                     <label for="address" class="control-label col-md-12 align-left">Dirección (*)</label>
                                     <div class="col-sm-12">
                                         <input id="address" type="text" class="form-control" name="address" required autofocus>
-                                        @if ($errors->has('address'))
-                                            <span class="help-block">
-                                            <strong>{{ $errors->first('address') }}</strong>
-                                        </span>
-                                        @endif
                                     </div>
 
                                 </div>
@@ -334,7 +273,7 @@
                             <div class="col-md-12">
                                 <div class="form-group {{ $errors->has('type_place') ? ' has-error' : '' }}">
                                     <label for="type_place" class="control-label col-md-12 align-left">Tipo de lugar (*)</label>
-                                    <div class="form-select col-sm-10" id="default-select">
+                                    <div class="form-select col-sm-12" id="default-select">
                                         <select class="col-md-12" name="type_place" id="type_place">
                                             <option value="home">Casa</option>
                                             <option value="business">Empresa</option>
@@ -342,11 +281,6 @@
                                             <option value="hotel">Hotel</option>
                                             <option value="condominium">Condominio</option>
                                         </select>
-                                        @if ($errors->has('type_place'))
-                                            <span class="help-block">
-                                            <strong>{{ $errors->first('type_place') }}</strong>
-                                        </span>
-                                        @endif
                                     </div>
 
                                 </div>
@@ -358,11 +292,6 @@
                                     <div class="col-sm-12">
                                         <textarea id="reference" name="reference" class="form-control" onfocus="this.placeholder = ''"
                                               onblur="this.placeholder = 'Referencia'" required></textarea>
-                                        @if ($errors->has('reference'))
-                                            <span class="help-block">
-                                            <strong>{{ $errors->first('reference') }}</strong>
-                                        </span>
-                                        @endif
                                     </div>
 
                                 </div>
@@ -388,6 +317,6 @@
 @section('scripts')
 	<script type="text/javascript" src="{{ asset('js/jquery.toast.js') }}"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?&libraries=places&key={{ env('G_MAPS_API_KEY') }}"></script>
-	<script src="{{asset('js/admin/customer/maps.js')}}"></script>
     <script src="{{asset('js/admin/customer/edit.js')}}"></script>
+    <script src="{{asset('js/admin/customer/location.js')}}"></script>
 @endsection
