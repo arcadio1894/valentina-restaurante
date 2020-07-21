@@ -35,6 +35,7 @@
                         {{-- FORMULARIO DE EDITAR --}}
                         <form id="formEdit" data-url="{{ route('admins.customer.update') }}" class="form-horizontal" role="form" enctype="multipart/form-data">
                             {{ csrf_field() }}
+                            <input type="hidden" name="id" value="{{ $customer->id }}">
                             <input type="hidden" name="role_id" value="2">
                             <div class="col-md-6">
                                 <div class="form-group {{ $errors->has('name') ? ' has-error' : '' }}">
@@ -52,8 +53,8 @@
                                     <label for="type_doc" class="control-label col-sm-4">Tipo de Documento (*)</label>
                                     <div class="form-select col-sm-8" id="default-select">
                                         <select name="type_doc" id="type_doc" class="form-control">
-                                            <option value="dni">DNI</option>
-                                            <option value="passport">Pasaporte</option>
+                                            <option value="dni" {{ ( $customer->type_doc == 'dni') ? 'selected' : '' }}>DNI</option>
+                                            <option value="passport" {{ ( $customer->type_doc == 'passport') ? 'selected' : '' }}>Pasaporte</option>
                                         </select>
                                         @if ($errors->has('type_doc'))
                                             <span class="help-block">
@@ -65,7 +66,7 @@
                                 <div class="form-group {{ $errors->has('birthday') ? ' has-error' : '' }}">
                                     <label for="birthday" class="control-label col-sm-4">Cumpleaños (*)</label>
                                     <div class="col-sm-8">
-                                        <input id="birthday" type="date" class="form-control" name="birthday" required>
+                                        <input id="birthday" type="date" class="form-control" name="birthday" value="{{ $customer->birthday }}" required>
                                         @if ($errors->has('birthday'))
                                             <span class="help-block">
                                     <strong>{{ $errors->first('birthday') }}</strong>
@@ -76,7 +77,7 @@
                                 <div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
                                     <label for="phone" class="control-label col-sm-4">Teléfono (*)</label>
                                     <div class="col-sm-8">
-                                        <input id="phone" type="text" class="form-control" name="phone" required>
+                                        <input id="phone" type="text" class="form-control" name="phone" value="{{ $customer->phone }}" required>
 
                                         @if ($errors->has('phone'))
                                             <span class="help-block">
@@ -91,7 +92,7 @@
                                 <div class="form-group {{ $errors->has('lastname') ? ' has-error' : '' }}">
                                     <label for="lastname" class="control-label col-sm-4">Apellidos (*)</label>
                                     <div class="col-sm-8">
-                                        <input id="lastname" type="text" class="form-control" name="lastname" required autofocus>
+                                        <input id="lastname" type="text" class="form-control" name="lastname" value="{{ $customer->lastname }}" required>
                                         @if ($errors->has('lastname'))
                                             <span class="help-block">
                                             <strong>{{ $errors->first('lastname') }}</strong>
@@ -103,7 +104,7 @@
                                 <div class="form-group">
                                     <label for="document" class="control-label col-sm-4">Número de documento (*)</label>
                                     <div class="col-sm-8">
-                                        <input id="document" type="text" class="form-control" name="document" required autofocus>
+                                        <input id="document" type="text" class="form-control" name="document" value="{{ $customer->document }}" required autofocus>
                                         @if ($errors->has('document'))
                                             <span class="help-block">
                                     <strong>{{ $errors->first('document') }}</strong>
@@ -116,25 +117,12 @@
                                     <label for="genre" class="control-label col-sm-4">Género (*)</label>
                                     <div class="form-select col-sm-8" id="default-select">
                                         <select name="genre" id="genre" class="form-control">
-                                            <option value="male">Masculino</option>
-                                            <option value="female">Femenino</option>
+                                            <option value="male" {{ ( $customer->genre == 'male') ? 'selected' : '' }}>Masculino</option>
+                                            <option value="female" {{ ( $customer->genre == 'female') ? 'selected' : '' }}>Femenino</option>
                                         </select>
                                         @if ($errors->has('genre'))
                                             <span class="help-block">
                                             <strong>{{ $errors->first('genre') }}</strong>
-                                        </span>
-                                        @endif
-                                    </div>
-
-                                </div>
-                                <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                                    <label for="email" class="control-label col-sm-4">Correo electrónico (*)</label>
-                                    <div class="col-sm-8">
-                                        <input id="email" type="email" class="form-control" name="email" required>
-
-                                        @if ($errors->has('email'))
-                                            <span class="help-block">
-                                            <strong>{{ $errors->first('email') }}</strong>
                                         </span>
                                         @endif
                                     </div>
@@ -162,29 +150,46 @@
                             <table class="table table-striped" id="dynamic-table">
                                 <thead>
                                 <tr>
-                                    <th scope="col">#</th>
                                     <th scope="col">Nombre</th>
-                                    <th scope="col">Apellidos</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Telefono</th>
+                                    <th scope="col">Dirección</th>
+                                    <th scope="col">Tipo</th>
                                     <th scope="col">Acción</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                     @if(count($locations) == 0)
                                         <tr>
-                                            <td >No existen datos</td>
-                                            <td ></td>
-                                            <td ></td>
-                                            <td ></td>
-                                            <td ></td>
+                                            <td>No existen datos</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
                                         </tr>
                                     @else
                                         @foreach($locations as $key=>$location)
                                             <tr>
                                                 <td>{{ $location->name }} {{ $customer->lastname }}</td>
                                                 <td>{{ $location->address }}</td>
-                                                <td>{{ $location->type }}</td>
+                                                <td>
+                                                    @switch($location->type_place)
+                                                        @case('home')
+                                                        Casa
+                                                        @break
+                                                        @case('business')
+                                                        Negocio
+                                                        @break
+                                                        @case('department')
+                                                        Departamento
+                                                        @break
+                                                        @case('hotel')
+                                                        Hotel
+                                                        @break
+                                                        @case('condominium')
+                                                        Condominio
+                                                        @break
+                                                        @default
+                                                        No especificado
+                                                    @endswitch
+                                                </td>
                                                 <td>
                                                     <a data-editar class="btn btn-danger"><i class="fa fa-pencil-square"></i> </a>
                                                 </td>
@@ -383,5 +388,6 @@
 @section('scripts')
 	<script type="text/javascript" src="{{ asset('js/jquery.toast.js') }}"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?&libraries=places&key={{ env('G_MAPS_API_KEY') }}"></script>
-	<script src="{{asset('js/admin/customer/edit.js')}}"></script>
+	<script src="{{asset('js/admin/customer/maps.js')}}"></script>
+    <script src="{{asset('js/admin/customer/edit.js')}}"></script>
 @endsection

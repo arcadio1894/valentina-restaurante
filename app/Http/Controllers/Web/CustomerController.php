@@ -106,7 +106,7 @@ class CustomerController extends Controller
             ]);
 
         } else {
-            return redirect()->route('web.account.locationCreate')
+            return redirect()->route('web.account.location.create')
                 ->withErrors($validator);
         }
 
